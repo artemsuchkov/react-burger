@@ -13,3 +13,44 @@
   text-align: center;
   list-style-type: none;
 }
+
+.main_field {
+  overflow-y: scroll;
+}
+
+.type_title {
+  padding: 0;
+}
+
+.type_box {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--offset-base-size) * 10);
+}
+
+.type_list {
+  display: flex;
+  flex-flow: row wrap;
+  gap: calc(var(--offset-base-size) * 5);
+}
+
+.type_item {
+  width: calc(50% - var(--offset-base-size) * 5);
+  list-style-type: none;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: calc(var(--offset-base-size) * 2.5);
+}
+
+.card_price {
+  text-align: center;
+}
+
+.card_name {
+  text-align: center;
+}
