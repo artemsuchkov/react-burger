@@ -23,6 +23,19 @@
   display: flex;
   flex-flow: row nowrap;
   align-content: space-between;
-  align-items: center; /* Выравнивание по вертикали (по центру) */
+  align-items: center;
   gap: calc(var(--offset-base-size) * 5);
+}
+
+.totall {
+  display: flex;
+  flex-flow: row nowrap;
+  place-content: space-between flex-end;
+  align-items: center;
+  gap: calc(var(--offset-base-size) * 5);
+  margin-top: 2em;
+}
+
+.totall_price {
+  margin: 0;
 }

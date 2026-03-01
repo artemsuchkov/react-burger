@@ -1,10 +1,10 @@
 import { Preloader, CloseIcon } from '@krgaa/react-developer-burger-ui-components';
-//import { ingredients } from '@utils/ingredients';
 import { useState, useEffect } from 'react';
 
 import { AppHeader } from '@components/app-header/app-header';
 import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
+import { api_url } from '@utils/api_url';
 
 import styles from './app.module.css';
 
@@ -19,16 +19,10 @@ export const App = () => {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(
-          'https://new-stellarburgers.education-services.ru/api/ingredients'
-        );
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        const response = await fetch(api_url);
 
         const data = await response.json();
-        setIngredients(data.data || data); // Предполагаем, что данные могут быть в поле data
+        setIngredients(data.data || data);
       } catch (err) {
         console.error('Ошибка при загрузке ингредиентов:', err);
         setError(err.message);
@@ -38,7 +32,7 @@ export const App = () => {
     };
 
     fetchIngredients();
-  }, []); // Пустой массив зависимостей — вызов только при монтировании компонента
+  }, []);
 
   if (loading) {
     return (
@@ -53,7 +47,7 @@ export const App = () => {
     return (
       <div className={styles.app}>
         <AppHeader />
-        <CloseIcon type="error" />
+        <CloseIcon type="error" /> Ошибка
       </div>
     );
   }

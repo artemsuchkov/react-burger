@@ -1,0 +1,6 @@
+.order_details {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--offset-base-size) * 10);
+  text-align: center;
+}
