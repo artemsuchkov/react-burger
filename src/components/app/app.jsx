@@ -21,6 +21,10 @@ export const App = () => {
 
         const response = await fetch(api_url);
 
+        if (!response.ok) {
+          return Promise.reject(new Error(`Ошибка ${response.status}`));
+        }
+
         const data = await response.json();
         setIngredients(data.data || data);
       } catch (err) {

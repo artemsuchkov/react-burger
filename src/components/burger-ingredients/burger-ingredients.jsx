@@ -47,9 +47,9 @@ export const BurgerIngredients = ({ ingredients }) => {
           <h2 className={styles.type_title}>Булки</h2>
           <ul className={styles.type_list}>
             {ingredients.map(
-              (item, index) =>
+              (item) =>
                 item.type === 'bun' && (
-                  <li className={styles.type_item} key={index}>
+                  <li className={styles.type_item} key={item._id}>
                     <BurgerCard data={item} />
                   </li>
                 )
@@ -60,9 +60,9 @@ export const BurgerIngredients = ({ ingredients }) => {
           <h2 className={styles.type_title}>Соусы</h2>
           <ul className={styles.type_list}>
             {ingredients.map(
-              (item, index) =>
+              (item) =>
                 item.type === 'sauce' && (
-                  <li className={styles.type_item} key={index}>
+                  <li className={styles.type_item} key={item._id}>
                     <BurgerCard data={item} />
                   </li>
                 )
@@ -73,9 +73,9 @@ export const BurgerIngredients = ({ ingredients }) => {
           <h2 className={styles.type_title}>Начинки</h2>
           <ul className={styles.type_list}>
             {ingredients.map(
-              (item, index) =>
+              (item) =>
                 item.type === 'main' && (
-                  <li className={styles.type_item} key={index}>
+                  <li className={styles.type_item} key={item._id}>
                     <BurgerCard data={item} />
                   </li>
                 )

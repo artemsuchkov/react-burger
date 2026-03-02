@@ -1,12 +1,14 @@
 import { CloseIcon } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect } from 'react';
 
-import { BurgerIngredientsDetails } from '@components/burger-ingredients/burger-ingredients-details';
+import { IngredientsDetails } from '@components/burger-ingredients/burger-ingredients-details';
+import { ModalOverlay } from '@components/modal-window/modal-overlay';
 import { OrderDetails } from '@components/order/order-details';
 
 import styles from './modal.module.css';
 
 export const Modal = ({
+  title,
   type,
   image,
   name,
@@ -16,13 +18,12 @@ export const Modal = ({
   carbohydrates,
   onClose,
 }) => {
-  const handleEscape = (event) => {
-    if (event.key === 'Escape') {
-      onClose();
-    }
-  };
-
   useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') {
+        onClose();
+      }
+    };
     document.addEventListener('keydown', handleEscape);
     return () => {
       document.removeEventListener('keydown', handleEscape);
@@ -31,29 +32,32 @@ export const Modal = ({
 
   if (type === 'IngredientDetails') {
     return (
-      <div className={styles.modal}>
-        <div className={styles.content}>
-          <div className={styles.header}>
-            <div className={`text text_type_main-medium`}>Детали ингредиента</div>
-            <CloseIcon
-              type="primary"
-              onClick={() => {
-                onClose();
-              }}
-            />
-          </div>
-          <div className={styles.body}>
-            <BurgerIngredientsDetails
-              image={image}
-              name={name}
-              calories={calories}
-              proteins={proteins}
-              fat={fat}
-              carbohydrates={carbohydrates}
-            />
+      <>
+        <ModalOverlay onClose={() => onClose()} />
+        <div className={styles.modal}>
+          <div className={styles.content}>
+            <div className={styles.header}>
+              <h2 className={`text text_type_main-medium`}>{title}</h2>
+              <CloseIcon
+                type="primary"
+                onClick={() => {
+                  onClose();
+                }}
+              />
+            </div>
+            <div className={styles.body}>
+              <IngredientsDetails
+                image={image}
+                name={name}
+                calories={calories}
+                proteins={proteins}
+                fat={fat}
+                carbohydrates={carbohydrates}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 

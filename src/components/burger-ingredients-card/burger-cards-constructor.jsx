@@ -1,7 +1,7 @@
 import { ConstructorElement } from '@krgaa/react-developer-burger-ui-components';
 
 function BurgerCardConstructor({ data }) {
-  if (data.item.type == 'bun' && data.bun_part == 'top') {
+  if (data.item.type == 'bun' && data.bunPart == 'top') {
     return (
       <ConstructorElement
         handleClose={function fee() {
@@ -16,7 +16,7 @@ function BurgerCardConstructor({ data }) {
     );
   }
 
-  if (data.item.type == 'bun' && data.bun_part == 'bottom') {
+  if (data.item.type == 'bun' && data.bunPart == 'bottom') {
     return (
       <ConstructorElement
         handleClose={function fee() {

@@ -16,8 +16,8 @@
   z-index: 11;
   width: 100%;
   max-width: 600px;
-  height: 600px;
   background: var(--background);
+  border-radius: 2em;
 }
 
 .header {

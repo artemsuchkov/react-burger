@@ -1,25 +1,20 @@
 import { CurrencyIcon, Counter } from '@krgaa/react-developer-burger-ui-components';
-import { useState } from 'react';
 
 import { Modal } from '@components/modal-window/modal';
-import { ModalOverlay } from '@components/modal-window/modal-overlay';
+import { useModal } from '@hooks/useModal';
 
 import styles from './burger-ingredients-card.module.css';
 
 function BurgerCardIngredients({ data }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleClick = () => {
-    setIsModalOpen(true);
-  };
+  const { isModalOpen, openModal, closeModal } = useModal();
 
   return (
     <>
-      <div className={styles.card} onClick={handleClick}>
+      <div className={styles.card} onClick={openModal}>
         <div>
           <Counter count={1} size="default" />
         </div>
-        <img src={data.image} />
+        <img src={data.image} alt={data.name} />
         <div className={styles.card_price}>
           <CurrencyIcon type="primary" /> {data.price}
         </div>
@@ -27,20 +22,18 @@ function BurgerCardIngredients({ data }) {
       </div>
 
       {isModalOpen && (
-        <>
-          <ModalOverlay onClose={() => setIsModalOpen(false)} />
-          <Modal
-            type="IngredientDetails"
-            image={data.image}
-            name={data.name}
-            calories={data.calories}
-            proteins={data.proteins}
-            fat={data.fat}
-            carbohydrates={data.carbohydrates}
-            price={data.price}
-            onClose={() => setIsModalOpen(false)}
-          />
-        </>
+        <Modal
+          title="Детали ингредиента"
+          type="IngredientDetails"
+          image={data.image}
+          name={data.name}
+          calories={data.calories}
+          proteins={data.proteins}
+          fat={data.fat}
+          carbohydrates={data.carbohydrates}
+          price={data.price}
+          onClose={() => closeModal()}
+        />
       )}
     </>
   );
