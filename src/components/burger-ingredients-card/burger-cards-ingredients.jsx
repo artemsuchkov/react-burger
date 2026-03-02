@@ -1,5 +1,6 @@
 import { CurrencyIcon, Counter } from '@krgaa/react-developer-burger-ui-components';
 
+import { IngredientsDetails } from '@components/burger-ingredients/burger-ingredients-details';
 import { Modal } from '@components/modal-window/modal';
 import { useModal } from '@hooks/useModal';
 
@@ -22,18 +23,16 @@ function BurgerCardIngredients({ data }) {
       </div>
 
       {isModalOpen && (
-        <Modal
-          title="Детали ингредиента"
-          type="IngredientDetails"
-          image={data.image}
-          name={data.name}
-          calories={data.calories}
-          proteins={data.proteins}
-          fat={data.fat}
-          carbohydrates={data.carbohydrates}
-          price={data.price}
-          onClose={() => closeModal()}
-        />
+        <Modal title="Детали ингредиента" onClose={closeModal}>
+          <IngredientsDetails
+            image={data.image}
+            name={data.name}
+            calories={data.calories}
+            proteins={data.proteins}
+            fat={data.fat}
+            carbohydrates={data.carbohydrates}
+          />
+        </Modal>
       )}
     </>
   );

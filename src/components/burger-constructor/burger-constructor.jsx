@@ -5,6 +5,7 @@ import {
 } from '@krgaa/react-developer-burger-ui-components';
 
 import { Modal } from '@components/modal-window/modal';
+import { OrderDetails } from '@components/order/order-details';
 import { useModal } from '@hooks/useModal';
 
 import BurgerCard from '../burger-ingredients-card/burger-cards.jsx';
@@ -45,7 +46,11 @@ export const BurgerConstructor = ({ ingredients }) => {
         </Button>
       </div>
 
-      {isModalOpen && <Modal type="OrderDetails" onClose={() => closeModal()} />}
+      {isModalOpen && (
+        <Modal onClose={closeModal}>
+          <OrderDetails />
+        </Modal>
+      )}
     </section>
   );
 };
