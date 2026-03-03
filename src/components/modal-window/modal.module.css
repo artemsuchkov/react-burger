@@ -1,0 +1,39 @@
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100vw;
+  height: 100vh;
+  background: transparent;
+  background: rgb(0 0 0 / 50%);
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 11;
+  width: 100%;
+  max-width: 600px;
+  background: var(--background);
+  border-radius: 2em;
+  transform: translate(-50%, -50%);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--offset-base-size) * 10);
+  padding: calc(var(--offset-base-size) * 10);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+}

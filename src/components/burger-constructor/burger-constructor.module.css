@@ -5,3 +5,37 @@
   padding-bottom: 20px;
   color: var(--text-primary-color);
 }
+
+.empty_place {
+  width: calc(var(--offset-base-size) * 5 + 4px);
+}
+
+.type_list {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--offset-base-size) * 5);
+  height: 100%;
+  margin: calc(var(--offset-base-size) * 5) 0;
+  overflow-y: scroll;
+}
+
+.type_item {
+  display: flex;
+  flex-flow: row nowrap;
+  align-content: space-between;
+  align-items: center;
+  gap: calc(var(--offset-base-size) * 5);
+}
+
+.totall {
+  display: flex;
+  flex-flow: row nowrap;
+  place-content: space-between flex-end;
+  align-items: center;
+  gap: calc(var(--offset-base-size) * 5);
+  margin-top: 2em;
+}
+
+.totall_price {
+  margin: 0;
+}
