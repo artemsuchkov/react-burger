@@ -39,29 +39,6 @@
   list-style-type: none;
 }
 
-.card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: calc(var(--offset-base-size) * 2.5);
-}
-
-.card_price {
-  text-align: center;
-}
-
-.card_name {
-  text-align: center;
-}
-
-.details {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: calc(var(--offset-base-size) * 2);
-  text-align: center;
-}
-
 .name {
   margin-bottom: 1em;
   text-align: center;

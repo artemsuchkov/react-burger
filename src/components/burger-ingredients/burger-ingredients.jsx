@@ -1,4 +1,5 @@
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
+import { useSelector } from 'react-redux';
 
 import { useScroll } from '@hooks/useScroll';
 
@@ -6,9 +7,11 @@ import BurgerCard from '../burger-ingredients-card/burger-cards.jsx';
 
 import styles from './burger-ingredients.module.css';
 
-export const BurgerIngredients = ({ ingredients }) => {
+export const BurgerIngredients = () => {
   const { isTabActive, handleScroll, parentRef, bunField, sauceField, mainField } =
     useScroll();
+
+  const burgerIngredients = useSelector((store) => store.ingredients.ingredients);
 
   return (
     <section className={styles.burger_ingredients}>
@@ -54,7 +57,7 @@ export const BurgerIngredients = ({ ingredients }) => {
             Булки
           </h2>
           <ul className={styles.type_list}>
-            {ingredients.map(
+            {burgerIngredients.map(
               (item) =>
                 item.type === 'bun' && (
                   <li className={styles.type_item} key={item._id}>
@@ -69,7 +72,7 @@ export const BurgerIngredients = ({ ingredients }) => {
             Соусы
           </h2>
           <ul className={styles.type_list}>
-            {ingredients.map(
+            {burgerIngredients.map(
               (item) =>
                 item.type === 'sauce' && (
                   <li className={styles.type_item} key={item._id}>
@@ -84,7 +87,7 @@ export const BurgerIngredients = ({ ingredients }) => {
             Начинки
           </h2>
           <ul className={styles.type_list}>
-            {ingredients.map(
+            {burgerIngredients.map(
               (item) =>
                 item.type === 'main' && (
                   <li className={styles.type_item} key={item._id}>

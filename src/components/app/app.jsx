@@ -1,41 +1,35 @@
 import { Preloader, CloseIcon } from '@krgaa/react-developer-burger-ui-components';
 import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { AppHeader } from '@components/app-header/app-header';
 import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
-import { api_url } from '@utils/api_url';
+import { getBurgerIngredients } from '@utils/todoist-api';
+
+import { LOAD_INGREDIENTS } from '../../services/ingredients/actions.js';
 
 import styles from './app.module.css';
 
 export const App = () => {
-  const [ingredients, setIngredients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    const fetchIngredients = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const response = await fetch(api_url);
-
-        if (!response.ok) {
-          return Promise.reject(new Error(`Ошибка ${response.status}`));
-        }
-
-        const data = await response.json();
-        setIngredients(data.data || data);
-      } catch (err) {
-        console.error('Ошибка при загрузке ингредиентов:', err);
-        setError(err.message);
-      } finally {
+    // Вызываем диспатчер с командой загрузить данные LOAD_TASK_SUCCESS
+    getBurgerIngredients()
+      .then((data) => {
+        dispatch({
+          type: LOAD_INGREDIENTS,
+          payload: data.data,
+        });
         setLoading(false);
-      }
-    };
-
-    fetchIngredients();
+      })
+      .catch((error) => {
+        setError(error);
+      });
   }, []);
 
   if (loading) {
@@ -63,8 +57,8 @@ export const App = () => {
         Соберите бургер
       </h1>
       <main className={`${styles.main} pl-5 pr-5`}>
-        <BurgerIngredients ingredients={ingredients} />
-        <BurgerConstructor ingredients={ingredients} />
+        <BurgerIngredients />
+        <BurgerConstructor />
       </main>
     </div>
   );

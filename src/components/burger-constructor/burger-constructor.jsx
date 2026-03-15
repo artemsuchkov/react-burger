@@ -3,6 +3,7 @@ import {
   Button,
   CurrencyIcon,
 } from '@krgaa/react-developer-burger-ui-components';
+import { useSelector } from 'react-redux';
 
 import { Modal } from '@components/modal-window/modal';
 import { OrderDetails } from '@components/order/order-details';
@@ -12,10 +13,12 @@ import BurgerCard from '../burger-ingredients-card/burger-cards.jsx';
 
 import styles from './burger-constructor.module.css';
 
-export const BurgerConstructor = ({ ingredients }) => {
+export const BurgerConstructor = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const bun = ingredients.filter((item) => item.type === 'bun')[0] ?? [];
+  const burgerIngredients = useSelector((store) => store.ingredients.ingredients);
+
+  const bun = burgerIngredients.filter((item) => item.type === 'bun')[0] ?? [];
 
   return (
     <section className={`${styles.burger_constructor} custom-scroll`}>
@@ -24,7 +27,7 @@ export const BurgerConstructor = ({ ingredients }) => {
         <BurgerCard data={{ item: bun, isConstructor: true, bunPart: 'top' }} />
       </div>
       <div className={`${styles.type_list} custom-scroll`}>
-        {ingredients.map(
+        {burgerIngredients.map(
           (item, index) =>
             item.type !== 'bun' && (
               <div className={styles.type_item} key={index}>
