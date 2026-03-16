@@ -4,6 +4,7 @@ import { loadIngredients } from './actions';
 
 const initialState = {
   ingredients: [],
+  ingredientBurgers: [],
   isLoading: false,
   error: null,
 };
@@ -11,7 +12,20 @@ const initialState = {
 const ingredientsReducers = createSlice({
   name: 'ingredients',
   initialState,
-  reducers: {},
+  reducers: {
+    addIngredientToBurger: (state, action) => {
+      state.ingredientBurgers.push(action.payload);
+    },
+    removeIngredientFromBurger: (state, action) => {
+      const itemIdToRemove = action.payload;
+      state.ingredientBurgers = state.ingredientBurgers.filter(
+        ({ item }) => item._id !== itemIdToRemove
+      );
+    },
+    clearIngredientBurgers: (state) => {
+      state.ingredientBurgers = [];
+    },
+  },
   extraReducers: (builder) => {
     builder
       // loadTasks
@@ -39,5 +53,12 @@ const ingredientsReducers = createSlice({
       }); */
   },
 });
+
+// Экспортируем редюсеры как экшены
+export const {
+  addIngredientToBurger,
+  removeIngredientFromBurger,
+  clearIngredientBurgers,
+} = ingredientsReducers.actions;
 
 export default ingredientsReducers.reducer;
