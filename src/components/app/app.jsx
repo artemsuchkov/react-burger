@@ -1,38 +1,24 @@
 import { Preloader, CloseIcon } from '@krgaa/react-developer-burger-ui-components';
-import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { AppHeader } from '@components/app-header/app-header';
 import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
-import { getBurgerIngredients } from '@utils/todoist-api';
-
-import { LOAD_INGREDIENTS } from '../../services/ingredients/actions.js';
+import { loadIngredients } from '@services/ingredients/actions';
 
 import styles from './app.module.css';
 
 export const App = () => {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const isLoading = useSelector((store) => store.ingredients.isLoading);
+  const error = useSelector((store) => store.ingredients.error);
 
   const dispatch = useDispatch();
-
   useEffect(() => {
-    // Вызываем диспатчер с командой загрузить данные LOAD_TASK_SUCCESS
-    getBurgerIngredients()
-      .then((data) => {
-        dispatch({
-          type: LOAD_INGREDIENTS,
-          payload: data.data,
-        });
-        setLoading(false);
-      })
-      .catch((error) => {
-        setError(error);
-      });
+    dispatch(loadIngredients());
   }, []);
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className={styles.app}>
         <AppHeader />
@@ -45,7 +31,7 @@ export const App = () => {
     return (
       <div className={styles.app}>
         <AppHeader />
-        <CloseIcon type="error" /> Ошибка
+        <CloseIcon type="error" />
       </div>
     );
   }

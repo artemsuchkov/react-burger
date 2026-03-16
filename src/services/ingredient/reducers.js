@@ -1,7 +1,7 @@
 import { SHOW_INGREDIENT } from './actions.js';
 
 const initialState = {
-  ingredient: [],
+  ingredients: [],
 };
 
 export const ingredientReducer = (state = initialState, action) => {
@@ -9,7 +9,7 @@ export const ingredientReducer = (state = initialState, action) => {
     case SHOW_INGREDIENT:
       return {
         ...state,
-        ingredient: [...action.payload],
+        ingredients: [...action.payload],
       };
     default:
       return state;
