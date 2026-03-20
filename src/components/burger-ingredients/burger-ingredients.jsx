@@ -1,8 +1,7 @@
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { useScroll } from '@hooks/useScroll';
-import { addIngredientToBurger } from '@services/ingredients/reducers';
 
 import BurgerCard from '../burger-ingredients-card/burger-cards.jsx';
 
@@ -14,11 +13,11 @@ export const BurgerIngredients = () => {
 
   const burgerIngredients = useSelector((store) => store.ingredients.ingredients);
 
-  const ingredientBurgers = useSelector((store) => store.ingredients.ingredientBurgers);
+  //const ingredientBurgers = useSelector((store) => store.ingredients.ingredientBurgers);
 
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
 
-  const handleAddIngredient = (ingredient) => {
+  /* const handleAddIngredient = (ingredient) => {
     if (ingredient.item.type === 'bun') {
       const hasBun = ingredientBurgers.some(({ item }) => item.type === 'bun');
       if (hasBun) {
@@ -26,7 +25,7 @@ export const BurgerIngredients = () => {
       }
     }
     dispatch(addIngredientToBurger(ingredient));
-  };
+  }; */
 
   return (
     <section className={styles.burger_ingredients}>
@@ -77,9 +76,6 @@ export const BurgerIngredients = () => {
                 item.type === 'bun' && (
                   <li className={styles.type_item} key={item._id}>
                     <BurgerCard data={item} />
-                    <button onClick={() => handleAddIngredient({ item })}>
-                      Add 2 Cart
-                    </button>
                   </li>
                 )
             )}
@@ -95,9 +91,6 @@ export const BurgerIngredients = () => {
                 item.type === 'sauce' && (
                   <li className={styles.type_item} key={item._id}>
                     <BurgerCard data={item} />
-                    <button onClick={() => handleAddIngredient({ item })}>
-                      Add 2 Cart
-                    </button>
                   </li>
                 )
             )}
@@ -113,9 +106,6 @@ export const BurgerIngredients = () => {
                 item.type === 'main' && (
                   <li className={styles.type_item} key={item._id}>
                     <BurgerCard data={item} />
-                    <button onClick={() => handleAddIngredient({ item })}>
-                      Add 2 Cart
-                    </button>
                   </li>
                 )
             )}

@@ -48,7 +48,7 @@ export const BurgerConstructor = () => {
 
   // Настраиваем useDrop с корректным типом
   const [, dropTarget] = useDrop({
-    accept: 'BURGER_INGREDIENTS', // Используем осмысленный тип
+    accept: 'BURGER_INGREDIENTS',
     drop: handleDrop,
     collect: (monitor) => ({
       isOver: monitor.isOver(),

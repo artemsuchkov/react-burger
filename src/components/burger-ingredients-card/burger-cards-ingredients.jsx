@@ -8,7 +8,7 @@ import { useModal } from '@hooks/useModal';
 import styles from './burger-ingredients-card.module.css';
 
 function BurgerCardIngredients({ data }) {
-  const { isModalOpen, openModal, closeModal } = useModal();
+  const { isModalOpen, openIngredientsModal, closeModal } = useModal(data);
 
   const item = data;
 
@@ -23,7 +23,7 @@ function BurgerCardIngredients({ data }) {
   return (
     !isDrag && (
       <>
-        <div className={styles.card} onClick={openModal} ref={dragRef}>
+        <div className={styles.card} onClick={openIngredientsModal} ref={dragRef}>
           <div>
             <Counter count={1} size="default" />
           </div>
@@ -36,14 +36,7 @@ function BurgerCardIngredients({ data }) {
 
         {isModalOpen && (
           <Modal title="Детали ингредиента" onClose={closeModal}>
-            <IngredientsDetails
-              image={data.image}
-              name={data.name}
-              calories={data.calories}
-              proteins={data.proteins}
-              fat={data.fat}
-              carbohydrates={data.carbohydrates}
-            />
+            <IngredientsDetails />
           </Modal>
         )}
       </>

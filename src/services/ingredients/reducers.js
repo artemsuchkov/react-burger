@@ -1,12 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { loadIngredients } from './actions';
+import { loadIngredients, getOrderId } from './actions';
 
 const initialState = {
-  ingredients: [],
-  ingredientBurgers: [],
+  ingredients: [], // массив ингредиентов от сервера
+  ingredientBurgers: [], // массив ингредиентов в собранном бургере
+  ingredientModal: [], // модальное окно с ингредиентами
+  orderAnswer: [], // модальное окно с ингредиентами
   isLoading: false,
   error: null,
+  isOrderLoading: false,
+  errorOrder: null,
 };
 
 const ingredientsReducers = createSlice({
@@ -22,13 +26,13 @@ const ingredientsReducers = createSlice({
         ({ item }) => item._id !== itemIdToRemove
       );
     },
-    clearIngredientBurgers: (state) => {
-      state.ingredientBurgers = [];
+    getBurgeringredientModal: (state, action) => {
+      state.ingredientModal = action.payload;
     },
   },
   extraReducers: (builder) => {
     builder
-      // loadTasks
+      // loadIngredients
       .addCase(loadIngredients.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -41,16 +45,20 @@ const ingredientsReducers = createSlice({
         state.isLoading = false;
         state.error = action.payload ?? action.error?.message ?? 'Unknown error';
       });
-
-    /*       // addTask
-      .addCase(addTask.fulfilled, (state, action) => {
-        state.items.unshift(action.payload);
+    builder
+      // getOrderId
+      .addCase(getOrderId.pending, (state) => {
+        state.isOrderLoading = true;
+        state.errorOrder = null;
       })
-
-      // removeTask
-      .addCase(removeTask.fulfilled, (state, action) => {
-        state.items = state.items.filter((t) => t.id !== action.payload);
-      }); */
+      .addCase(getOrderId.fulfilled, (state, action) => {
+        state.isOrderLoading = false;
+        state.orderAnswer = action.payload;
+      })
+      .addCase(getOrderId.rejected, (state, action) => {
+        state.isOrderLoading = false;
+        state.errorOrder = action.payload ?? action.error?.message ?? 'Unknown error';
+      });
   },
 });
 
@@ -58,7 +66,7 @@ const ingredientsReducers = createSlice({
 export const {
   addIngredientToBurger,
   removeIngredientFromBurger,
-  clearIngredientBurgers,
+  getBurgeringredientModal,
 } = ingredientsReducers.actions;
 
 export default ingredientsReducers.reducer;
