@@ -19,7 +19,7 @@ function BurgerCardConstructor({ data }) {
   if (data.item.type == 'bun' && data.bunPart == 'top') {
     return (
       <ConstructorElement
-        handleClose={() => handleRemoveIngredient(data.item._id)}
+        handleClose={() => handleRemoveIngredient(data.item.id)}
         isLocked={isBunLocked}
         price={data.item.price}
         text={data.item.name + ' (верх)'}
@@ -32,7 +32,7 @@ function BurgerCardConstructor({ data }) {
   if (data.item.type == 'bun' && data.bunPart == 'bottom') {
     return (
       <ConstructorElement
-        handleClose={() => handleRemoveIngredient(data.item._id)}
+        handleClose={() => handleRemoveIngredient(data.item.id)}
         isLocked={isBunLocked}
         price={data.item.price}
         text={data.item.name + ' (низ)'}
@@ -44,7 +44,7 @@ function BurgerCardConstructor({ data }) {
 
   return (
     <ConstructorElement
-      handleClose={() => handleRemoveIngredient(data.item._id)}
+      handleClose={() => handleRemoveIngredient(data.item.id)}
       isLocked={isBunLocked}
       price={data.item.price}
       text={data.item.name}

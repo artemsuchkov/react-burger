@@ -9,7 +9,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from '@components/modal-window/modal';
 import { OrderDetails } from '@components/order/order-details';
 import { useModal } from '@hooks/useModal';
-import { addIngredientToBurger } from '@services/ingredients/reducers';
+import {
+  addIngredientToBurger,
+  removeIngredientFromBurger,
+} from '@services/ingredients/reducers';
 
 import BurgerCard from '../burger-ingredients-card/burger-cards.jsx';
 
@@ -17,32 +20,25 @@ import styles from './burger-constructor.module.css';
 
 export const BurgerConstructor = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
-  const dispatch = useDispatch(); // Добавляем dispatch
+  const dispatch = useDispatch();
 
   const ingredientBurgers = useSelector((store) => store.ingredients.ingredientBurgers);
 
   const handleDrop = (draggedItem) => {
-    // Проверяем, что переданный объект содержит нужные данные
-
     if (!draggedItem || !draggedItem.item) {
-      console.error('Invalid drag item structure:', draggedItem);
+      console.error('Ошибка структуры:', draggedItem);
       return;
     }
 
     const ingredient = draggedItem;
 
-    // Проверяем, является ли ингредиент булкой
     if (ingredient.item.type === 'bun') {
-      // Проверяем, есть ли уже булка в ingredientBurgers
-      const hasBun = ingredientBurgers.some(({ item }) => item.type === 'bun');
-
-      if (hasBun) {
-        alert('В бургере уже есть булка! Нельзя добавить вторую.');
-        return;
+      const existingBun = ingredientBurgers.find(({ item }) => item.type === 'bun');
+      if (existingBun) {
+        dispatch(removeIngredientFromBurger(existingBun.item.id));
       }
     }
 
-    // Добавляем ингредиент в store
     dispatch(addIngredientToBurger(ingredient));
   };
 

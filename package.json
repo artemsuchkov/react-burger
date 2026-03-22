@@ -29,6 +29,7 @@
     "@reduxjs/toolkit": "^2.9.0",
     "core-js": "^3.45.1",
     "lodash-es": "^4.17.21",
+    "nanoid": "^5.1.7",
     "react": "^19.1.1",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
