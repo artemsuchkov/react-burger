@@ -108,43 +108,61 @@ export const BurgerConstructor = () => {
     <section>
       <div className={`${styles.burger_constructor} custom-scroll`} ref={dropTarget}>
         <div className={styles.type_item}>
-          {ingredientBurgers
-            .filter((ingredient) => ingredient.item.type === 'bun')
-            .map((ingredient, index) => (
-              <div className={styles.type_item} key={`${ingredient.item._id}-${index}`}>
-                <div className={styles.empty_place}></div>
-                <BurgerCard
-                  data={{ item: ingredient.item, isConstructor: true, bunPart: 'top' }}
-                />
-              </div>
-            ))}
+          {ingredientBurgers.some((ingredient) => ingredient.item.type === 'bun') ? (
+            ingredientBurgers
+              .filter((ingredient) => ingredient.item.type === 'bun')
+              .map((ingredient, index) => (
+                <div
+                  className={styles.type_item}
+                  key={`${ingredient.item._id}-${index}`}
+                >
+                  <div className={styles.empty_place}></div>
+                  <BurgerCard
+                    data={{ item: ingredient.item, isConstructor: true, bunPart: 'top' }}
+                  />
+                </div>
+              ))
+          ) : (
+            <div className={styles.empty_bun_top}>Выберите булочку</div>
+          )}
         </div>
         <div className={`${styles.type_list} custom-scroll`} ref={dropTargetIngredient}>
-          {ingredientBurgers
-            .filter((ingredient) => ingredient.item.type !== 'bun')
-            .map((ingredient, index) => (
-              <DraggableIngredient
-                key={`${ingredient.item._id}-${index}`}
-                ingredient={ingredient}
-                index={index}
-              />
-            ))}
+          {ingredientBurgers.some((ingredient) => ingredient.item.type !== 'bun') ? (
+            ingredientBurgers
+              .filter((ingredient) => ingredient.item.type !== 'bun')
+              .map((ingredient, index) => (
+                <DraggableIngredient
+                  key={`${ingredient.item._id}-${index}`}
+                  ingredient={ingredient}
+                  index={index}
+                />
+              ))
+          ) : (
+            <div className={styles.empty_ingredients}>Выберите начинку</div>
+          )}
         </div>
         <div className={styles.type_item}>
-          {ingredientBurgers
-            .filter((ingredient) => ingredient.item.type === 'bun')
-            .map((ingredient, index) => (
-              <div className={styles.type_item} key={`${ingredient.item._id}-${index}`}>
-                <div className={styles.empty_place}></div>
-                <BurgerCard
-                  data={{
-                    item: ingredient.item,
-                    isConstructor: true,
-                    bunPart: 'bottom',
-                  }}
-                />
-              </div>
-            ))}
+          {ingredientBurgers.some((ingredient) => ingredient.item.type === 'bun') ? (
+            ingredientBurgers
+              .filter((ingredient) => ingredient.item.type === 'bun')
+              .map((ingredient, index) => (
+                <div
+                  className={styles.type_item}
+                  key={`${ingredient.item._id}-${index}`}
+                >
+                  <div className={styles.empty_place}></div>
+                  <BurgerCard
+                    data={{
+                      item: ingredient.item,
+                      isConstructor: true,
+                      bunPart: 'bottom',
+                    }}
+                  />
+                </div>
+              ))
+          ) : (
+            <div className={styles.empty_bun_bottom}>Выберите булочку</div>
+          )}
         </div>
       </div>
       <div className={`${styles.totall} text text_type_main-large`}>
