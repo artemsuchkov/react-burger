@@ -21,7 +21,7 @@ function BurgerCardIngredients({ data }) {
     }),
   });
 
-  const ingredientCount = useMemoizedIngredientCount(data);
+  const { ingredientCount } = useMemoizedIngredientCount(data);
 
   return (
     !isDrag && (

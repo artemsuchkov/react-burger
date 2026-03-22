@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Modal } from '@components/modal-window/modal';
 import { OrderDetails } from '@components/order/order-details';
+import { useMemoizedIngredientCount } from '@hooks/useMemoizedIngredientCount';
 import { useModal } from '@hooks/useModal';
 import {
   addIngredientToBurger,
@@ -43,6 +44,8 @@ const DraggableIngredient = ({ ingredient, index }) => {
 export const BurgerConstructor = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
   const dispatch = useDispatch();
+
+  const { orderSumm } = useMemoizedIngredientCount();
 
   const ingredientBurgers = useSelector((store) => store.ingredients.ingredientBurgers);
 
@@ -145,7 +148,7 @@ export const BurgerConstructor = () => {
         </div>
       </div>
       <div className={`${styles.totall} text text_type_main-large`}>
-        <div className={styles.totall_price}>610</div>
+        <div className={styles.totall_price}>{orderSumm}</div>
         <CurrencyIcon type="primary" />
         <Button onClick={openModal} size="large" type="primary">
           Оформить заказ
