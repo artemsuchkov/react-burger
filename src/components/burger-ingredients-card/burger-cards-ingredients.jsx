@@ -1,9 +1,9 @@
 import { CurrencyIcon, Counter } from '@krgaa/react-developer-burger-ui-components';
 import { useDrag } from 'react-dnd';
-import { useSelector } from 'react-redux';
 
 import { IngredientsDetails } from '@components/burger-ingredients/burger-ingredients-details';
 import { Modal } from '@components/modal-window/modal';
+import { useMemoizedIngredientCount } from '@hooks/useMemoizedIngredientCount';
 import { useModal } from '@hooks/useModal';
 
 import styles from './burger-ingredients-card.module.css';
@@ -21,32 +21,14 @@ function BurgerCardIngredients({ data }) {
     }),
   });
 
-  const ingredientBurgers = useSelector((store) => store.ingredients.ingredientBurgers);
-
-  const countIngredientNumInConstructor = (ingredient) => {
-    // Если это булочка
-    if (ingredient.type === 'bun') {
-      // Проверяем, есть ли булочка с таким _id в ingredientBurgers
-      const hasBun = ingredientBurgers.some(
-        (burgerItem) => burgerItem.item._id === ingredient._id
-      );
-      return hasBun ? 2 : 0;
-    }
-
-    // Для всех остальных типов — считаем количество вхождений
-    const count = ingredientBurgers.filter(
-      (burgerItem) => burgerItem.item._id === ingredient._id
-    ).length;
-
-    return count;
-  };
+  const ingredientCount = useMemoizedIngredientCount(data);
 
   return (
     !isDrag && (
       <>
         <div className={styles.card} onClick={openIngredientsModal} ref={dragRef}>
           <div>
-            <Counter count={countIngredientNumInConstructor(data)} size="default" />
+            {ingredientCount && <Counter count={ingredientCount} size="default" />}
           </div>
           <img src={data.image} alt={data.name} />
           <div className={styles.card_price}>
