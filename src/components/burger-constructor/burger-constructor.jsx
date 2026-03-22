@@ -47,8 +47,8 @@ export const BurgerConstructor = () => {
   const ingredientBurgers = useSelector((store) => store.ingredients.ingredientBurgers);
 
   const handleDrop = (draggedItem) => {
-    console.log('draggedItem');
-    console.log(draggedItem);
+    //console.log('draggedItem');
+    //console.log(draggedItem);
 
     if (!draggedItem || !draggedItem.item) {
       console.error('Ошибка структуры:', draggedItem);
@@ -69,7 +69,7 @@ export const BurgerConstructor = () => {
 
   // Настраиваем useDrop с корректным типом
   const [, dropTarget] = useDrop({
-    accept: ['BURGER_INGREDIENTS'],
+    accept: 'BURGER_INGREDIENTS',
     drop: handleDrop,
     collect: (monitor) => ({
       isOver: monitor.isOver(),
@@ -87,9 +87,9 @@ export const BurgerConstructor = () => {
 
       // Находим текущий индекс ингредиента в списке
       const currentIndex = ingredientBurgers.findIndex(
-        (item) => item.item._id === draggedIngredient.item._id
+        (item) => item.item.id === draggedIngredient.item.id
       );
-
+      console.log('currentIndex ' + currentIndex);
       if (currentIndex !== -1 && draggedIndex !== currentIndex) {
         // Переставляем ингредиенты в списке
         dispatch(reorderIngredients({ from: draggedIndex, to: currentIndex }));
