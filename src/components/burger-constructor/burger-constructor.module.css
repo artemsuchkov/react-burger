@@ -41,3 +41,8 @@
 .totall_price {
   margin: 0;
 }
+
+.dragging {
+  box-shadow: 0 4px 12px rgb(0 0 0 / 15%);
+  transform: rotate(3deg);
+}

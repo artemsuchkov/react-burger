@@ -38,6 +38,15 @@ const ingredientsReducers = createSlice({
     getBurgeringredientModal: (state, action) => {
       state.ingredientModal = action.payload;
     },
+    reorderIngredients: (state, action) => {
+      const { from, to } = action.payload;
+      const newList = [...state.ingredientBurgers];
+      console.log('newList');
+      console.log(newList);
+      const movedItem = newList.splice(from, 1)[0];
+      newList.splice(to, 0, movedItem);
+      state.ingredientBurgers = newList;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -76,6 +85,7 @@ export const {
   addIngredientToBurger,
   removeIngredientFromBurger,
   getBurgeringredientModal,
+  reorderIngredients,
 } = ingredientsReducers.actions;
 
 export default ingredientsReducers.reducer;
