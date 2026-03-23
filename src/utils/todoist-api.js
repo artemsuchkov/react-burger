@@ -1,7 +1,7 @@
 import { api_url } from '@utils/api_url';
 
 export const getIngredientsTasks = () => {
-  return fetch(api_url).then(getResponse);
+  return request(api_url + 'ingredients');
 };
 
 export const getOrderIdTasks = (ingredients) => {
@@ -23,7 +23,7 @@ export const getOrderIdTasks = (ingredients) => {
   // Формируем итоговый массив: булка + остальные ингредиенты + булка
   const finalIngredients = [bunId, ...otherIds, bunId];
 
-  return fetch('https://new-stellarburgers.education-services.ru/api/orders', {
+  return request(api_url + 'orders', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ export const getOrderIdTasks = (ingredients) => {
     body: JSON.stringify({
       ingredients: finalIngredients,
     }),
-  }).then(getResponse);
+  });
 };
 
 const getResponse = (res) => {
@@ -39,4 +39,8 @@ const getResponse = (res) => {
     return res.json();
   }
   return Promise.reject(`Ошибка ${res.status}`);
+};
+
+const request = (url, options = {}) => {
+  return fetch(url, options).then(getResponse);
 };

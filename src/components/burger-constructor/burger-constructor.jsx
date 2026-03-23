@@ -3,6 +3,7 @@ import {
   Button,
   CurrencyIcon,
 } from '@krgaa/react-developer-burger-ui-components';
+import { nanoid } from 'nanoid';
 import { useDrop, useDrag } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -50,15 +51,18 @@ export const BurgerConstructor = () => {
   const ingredientBurgers = useSelector((store) => store.ingredients.ingredientBurgers);
 
   const handleDrop = (draggedItem) => {
-    //console.log('draggedItem');
-    //console.log(draggedItem);
-
     if (!draggedItem || !draggedItem.item) {
       console.error('Ошибка структуры:', draggedItem);
       return;
     }
 
-    const ingredient = draggedItem;
+    const ingredient = {
+      ...draggedItem,
+      item: {
+        ...draggedItem.item, // копируем все существующие поля item
+        id: nanoid(), // добавляем новый id
+      },
+    };
 
     if (ingredient.item.type === 'bun') {
       const existingBun = ingredientBurgers.find(({ item }) => item.type === 'bun');
@@ -111,11 +115,8 @@ export const BurgerConstructor = () => {
           {ingredientBurgers.some((ingredient) => ingredient.item.type === 'bun') ? (
             ingredientBurgers
               .filter((ingredient) => ingredient.item.type === 'bun')
-              .map((ingredient, index) => (
-                <div
-                  className={styles.type_item}
-                  key={`${ingredient.item._id}-${index}`}
-                >
+              .map((ingredient) => (
+                <div className={styles.type_item} key={`${ingredient.item.id}`}>
                   <div className={styles.empty_place}></div>
                   <BurgerCard
                     data={{ item: ingredient.item, isConstructor: true, bunPart: 'top' }}
@@ -132,7 +133,7 @@ export const BurgerConstructor = () => {
               .filter((ingredient) => ingredient.item.type !== 'bun')
               .map((ingredient, index) => (
                 <DraggableIngredient
-                  key={`${ingredient.item._id}-${index}`}
+                  key={`${ingredient.item.id}`}
                   ingredient={ingredient}
                   index={index}
                 />
@@ -145,11 +146,8 @@ export const BurgerConstructor = () => {
           {ingredientBurgers.some((ingredient) => ingredient.item.type === 'bun') ? (
             ingredientBurgers
               .filter((ingredient) => ingredient.item.type === 'bun')
-              .map((ingredient, index) => (
-                <div
-                  className={styles.type_item}
-                  key={`${ingredient.item._id}-${index}`}
-                >
+              .map((ingredient) => (
+                <div className={styles.type_item} key={`${ingredient.item.id}`}>
                   <div className={styles.empty_place}></div>
                   <BurgerCard
                     data={{

@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { nanoid } from 'nanoid';
 
 import { loadIngredients, getOrderId } from './actions';
 
@@ -19,15 +18,7 @@ const ingredientsReducers = createSlice({
   initialState,
   reducers: {
     addIngredientToBurger: (state, action) => {
-      const ingredientWithId = {
-        ...action.payload,
-        item: {
-          ...action.payload.item,
-          id: nanoid(), // Добавляем ID в объект item
-        },
-      };
-      console.log(ingredientWithId);
-      state.ingredientBurgers.push(ingredientWithId);
+      state.ingredientBurgers.push(action.payload);
     },
     removeIngredientFromBurger: (state, action) => {
       const itemIdToRemove = action.payload;
