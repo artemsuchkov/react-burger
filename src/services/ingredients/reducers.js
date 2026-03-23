@@ -63,6 +63,7 @@ const ingredientsReducers = createSlice({
       .addCase(getOrderId.fulfilled, (state, action) => {
         state.isOrderLoading = false;
         state.orderAnswer = action.payload;
+        state.ingredientBurgers = []; // очищаем массив ингредиентов в собранном бургере
       })
       .addCase(getOrderId.rejected, (state, action) => {
         state.isOrderLoading = false;
