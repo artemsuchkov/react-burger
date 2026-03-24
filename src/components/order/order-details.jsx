@@ -1,11 +1,28 @@
-import { CheckMarkIcon } from '@krgaa/react-developer-burger-ui-components';
+import {
+  Preloader,
+  CloseIcon,
+  CheckMarkIcon,
+} from '@krgaa/react-developer-burger-ui-components';
+import { useSelector } from 'react-redux';
 
 import styles from './order.module.css';
 
 export const OrderDetails = () => {
+  const isOrderLoading = useSelector((store) => store.ingredients.isOrderLoading);
+  const errorOrder = useSelector((store) => store.ingredients.errorOrder);
+  const orderAnswer = useSelector((store) => store.ingredients.orderAnswer);
+
+  if (isOrderLoading) {
+    return <Preloader />;
+  }
+
+  if (errorOrder) {
+    return <CloseIcon type="error" />;
+  }
+
   return (
     <div className={styles.order_details}>
-      <div className="text text_type_digits-medium">345-478</div>
+      <div className="text text_type_digits-medium">{orderAnswer.order.number}</div>
       <div className="text text_type_main-default text_color_inactive">
         идентифкатор заказа
       </div>

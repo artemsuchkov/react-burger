@@ -1,0 +1,3 @@
+export const ADD_TASK_SUCCESS = 'ADD_TASK';
+export const REMOVE_TASK_SUCCESS = 'REMOVE_TASK';
+export const LOAD_TASK_SUCCESS = 'LOAD_TASK_SUCCESS';

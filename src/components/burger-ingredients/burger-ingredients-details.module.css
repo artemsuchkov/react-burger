@@ -1,68 +1,10 @@
-.burger_ingredients {
-  display: flex;
-  flex-direction: column;
-  max-width: 600px;
-  color: var(--text-primary-color);
-  font-family: 'Jet Brains Mono', serif;
-}
-
-.menu {
-  display: flex;
-  margin: 0;
-  padding: 0;
-  text-align: center;
-  list-style-type: none;
-}
-
-.main_field {
-  overflow-y: scroll;
-}
-
-.type_title {
-  padding: 0;
-}
-
-.type_box {
-  display: flex;
-  flex-direction: column;
-  gap: calc(var(--offset-base-size) * 10);
-}
-
-.type_list {
-  display: flex;
-  flex-flow: row wrap;
-  gap: calc(var(--offset-base-size) * 5);
-}
-
-.type_item {
-  width: calc(50% - var(--offset-base-size) * 5);
-  list-style-type: none;
-}
-
-.card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: calc(var(--offset-base-size) * 2.5);
-}
-
-.card_price {
-  text-align: center;
-}
-
-.card_name {
+.name {
+  margin-bottom: 1em;
   text-align: center;
 }
 
 .details {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: calc(var(--offset-base-size) * 2);
-  text-align: center;
-}
-
-.name {
-  margin-bottom: 1em;
-  text-align: center;
+  gap: calc(var(--offset-base-size) * 5);
 }

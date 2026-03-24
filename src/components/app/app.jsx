@@ -1,44 +1,26 @@
 import { Preloader, CloseIcon } from '@krgaa/react-developer-burger-ui-components';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { AppHeader } from '@components/app-header/app-header';
 import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
-import { api_url } from '@utils/api_url';
+import { loadIngredients } from '@services/ingredients/actions';
 
 import styles from './app.module.css';
 
 export const App = () => {
-  const [ingredients, setIngredients] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const isLoading = useSelector((store) => store.ingredients.isLoading);
+  const error = useSelector((store) => store.ingredients.error);
 
+  const dispatch = useDispatch();
   useEffect(() => {
-    const fetchIngredients = async () => {
-      try {
-        setLoading(true);
-        setError(null);
-
-        const response = await fetch(api_url);
-
-        if (!response.ok) {
-          return Promise.reject(new Error(`Ошибка ${response.status}`));
-        }
-
-        const data = await response.json();
-        setIngredients(data.data || data);
-      } catch (err) {
-        console.error('Ошибка при загрузке ингредиентов:', err);
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchIngredients();
+    dispatch(loadIngredients());
   }, []);
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className={styles.app}>
         <AppHeader />
@@ -51,7 +33,7 @@ export const App = () => {
     return (
       <div className={styles.app}>
         <AppHeader />
-        <CloseIcon type="error" /> Ошибка
+        <CloseIcon type="error" />
       </div>
     );
   }
@@ -63,8 +45,10 @@ export const App = () => {
         Соберите бургер
       </h1>
       <main className={`${styles.main} pl-5 pr-5`}>
-        <BurgerIngredients ingredients={ingredients} />
-        <BurgerConstructor ingredients={ingredients} />
+        <DndProvider backend={HTML5Backend}>
+          <BurgerIngredients />
+          <BurgerConstructor />
+        </DndProvider>
       </main>
     </div>
   );
