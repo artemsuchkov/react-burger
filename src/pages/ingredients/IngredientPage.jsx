@@ -1,3 +1,8 @@
+import { Outlet } from 'react-router-dom';
 export const Ingredients = () => {
-  return <div> Ingredients</div>;
+  return (
+    <div>
+      <Outlet />
+    </div>
+  );
 };

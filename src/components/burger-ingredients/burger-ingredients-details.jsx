@@ -1,9 +1,7 @@
-import { useSelector } from 'react-redux';
-
 import styles from './burger-ingredients-details.module.css';
 
-export const IngredientsDetails = () => {
-  const ingredientModal = useSelector((store) => store.ingredients.ingredientModal);
+export const IngredientsDetails = ({ data }) => {
+  const ingredientModal = data;
 
   return (
     <>
