@@ -1,4 +1,24 @@
 .container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2em;
+  width: 100%;
+  max-width: 960px;
+  margin: 4em auto;
+}
+
+.menu {
   display: flex;
   flex-direction: column;
+  gap: 2em;
+}
+
+.link {
+  color: aliceblue;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
 }
