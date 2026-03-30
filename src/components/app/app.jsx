@@ -5,6 +5,13 @@ import {
   NotFoundPage,
   Ingredients,
   IngredientsDetails,
+  RegisterPage,
+  LoginPage,
+  ForgotPasswordPage,
+  ResetPasswordPage,
+  ProfilePage,
+  ProfileOrderPage,
+  FeedPage,
 } from '@pages/index.js';
 
 const router = createBrowserRouter([
@@ -21,6 +28,36 @@ const router = createBrowserRouter([
         element: <IngredientsDetails />,
       },
     ],
+  },
+  {
+    path: '/register',
+    Component: RegisterPage,
+  },
+  {
+    path: '/login',
+    Component: LoginPage,
+  },
+  {
+    path: '/forgot-password',
+    Component: ForgotPasswordPage,
+  },
+  {
+    path: '/reset-password',
+    Component: ResetPasswordPage,
+  },
+  {
+    path: '/profile',
+    Component: ProfilePage,
+    children: [
+      {
+        path: 'orders',
+        element: <ProfileOrderPage />,
+      },
+    ],
+  },
+  {
+    path: '/feed',
+    Component: FeedPage,
   },
   {
     path: '*',

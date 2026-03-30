@@ -44,9 +44,7 @@ export const IngredientsDetails = () => {
       const ingredient = ingredientModal.find((item) => item._id === ingredientId);
       if (ingredient) {
         setCurrentIngredient(ingredient);
-        console.log('Найден ингредиент:', ingredient.name);
       } else {
-        console.log('Ингредиент с ID', ingredientId, 'не найден');
         setCurrentIngredient(null);
       }
     }
