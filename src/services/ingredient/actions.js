@@ -1,1 +1,0 @@
-export const SHOW_INGREDIENT = 'SHOW_INGREDIENT';
