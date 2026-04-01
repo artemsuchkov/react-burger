@@ -1,12 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { getUser, login, logout } from './actions.js';
+import { getUser, login, logout, forgotPassword } from './actions.js';
 
 const initialState = {
   user: null,
   isLoading: false,
   error: null,
   isAuthChecked: false,
+  forgotPasswordCode: false,
 };
 
 export const userSlice = createSlice({
@@ -19,15 +20,31 @@ export const userSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
     },
+    resetForgotPasswordState: (state) => {
+      state.forgotPasswordCode = false;
+    },
   },
   selectors: {
     selectIsAuthChecked: (state) => state.isAuthChecked,
     selectUser: (state) => state.user,
     selectIsLoading: (state) => state.isLoading,
     selectError: (state) => state.error,
+    selectForgotPassword: (state) => state.forgotPasswordCode,
   },
   extraReducers: (builder) => {
     builder
+      .addCase(forgotPassword.fulfilled, (state) => {
+        state.forgotPasswordCode = true;
+        state.error = null;
+      })
+      .addCase(forgotPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      .addCase(forgotPassword.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = action.payload;
@@ -85,6 +102,13 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setIsAuthChecked, setUser } = userSlice.actions;
-export const { selectIsAuthChecked, selectIsLoading, selectError, selectUser } =
-  userSlice.selectors;
+export const { setIsAuthChecked, setUser, resetForgotPasswordState } = userSlice.actions;
+export const {
+  selectIsAuthChecked,
+  selectIsLoading,
+  selectError,
+  selectUser,
+  selectForgotPassword,
+} = userSlice.selectors;
+
+export default userSlice.reducer;

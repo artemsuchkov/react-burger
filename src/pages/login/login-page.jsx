@@ -1,30 +1,25 @@
-import { useLayoutEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
-
-import { useFormWithValidation } from '@hooks/use-form-with-validation';
-
-export function Input({ inputRef, error = '', value = '', ...props }) {
-  return (
-    <label>
-      <input ref={inputRef} {...props} value={value} />
-      <span className="error">{error || ''}</span>
-    </label>
-  );
-}
-
+import { Input as InputF, Button } from '@krgaa/react-developer-burger-ui-components';
+import { useLayoutEffect, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 
+import { AppHeader } from '@components/app-header/app-header';
+import { useFormWithValidation } from '@hooks/use-form-with-validation';
 import { login } from '@services/user/actions.js';
-import { selectError, selectIsLoading } from '@services/user/slice.js';
+import { selectError, selectIsLoading, selectUser } from '@services/user/slice.js';
+
+import styles from './login.module.css';
 
 export const LoginPage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate(); // Инициализация навигации
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
+  const isSuccess = useSelector(selectUser); // Статус успеха
 
   const inputRef = useRef(null);
 
-  const { values, handleChange, errors, isValid } = useFormWithValidation({
+  const { values, handleChange, errors } = useFormWithValidation({
     email: '',
     password: '',
   });
@@ -34,45 +29,61 @@ export const LoginPage = () => {
     dispatch(login(values));
   };
 
+  // Фокус на поле ввода при монтировании
   useLayoutEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
     }
   }, []);
 
+  // Редирект при успешном входе
+  useEffect(() => {
+    if (isSuccess) {
+      navigate('/');
+    }
+  }, [isSuccess, navigate]);
+
   return (
-    <form noValidate onSubmit={handleSubmit}>
-      <h3>Вход</h3>
-      <Input
-        inputRef={inputRef}
-        type="email"
-        name="email"
-        id="email"
-        placeholder="Email"
-        value={values.email || ''}
-        error={errors.email}
-        onChange={handleChange}
-        aria-invalid={!!errors.email}
-      />
-      <Input
-        type="password"
-        name="password"
-        id="password"
-        placeholder="Пароль"
-        value={values.password || ''}
-        error={errors.password}
-        onChange={handleChange}
-        aria-invalid={!!errors.password}
-      />
-      <button type="submit" disabled={isLoading || !isValid}>
-        {isLoading ? 'Вход...' : 'Войти'}
-      </button>
-      {error && <span className="error">{`Ошибка: ${error}`}</span>}
-      <span>
-        Вы - новый пользователь?
-        <Link to={'/register'}>Зарегистрироваться</Link>
-      </span>
-    </form>
+    <>
+      <AppHeader />
+      <div className={styles.container}>
+        <h1 className="text text_type_main-medium">Вход</h1>
+        <form noValidate onSubmit={handleSubmit} className={styles.form}>
+          <InputF
+            ref={inputRef}
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Email"
+            value={values.email || ''}
+            error={errors.email}
+            onChange={handleChange}
+            aria-invalid={!!errors.email}
+          />
+          <InputF
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Пароль"
+            value={values.password || ''}
+            error={errors.password}
+            onChange={handleChange}
+            aria-invalid={!!errors.password}
+          />
+
+          <Button size="medium" type="primary">
+            {isLoading ? 'Вход...' : 'Войти'}
+          </Button>
+          {error && <span className="error">{`Ошибка: ${error}`}</span>}
+        </form>
+        <div className="mt-10 text text_type_main-default text_color_inactive">
+          Вы новый пользователь? <Link to="/register">Зарегистрироваться</Link>
+        </div>
+        <div className="text text_type_main-default text_color_inactive">
+          Забыли пароль? <Link to="/forgot-password">Восстановить пароль</Link>
+        </div>
+      </div>
+    </>
   );
 };
 

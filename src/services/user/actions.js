@@ -25,6 +25,16 @@ export const register = createAsyncThunk('user/register', async (formData) => {
   return response.user;
 });
 
+export const forgotPassword = createAsyncThunk(
+  'user/forgotPassword',
+  async (formData) => {
+    const response = await api.forgotPassword(formData);
+    console.log('forgotPassword');
+    console.log(response);
+    return response;
+  }
+);
+
 export const checkUserAuth = createAsyncThunk(
   'user/checkUserAuth',
   async (_, { dispatch }) => {

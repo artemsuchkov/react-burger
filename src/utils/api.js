@@ -14,6 +14,10 @@ export async function login(formData) {
   return response;
 }
 
+export async function forgotPassword(formData) {
+  return await request('password-reset', { body: JSON.stringify(formData) });
+}
+
 async function getUser() {
   return await fetchWithRefresh('auth/user', {
     method: 'GET',
@@ -70,4 +74,5 @@ export const api = {
   login,
   logout,
   register,
+  forgotPassword,
 };
