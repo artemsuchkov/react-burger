@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { getUser, login, logout, forgotPassword } from './actions.js';
+import { getUser, login, logout, forgotPassword, resetPassword } from './actions.js';
 
 const initialState = {
   user: null,
@@ -8,6 +8,7 @@ const initialState = {
   error: null,
   isAuthChecked: false,
   forgotPasswordCode: false,
+  resetPasswordCode: false,
 };
 
 export const userSlice = createSlice({
@@ -23,6 +24,9 @@ export const userSlice = createSlice({
     resetForgotPasswordState: (state) => {
       state.forgotPasswordCode = false;
     },
+    resetResetPasswordState: (state) => {
+      state.resetPasswordCode = false;
+    },
   },
   selectors: {
     selectIsAuthChecked: (state) => state.isAuthChecked,
@@ -30,9 +34,22 @@ export const userSlice = createSlice({
     selectIsLoading: (state) => state.isLoading,
     selectError: (state) => state.error,
     selectForgotPassword: (state) => state.forgotPasswordCode,
+    selectResetPassword: (state) => state.resetPasswordCode,
   },
   extraReducers: (builder) => {
     builder
+      .addCase(resetPassword.fulfilled, (state) => {
+        state.resetPasswordCode = true;
+        state.error = null;
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      .addCase(resetPassword.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
       .addCase(forgotPassword.fulfilled, (state) => {
         state.forgotPasswordCode = true;
         state.error = null;
@@ -102,13 +119,19 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setIsAuthChecked, setUser, resetForgotPasswordState } = userSlice.actions;
+export const {
+  setIsAuthChecked,
+  setUser,
+  resetForgotPasswordState,
+  resetResetPasswordState,
+} = userSlice.actions;
 export const {
   selectIsAuthChecked,
   selectIsLoading,
   selectError,
   selectUser,
   selectForgotPassword,
+  selectResetPassword,
 } = userSlice.selectors;
 
 export default userSlice.reducer;

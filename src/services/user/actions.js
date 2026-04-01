@@ -29,24 +29,25 @@ export const forgotPassword = createAsyncThunk(
   'user/forgotPassword',
   async (formData) => {
     const response = await api.forgotPassword(formData);
-    console.log('forgotPassword');
-    console.log(response);
     return response;
   }
 );
+
+export const resetPassword = createAsyncThunk('user/resetPassword', async (formData) => {
+  const response = await api.resetPassword(formData);
+  return response;
+});
 
 export const checkUserAuth = createAsyncThunk(
   'user/checkUserAuth',
   async (_, { dispatch }) => {
     try {
       if (isTokenExists()) {
-        console.log('TokenExists');
         const response = await api.getUser();
         dispatch(setUser(response.user));
       }
     } finally {
       dispatch(setIsAuthChecked(true));
-      console.log('IsAuthChecked');
     }
   }
 );
