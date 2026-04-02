@@ -5,7 +5,12 @@ import { useNavigate } from 'react-router-dom';
 
 import { AppHeader } from '@components/app-header/app-header';
 import { resetPassword } from '@services/user/actions.js';
-import { selectResetPassword, resetResetPasswordState } from '@services/user/slice.js';
+import {
+  selectResetPassword,
+  selectForgotPassword,
+  resetForgotPasswordState,
+  resetResetPasswordState,
+} from '@services/user/slice.js';
 
 import styles from './resetpassword.module.css';
 
@@ -17,6 +22,7 @@ export const ResetPasswordPage = () => {
   const tokenRef = useRef(null);
 
   const isSuccess = useSelector(selectResetPassword);
+  const isForgotPassword = useSelector(selectForgotPassword);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -30,10 +36,15 @@ export const ResetPasswordPage = () => {
   useEffect(() => {
     if (isSuccess) {
       dispatch(resetResetPasswordState()); // действие для сброса состояния
+      dispatch(resetForgotPasswordState()); // действие для сброса состояния
       navigate('/login');
       console.log('Пароль успешно изменен');
     }
-  }, [isSuccess]);
+    if (!isForgotPassword) {
+      navigate('/forgot-password');
+      console.log('Пароль успешно изменен');
+    }
+  }, [isSuccess, isForgotPassword]);
 
   return (
     <>

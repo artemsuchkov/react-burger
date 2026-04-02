@@ -9,7 +9,6 @@ import {
   selectError,
   selectIsLoading,
   selectForgotPassword,
-  resetForgotPasswordState,
 } from '@services/user/slice.js';
 
 import styles from './forgotpassword.module.css';
@@ -31,7 +30,7 @@ export const ForgotPasswordPage = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      dispatch(resetForgotPasswordState()); // действие для сброса состояния
+      //dispatch(resetForgotPasswordState()); // действие для сброса состояния
       navigate('/reset-password');
     }
   }, [isSuccess, navigate]);
