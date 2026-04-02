@@ -1,5 +1,8 @@
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
+import { ProtectedRoute } from '@components/routing/protected-route.jsx';
 import {
   HomePage,
   NotFoundPage,
@@ -13,15 +16,16 @@ import {
   ProfileOrderPage,
   FeedPage,
 } from '@pages/index.js';
+import { checkUserAuth } from '@services/user/actions.js';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    Component: HomePage,
+    element: <HomePage />,
   },
   {
     path: 'ingredients/',
-    Component: Ingredients,
+    element: <Ingredients />,
     children: [
       {
         path: ':id',
@@ -31,33 +35,33 @@ const router = createBrowserRouter([
   },
   {
     path: '/register',
-    Component: RegisterPage,
+    element: <ProtectedRoute onlyUnAuth element={<RegisterPage />} />,
   },
   {
     path: '/login',
-    Component: LoginPage,
+    element: <ProtectedRoute onlyUnAuth element={<LoginPage />} />,
   },
   {
     path: '/forgot-password',
-    Component: ForgotPasswordPage,
+    element: <ProtectedRoute onlyUnAuth element={<ForgotPasswordPage />} />,
   },
   {
     path: '/reset-password',
-    Component: ResetPasswordPage,
+    element: <ProtectedRoute onlyUnAuth element={<ResetPasswordPage />} />,
   },
   {
     path: '/profile',
-    Component: ProfilePage,
+    element: <ProtectedRoute element={<ProfilePage />} />,
     children: [
       {
         path: 'orders',
-        element: <ProfileOrderPage />,
+        element: <ProtectedRoute element={<ProfileOrderPage />} />,
       },
     ],
   },
   {
     path: '/feed',
-    Component: FeedPage,
+    element: <FeedPage />,
   },
   {
     path: '*',
@@ -66,5 +70,11 @@ const router = createBrowserRouter([
 ]);
 
 export const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkUserAuth());
+  }, [dispatch]);
+
   return <RouterProvider router={router} />;
 };

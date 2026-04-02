@@ -4,27 +4,14 @@ import {
   ProfileIcon,
   Logo,
 } from '@krgaa/react-developer-burger-ui-components';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { checkUserAuth } from '@services/user/actions.js';
-import { selectUser } from '@services/user/slice.js';
 
 import styles from './app-header.module.css';
 
 export const AppHeader = () => {
-  const dispatch = useDispatch();
-  const user = useSelector(selectUser);
-
-  useEffect(() => {
-    dispatch(checkUserAuth());
-  }, [dispatch]);
-
   return (
     <header className={styles.header}>
       <nav className={`${styles.menu} p-4`}>
         <div className={styles.menu_part_left}>
-          {/* Тут должны быть ссылки, а не например кнопки или абзацы */}
           <a href="/" className={`${styles.link} ${styles.link_active}`}>
             <BurgerIcon type="primary" />
             <p className="text text_type_main-default ml-2">Конструктор</p>
@@ -37,20 +24,10 @@ export const AppHeader = () => {
         <div className={styles.logo}>
           <Logo />
         </div>
-
-        {(user && (
-          <a href="/profile" className={`${styles.link} ${styles.link_position_last}`}>
-            <ProfileIcon type="secondary" />
-            <p className="text text_type_main-default ml-2">Личный кабинет</p>
-          </a>
-        )) || (
-          <div>
-            <a href="/login" className={`${styles.link} ${styles.link_position_last}`}>
-              <ProfileIcon type="secondary" />
-              <p className="text text_type_main-default ml-2">Вход</p>
-            </a>
-          </div>
-        )}
+        <a href="/profile" className={`${styles.link} ${styles.link_position_last}`}>
+          <ProfileIcon type="secondary" />
+          <p className="text text_type_main-default ml-2">Личный кабинет</p>
+        </a>
       </nav>
     </header>
   );
