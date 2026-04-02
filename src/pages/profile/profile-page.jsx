@@ -1,19 +1,19 @@
 import { Input, Button } from '@krgaa/react-developer-burger-ui-components';
-import { useDispatch } from 'react-redux';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Outlet } from 'react-router-dom';
 
 import { AppHeader } from '@components/app-header/app-header';
 import { logout } from '@services/user/actions.js';
+import { selectIsLoading } from '@services/user/slice.js';
 
 import styles from './profilepage.module.css';
 
 export const ProfilePage = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const isLoading = useSelector(selectIsLoading);
 
   const handleLogout = () => {
     dispatch(logout());
-    navigate('/');
   };
 
   return (
@@ -29,7 +29,7 @@ export const ProfilePage = () => {
           </div>
           <div className="text text_type_main-default">
             <a className={styles.link} href="#" onClick={handleLogout}>
-              Выход
+              {isLoading ? 'Выход...' : 'Выйти'}
             </a>
           </div>
         </div>
