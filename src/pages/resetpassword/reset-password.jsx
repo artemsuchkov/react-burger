@@ -38,11 +38,9 @@ export const ResetPasswordPage = () => {
       dispatch(resetResetPasswordState()); // действие для сброса состояния
       dispatch(resetForgotPasswordState()); // действие для сброса состояния
       navigate('/login');
-      console.log('Пароль успешно изменен');
     }
     if (!isForgotPassword) {
       navigate('/forgot-password');
-      console.log('Пароль успешно изменен');
     }
   }, [isSuccess, isForgotPassword]);
 

@@ -1,6 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { getUser, login, logout, forgotPassword, resetPassword } from './actions.js';
+import {
+  getUser,
+  login,
+  updateUserData,
+  logout,
+  forgotPassword,
+  resetPassword,
+} from './actions.js';
 
 const initialState = {
   user: null,
@@ -38,6 +45,18 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(updateUserData.fulfilled, (state) => {
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(updateUserData.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.error.message;
+      })
+      .addCase(updateUserData.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
       .addCase(resetPassword.fulfilled, (state) => {
         state.resetPasswordCode = true;
         state.error = null;

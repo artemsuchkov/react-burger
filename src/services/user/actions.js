@@ -10,9 +10,13 @@ export const login = createAsyncThunk('user/login', async (formData) => {
   return response.user;
 });
 
+export const updateUserData = createAsyncThunk('user/updateData', async (formData) => {
+  const response = await api.updateUserData(formData);
+  return response;
+});
+
 export const getUser = createAsyncThunk('user/getUser', async () => {
   const response = await api.getUser();
-  console.log(response);
   return response.user;
 });
 

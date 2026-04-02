@@ -14,6 +14,16 @@ export async function login(formData) {
   return response;
 }
 
+export async function updateUserData(formData) {
+  return await request('auth/user', {
+    method: 'PATCH',
+    headers: {
+      authorization: Cookies.get('accessToken'),
+    },
+    body: JSON.stringify(formData),
+  });
+}
+
 export async function forgotPassword(formData) {
   return await request('password-reset', { body: JSON.stringify(formData) });
 }
@@ -75,6 +85,7 @@ export async function logout() {
 
 export const api = {
   getUser,
+  updateUserData,
   login,
   logout,
   register,
