@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { api } from '@utils/api.js';
+import { api } from '@/utils/api-user.js';
 import { isTokenExists } from '@utils/tokens.js';
 
 import { setUser, setIsAuthChecked } from './slice.js';

@@ -1,9 +1,9 @@
 import { Input, Button } from '@krgaa/react-developer-burger-ui-components';
 import { useLayoutEffect, useRef, useState } from 'react';
 
+import { api } from '@/utils/api-user';
 import { AppHeader } from '@components/app-header/app-header';
 import { useFormWithValidation } from '@hooks/use-form-with-validation';
-import { api } from '@utils/api';
 
 import styles from './register.module.css';
 

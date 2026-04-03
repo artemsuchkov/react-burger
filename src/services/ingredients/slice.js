@@ -13,7 +13,7 @@ const initialState = {
   errorOrder: null,
 };
 
-const ingredientsReducers = createSlice({
+const ingredientsSlice = createSlice({
   name: 'ingredients',
   initialState,
   reducers: {
@@ -76,6 +76,6 @@ export const {
   removeIngredientFromBurger,
   getBurgeringredientModal,
   reorderIngredients,
-} = ingredientsReducers.actions;
+} = ingredientsSlice.actions;
 
-export default ingredientsReducers.reducer;
+export default ingredientsSlice.reducer;

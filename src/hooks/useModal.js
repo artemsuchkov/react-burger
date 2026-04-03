@@ -2,8 +2,8 @@ import { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import { getBurgeringredientModal } from '@/services/ingredients/slice';
 import { getOrderId } from '@services/ingredients/actions';
-import { getBurgeringredientModal } from '@services/ingredients/reducers';
 
 // кастомные хуки всегда должны начинаться с глагола `use`, чтобы реакт понял, что это хук. Он следит за их вызовами
 export const useModal = (data = []) => {

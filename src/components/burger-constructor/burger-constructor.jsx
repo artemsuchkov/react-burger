@@ -7,15 +7,15 @@ import { nanoid } from 'nanoid';
 import { useDrop, useDrag } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Modal } from '@components/modal-window/modal';
-import { OrderDetails } from '@components/order/order-details';
-import { useMemoizedIngredientCount } from '@hooks/useMemoizedIngredientCount';
-import { useModal } from '@hooks/useModal';
 import {
   addIngredientToBurger,
   removeIngredientFromBurger,
   reorderIngredients,
-} from '@services/ingredients/reducers';
+} from '@/services/ingredients/slice.js';
+import { Modal } from '@components/modal-window/modal';
+import { OrderDetails } from '@components/order/order-details';
+import { useMemoizedIngredientCount } from '@hooks/useMemoizedIngredientCount';
+import { useModal } from '@hooks/useModal';
 
 import BurgerCard from '../burger-ingredients-card/burger-cards.jsx';
 
