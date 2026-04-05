@@ -163,13 +163,16 @@ export const BurgerConstructor = () => {
           )}
         </div>
       </div>
-      <div className={`${styles.totall} text text_type_main-large`}>
-        <div className={styles.totall_price}>{orderSumm}</div>
-        <CurrencyIcon type="primary" />
-        <Button onClick={openModal} size="large" type="primary">
-          Оформить заказ
-        </Button>
-      </div>
+      {ingredientBurgers.length > 0 && (
+        <div className={`${styles.totall} text text_type_main-large`}>
+          <div className={styles.totall_price}>{orderSumm}</div>
+          <CurrencyIcon type="primary" />
+
+          <Button onClick={openModal} size="large" type="primary">
+            Оформить заказ
+          </Button>
+        </div>
+      )}
 
       {isModalOpen && (
         <Modal onClose={closeModal}>
