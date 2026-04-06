@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useDispatch, useSelector } from 'react-redux';
+import { Outlet } from 'react-router-dom';
 
 import { AppHeader } from '@components/app-header/app-header';
 import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
@@ -50,6 +51,7 @@ export const HomePage = () => {
           <BurgerConstructor />
         </DndProvider>
       </main>
+      <Outlet />
     </div>
   );
 };

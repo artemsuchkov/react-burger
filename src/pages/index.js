@@ -1,7 +1,6 @@
 import { FeedPage } from './feed/feed-page.jsx';
 import { ForgotPasswordPage } from './forgotpassword/forgot-password.jsx';
 import { HomePage } from './home/home.jsx';
-import { Ingredients } from './ingredients/ingredient-page.jsx';
 import { LoginPage } from './login/login-page.jsx';
 import { IngredientsDetails } from './modal/ingredients-details.jsx';
 import { NotFoundPage } from './not-found/not-found.jsx';
@@ -13,7 +12,6 @@ import { ResetPasswordPage } from './resetpassword/reset-password.jsx';
 export {
   HomePage,
   NotFoundPage,
-  Ingredients,
   IngredientsDetails,
   RegisterPage,
   LoginPage,

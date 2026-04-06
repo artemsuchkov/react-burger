@@ -6,7 +6,6 @@ import { ProtectedRoute } from '@components/routing/protected-route.jsx';
 import {
   HomePage,
   NotFoundPage,
-  Ingredients,
   IngredientsDetails,
   RegisterPage,
   LoginPage,
@@ -22,13 +21,9 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <HomePage />,
-  },
-  {
-    path: 'ingredients/',
-    element: <Ingredients />,
     children: [
       {
-        path: ':id',
+        path: 'ingredients/:id',
         element: <IngredientsDetails />,
       },
     ],
