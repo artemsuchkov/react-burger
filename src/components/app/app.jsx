@@ -1,55 +1,75 @@
-import { Preloader, CloseIcon } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect } from 'react';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import { AppHeader } from '@components/app-header/app-header';
-import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
-import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
-import { loadIngredients } from '@services/ingredients/actions';
+import { ProtectedRoute } from '@components/routing/protected-route.jsx';
+import {
+  HomePage,
+  NotFoundPage,
+  IngredientsDetails,
+  RegisterPage,
+  LoginPage,
+  ForgotPasswordPage,
+  ResetPasswordPage,
+  ProfilePage,
+  ProfileOrderPage,
+  FeedPage,
+} from '@pages/index.js';
+import { checkUserAuth } from '@services/user/actions.js';
 
-import styles from './app.module.css';
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <HomePage />,
+    children: [
+      {
+        path: 'ingredients/:id',
+        element: <IngredientsDetails />,
+      },
+    ],
+  },
+  {
+    path: '/register',
+    element: <ProtectedRoute onlyUnAuth element={<RegisterPage />} />,
+  },
+  {
+    path: '/login',
+    element: <ProtectedRoute onlyUnAuth element={<LoginPage />} />,
+  },
+  {
+    path: '/forgot-password',
+    element: <ProtectedRoute onlyUnAuth element={<ForgotPasswordPage />} />,
+  },
+  {
+    path: '/reset-password',
+    element: <ProtectedRoute onlyUnAuth element={<ResetPasswordPage />} />,
+  },
+  {
+    path: '/profile',
+    element: <ProtectedRoute element={<ProfilePage />} />,
+    children: [
+      {
+        path: 'orders',
+        element: <ProtectedRoute element={<ProfileOrderPage />} />,
+      },
+    ],
+  },
+  {
+    path: '/feed',
+    element: <FeedPage />,
+  },
+  {
+    path: '*',
+    element: <NotFoundPage />,
+  },
+]);
 
 export const App = () => {
-  const isLoading = useSelector((store) => store.ingredients.isLoading);
-  const error = useSelector((store) => store.ingredients.error);
-
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(loadIngredients());
-  }, []);
+    dispatch(checkUserAuth());
+  }, [dispatch]);
 
-  if (isLoading) {
-    return (
-      <div className={styles.app}>
-        <AppHeader />
-        <Preloader />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className={styles.app}>
-        <AppHeader />
-        <CloseIcon type="error" />
-      </div>
-    );
-  }
-
-  return (
-    <div className={styles.app}>
-      <AppHeader />
-      <h1 className={`${styles.title} text text_type_main-large mt-10 mb-5 pl-5`}>
-        Соберите бургер
-      </h1>
-      <main className={`${styles.main} pl-5 pr-5`}>
-        <DndProvider backend={HTML5Backend}>
-          <BurgerIngredients />
-          <BurgerConstructor />
-        </DndProvider>
-      </main>
-    </div>
-  );
+  return <RouterProvider router={router} />;
 };

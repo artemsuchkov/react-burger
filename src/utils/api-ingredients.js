@@ -1,7 +1,18 @@
-import { api_url } from '@utils/api_url';
+import { host } from '@utils/constants';
+
+const getResponse = (res) => {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Ошибка ${res.status}`);
+};
+
+const request = (url, options = {}) => {
+  return fetch(url, options).then(getResponse);
+};
 
 export const getIngredientsTasks = () => {
-  return request(api_url + 'ingredients');
+  return request(host + '/api/ingredients');
 };
 
 export const getOrderIdTasks = (ingredients) => {
@@ -23,7 +34,7 @@ export const getOrderIdTasks = (ingredients) => {
   // Формируем итоговый массив: булка + остальные ингредиенты + булка
   const finalIngredients = [bunId, ...otherIds, bunId];
 
-  return request(api_url + 'orders', {
+  return request(host + '/api/orders', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -32,15 +43,4 @@ export const getOrderIdTasks = (ingredients) => {
       ingredients: finalIngredients,
     }),
   });
-};
-
-const getResponse = (res) => {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Ошибка ${res.status}`);
-};
-
-const request = (url, options = {}) => {
-  return fetch(url, options).then(getResponse);
 };

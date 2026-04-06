@@ -7,15 +7,15 @@ import { nanoid } from 'nanoid';
 import { useDrop, useDrag } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Modal } from '@components/modal-window/modal';
-import { OrderDetails } from '@components/order/order-details';
-import { useMemoizedIngredientCount } from '@hooks/useMemoizedIngredientCount';
-import { useModal } from '@hooks/useModal';
 import {
   addIngredientToBurger,
   removeIngredientFromBurger,
   reorderIngredients,
-} from '@services/ingredients/reducers';
+} from '@/services/ingredients/slice.js';
+import { Modal } from '@components/modal-window/modal';
+import { OrderDetails } from '@components/order/order-details';
+import { useMemoizedIngredientCount } from '@hooks/useMemoizedIngredientCount';
+import { useModal } from '@hooks/useModal';
 
 import BurgerCard from '../burger-ingredients-card/burger-cards.jsx';
 
@@ -163,13 +163,16 @@ export const BurgerConstructor = () => {
           )}
         </div>
       </div>
-      <div className={`${styles.totall} text text_type_main-large`}>
-        <div className={styles.totall_price}>{orderSumm}</div>
-        <CurrencyIcon type="primary" />
-        <Button onClick={openModal} size="large" type="primary">
-          Оформить заказ
-        </Button>
-      </div>
+      {ingredientBurgers.length > 0 && (
+        <div className={`${styles.totall} text text_type_main-large`}>
+          <div className={styles.totall_price}>{orderSumm}</div>
+          <CurrencyIcon type="primary" />
+
+          <Button onClick={openModal} size="large" type="primary">
+            Оформить заказ
+          </Button>
+        </div>
+      )}
 
       {isModalOpen && (
         <Modal onClose={closeModal}>

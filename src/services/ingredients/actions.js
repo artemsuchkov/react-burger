@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { getIngredientsTasks, getOrderIdTasks } from '@utils/todoist-api.js';
+import { getIngredientsTasks, getOrderIdTasks } from '@/utils/api-ingredients.js';
 
 export const loadIngredients = createAsyncThunk(
   'ingredients/loadIngredients',

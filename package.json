@@ -28,6 +28,7 @@
     "@redux-devtools/extension": "^3.3.0",
     "@reduxjs/toolkit": "^2.9.0",
     "core-js": "^3.45.1",
+    "js-cookie": "^3.0.5",
     "lodash-es": "^4.17.21",
     "nanoid": "^5.1.7",
     "react": "^19.1.1",

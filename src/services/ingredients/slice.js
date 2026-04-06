@@ -13,7 +13,7 @@ const initialState = {
   errorOrder: null,
 };
 
-const ingredientsReducers = createSlice({
+const ingredientsSlice = createSlice({
   name: 'ingredients',
   initialState,
   reducers: {
@@ -32,8 +32,6 @@ const ingredientsReducers = createSlice({
     reorderIngredients: (state, action) => {
       const { from, to } = action.payload;
       const newList = [...state.ingredientBurgers];
-      console.log('newList');
-      console.log(newList);
       const movedItem = newList.splice(from, 1)[0];
       newList.splice(to, 0, movedItem);
       state.ingredientBurgers = newList;
@@ -78,6 +76,6 @@ export const {
   removeIngredientFromBurger,
   getBurgeringredientModal,
   reorderIngredients,
-} = ingredientsReducers.actions;
+} = ingredientsSlice.actions;
 
-export default ingredientsReducers.reducer;
+export default ingredientsSlice.reducer;
