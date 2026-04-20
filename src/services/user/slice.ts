@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, isRejected } from '@reduxjs/toolkit';
 
 import {
   getUser,
@@ -7,9 +7,21 @@ import {
   logout,
   forgotPassword,
   resetPassword,
-} from './actions.ts';
+  type User,
+} from './actions';
 
-const initialState = {
+import type { PayloadAction } from '@reduxjs/toolkit';
+
+export type UserState = {
+  user: User | null;
+  isLoading: boolean;
+  error: string | null;
+  isAuthChecked: boolean;
+  forgotPasswordCode: boolean;
+  resetPasswordCode: boolean;
+};
+
+const initialState: UserState = {
   user: null,
   isLoading: false,
   error: null,
@@ -22,10 +34,10 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setIsAuthChecked: (state, action) => {
+    setIsAuthChecked: (state, action: PayloadAction<boolean>) => {
       state.isAuthChecked = action.payload;
     },
-    setUser: (state, action) => {
+    setUser: (state, action: PayloadAction<User | null>) => {
       state.user = action.payload;
     },
     resetForgotPasswordState: (state) => {
@@ -36,12 +48,12 @@ export const userSlice = createSlice({
     },
   },
   selectors: {
-    selectIsAuthChecked: (state) => state.isAuthChecked,
-    selectUser: (state) => state.user,
-    selectIsLoading: (state) => state.isLoading,
-    selectError: (state) => state.error,
-    selectForgotPassword: (state) => state.forgotPasswordCode,
-    selectResetPassword: (state) => state.resetPasswordCode,
+    selectIsAuthChecked: (state: UserState) => state.isAuthChecked,
+    selectUser: (state: UserState) => state.user,
+    selectIsLoading: (state: UserState) => state.isLoading,
+    selectError: (state: UserState) => state.error,
+    selectForgotPassword: (state: UserState) => state.forgotPasswordCode,
+    selectResetPassword: (state: UserState) => state.resetPasswordCode,
   },
   extraReducers: (builder) => {
     builder
@@ -51,7 +63,7 @@ export const userSlice = createSlice({
       })
       .addCase(updateUserData.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.error.message ?? 'Unknown error';
       })
       .addCase(updateUserData.pending, (state) => {
         state.isLoading = true;
@@ -63,7 +75,7 @@ export const userSlice = createSlice({
       })
       .addCase(resetPassword.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.error.message ?? 'Unknown error';
       })
       .addCase(resetPassword.pending, (state) => {
         state.isLoading = true;
@@ -75,13 +87,13 @@ export const userSlice = createSlice({
       })
       .addCase(forgotPassword.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.error.message ?? 'Unknown error';
       })
       .addCase(forgotPassword.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(login.fulfilled, (state, action) => {
+      .addCase(login.fulfilled, (state, action: PayloadAction<User>) => {
         state.isLoading = false;
         state.user = action.payload;
         state.error = null;
@@ -89,20 +101,20 @@ export const userSlice = createSlice({
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.error.message ?? 'Unknown error';
       })
       .addCase(login.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(getUser.fulfilled, (state, action) => {
+      .addCase(getUser.fulfilled, (state, action: PayloadAction<User>) => {
         state.isLoading = false;
         state.user = action.payload;
         state.error = null;
       })
       .addCase(getUser.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.error.message ?? 'Unknown error';
       })
       .addCase(getUser.pending, (state) => {
         state.isLoading = true;
@@ -115,19 +127,17 @@ export const userSlice = createSlice({
       })
       .addCase(logout.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.error.message ?? 'Unknown error';
       })
       .addCase(logout.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
-      .addMatcher(
-        (action) => action.type.endsWith('/rejected'),
-        (state, action) => {
-          state.isLoading = false;
-          state.error = action.error.message;
-        }
-      );
+      .addMatcher(isRejected, (state, action) => {
+        state.isLoading = false;
+        // isRejected гарантирует наличие action.error
+        state.error = action.error.message ?? 'Unknown error';
+      });
   },
 });
 

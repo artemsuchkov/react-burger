@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { forgotPassword } from '@/services/user/actions.js';
-import { AppHeader } from '@components/app-header/app-header';
 import {
   selectError,
   selectIsLoading,
   selectForgotPassword,
-} from '@services/user/slice.js';
+} from '@/services/user/slice.js';
+import { AppHeader } from '@components/app-header/app-header';
 
 import styles from './forgotpassword.module.css';
 

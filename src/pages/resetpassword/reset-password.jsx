@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { resetPassword } from '@/services/user/actions.js';
-import { AppHeader } from '@components/app-header/app-header';
 import {
   selectResetPassword,
   selectForgotPassword,
   resetForgotPasswordState,
   resetResetPasswordState,
-} from '@services/user/slice.js';
+} from '@/services/user/slice.js';
+import { AppHeader } from '@components/app-header/app-header';
 
 import styles from './resetpassword.module.css';
 
