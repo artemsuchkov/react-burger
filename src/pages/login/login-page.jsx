@@ -3,9 +3,9 @@ import { useLayoutEffect, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { login } from '@/services/user/actions.js';
 import { AppHeader } from '@components/app-header/app-header';
 import { useFormWithValidation } from '@hooks/use-form-with-validation';
-import { login } from '@services/user/actions.js';
 import { selectError, selectIsLoading, selectUser } from '@services/user/slice.js';
 
 import styles from './login.module.css';

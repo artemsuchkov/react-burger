@@ -7,7 +7,7 @@ import {
   logout,
   forgotPassword,
   resetPassword,
-} from './actions.js';
+} from './actions.ts';
 
 const initialState = {
   user: null,

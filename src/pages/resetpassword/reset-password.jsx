@@ -3,8 +3,8 @@ import { useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
+import { resetPassword } from '@/services/user/actions.js';
 import { AppHeader } from '@components/app-header/app-header';
-import { resetPassword } from '@services/user/actions.js';
 import {
   selectResetPassword,
   selectForgotPassword,

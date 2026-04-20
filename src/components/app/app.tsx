@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
+import { checkUserAuth } from '@/services/user/actions';
 import { ProtectedRoute } from '@components/routing/protected-route.jsx';
 import {
   HomePage,
@@ -15,7 +16,10 @@ import {
   ProfileOrderPage,
   FeedPage,
 } from '@pages/index.js';
-import { checkUserAuth } from '@services/user/actions.js';
+
+import type { ReactElement } from 'react';
+
+import type { AppDispatch } from '@/services/store';
 
 const router = createBrowserRouter([
   {
@@ -64,8 +68,8 @@ const router = createBrowserRouter([
   },
 ]);
 
-export const App = () => {
-  const dispatch = useDispatch();
+export const App = (): ReactElement => {
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     dispatch(checkUserAuth());
