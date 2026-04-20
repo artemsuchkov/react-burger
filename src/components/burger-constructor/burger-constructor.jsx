@@ -12,7 +12,7 @@ import {
   addIngredientToBurger,
   removeIngredientFromBurger,
   reorderIngredients,
-} from '@/services/ingredients/slice.js';
+} from '@/services/ingredients/slice.ts';
 import { Modal } from '@components/modal-window/modal';
 import { OrderDetails } from '@components/order/order-details';
 import { useMemoizedIngredientCount } from '@hooks/useMemoizedIngredientCount';

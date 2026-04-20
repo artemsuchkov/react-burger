@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 
+import { loadIngredients } from '@/services/ingredients/actions';
 import { IngredientsDetails as IngredientsDetailsComponent } from '@components/burger-ingredients/burger-ingredients-details';
-import { loadIngredients } from '@services/ingredients/actions';
 
 import { ModalOverlay } from './modal-overlay';
 

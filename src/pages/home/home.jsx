@@ -5,10 +5,10 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 
+import { loadIngredients } from '@/services/ingredients/actions';
 import { AppHeader } from '@components/app-header/app-header';
 import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
-import { loadIngredients } from '@services/ingredients/actions';
 
 import styles from './home.module.css';
 

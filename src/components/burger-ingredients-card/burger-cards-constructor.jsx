@@ -1,7 +1,7 @@
 import { ConstructorElement } from '@krgaa/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { removeIngredientFromBurger } from '@/services/ingredients/slice';
+import { removeIngredientFromBurger } from '@/services/ingredients/slice.ts';
 
 function BurgerCardConstructor({ data }) {
   const dispatch = useDispatch();

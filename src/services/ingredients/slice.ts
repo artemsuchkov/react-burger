@@ -1,12 +1,32 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { loadIngredients, getOrderId } from './actions';
+import {
+  loadIngredients,
+  getOrderId,
+  type Ingredient,
+  type BurgerIngredient,
+  type IngredientsResponse,
+  type OrderResponse,
+} from './actions';
 
-const initialState = {
-  ingredients: [], // массив ингредиентов от сервера
-  ingredientBurgers: [], // массив ингредиентов в собранном бургере
-  ingredientModal: [], // модальное окно с ингредиентами
-  orderAnswer: [], // модальное окно с ингредиентами
+import type { PayloadAction } from '@reduxjs/toolkit';
+
+export type IngredientsState = {
+  ingredients: Ingredient[];
+  ingredientBurgers: BurgerIngredient[];
+  ingredientModal: Ingredient[];
+  orderAnswer: OrderResponse | null;
+  isLoading: boolean;
+  error: string | null;
+  isOrderLoading: boolean;
+  errorOrder: string | null;
+};
+
+const initialState: IngredientsState = {
+  ingredients: [],
+  ingredientBurgers: [],
+  ingredientModal: [],
+  orderAnswer: null,
   isLoading: false,
   error: null,
   isOrderLoading: false,
@@ -17,19 +37,19 @@ const ingredientsSlice = createSlice({
   name: 'ingredients',
   initialState,
   reducers: {
-    addIngredientToBurger: (state, action) => {
+    addIngredientToBurger: (state, action: PayloadAction<BurgerIngredient>) => {
       state.ingredientBurgers.push(action.payload);
     },
-    removeIngredientFromBurger: (state, action) => {
+    removeIngredientFromBurger: (state, action: PayloadAction<string>) => {
       const itemIdToRemove = action.payload;
       state.ingredientBurgers = state.ingredientBurgers.filter(
-        (ingredient) => ingredient.item.id !== itemIdToRemove
+        (ingredient) => ingredient.item._id !== itemIdToRemove
       );
     },
-    getBurgeringredientModal: (state, action) => {
+    getBurgeringredientModal: (state, action: PayloadAction<Ingredient[]>) => {
       state.ingredientModal = action.payload;
     },
-    reorderIngredients: (state, action) => {
+    reorderIngredients: (state, action: PayloadAction<{ from: number; to: number }>) => {
       const { from, to } = action.payload;
       const newList = [...state.ingredientBurgers];
       const movedItem = newList.splice(from, 1)[0];
@@ -44,13 +64,17 @@ const ingredientsSlice = createSlice({
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(loadIngredients.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.ingredients = action.payload.data;
-      })
+      .addCase(
+        loadIngredients.fulfilled,
+        (state, action: PayloadAction<IngredientsResponse>) => {
+          state.isLoading = false;
+          state.ingredients = action.payload.data;
+        }
+      )
       .addCase(loadIngredients.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload ?? action.error?.message ?? 'Unknown error';
+        state.error =
+          (action.payload as string) ?? action.error?.message ?? 'Unknown error';
       });
     builder
       // getOrderId
@@ -58,14 +82,15 @@ const ingredientsSlice = createSlice({
         state.isOrderLoading = true;
         state.errorOrder = null;
       })
-      .addCase(getOrderId.fulfilled, (state, action) => {
+      .addCase(getOrderId.fulfilled, (state, action: PayloadAction<OrderResponse>) => {
         state.isOrderLoading = false;
         state.orderAnswer = action.payload;
-        state.ingredientBurgers = []; // очищаем массив ингредиентов в собранном бургере
+        state.ingredientBurgers = [];
       })
       .addCase(getOrderId.rejected, (state, action) => {
         state.isOrderLoading = false;
-        state.errorOrder = action.payload ?? action.error?.message ?? 'Unknown error';
+        state.errorOrder =
+          (action.payload as string) ?? action.error?.message ?? 'Unknown error';
       });
   },
 });
