@@ -15,8 +15,8 @@ import {
 } from '@/services/ingredients/slice.ts';
 import { Modal } from '@components/modal-window/modal';
 import { OrderDetails } from '@components/order/order-details';
-import { useMemoizedIngredientCount } from '@hooks/useMemoizedIngredientCount';
-import { useModal } from '@hooks/useModal';
+import { useMemoizedIngredientCount } from '@hooks/useMemoizedIngredientCount.ts';
+import { useModal } from '@hooks/useModal.ts';
 
 import BurgerCard from '../burger-ingredients-card/burger-cards.jsx';
 

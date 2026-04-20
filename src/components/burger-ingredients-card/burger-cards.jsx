@@ -1,5 +1,5 @@
-import BurgerCardConstructor from './burger-cards-constructor.jsx';
-import BurgerCardIngredients from './burger-cards-ingredients.jsx';
+import BurgerCardConstructor from './burger-cards-constructor.tsx';
+import BurgerCardIngredients from './burger-cards-ingredients.tsx';
 
 function BurgerCard({ data }) {
   if (data.isConstructor) return <BurgerCardConstructor data={data} />;
