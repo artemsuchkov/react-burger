@@ -9,7 +9,7 @@ import {
   selectIsLoading,
   selectForgotPassword,
 } from '@/services/user/slice.js';
-import { AppHeader } from '@components/app-header/app-header';
+import { AppHeader } from '@components/app-header/app-header.tsx';
 
 import styles from './forgotpassword.module.css';
 

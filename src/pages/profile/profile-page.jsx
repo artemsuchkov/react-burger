@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom';
 
 import { logout, updateUserData } from '@/services/user/actions.js';
 import { selectIsLoading, selectUser } from '@/services/user/slice.js';
-import { AppHeader } from '@components/app-header/app-header';
+import { AppHeader } from '@components/app-header/app-header.tsx';
 
 import styles from './profilepage.module.css';
 

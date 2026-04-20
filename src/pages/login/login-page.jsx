@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { login } from '@/services/user/actions.js';
 import { selectError, selectIsLoading, selectUser } from '@/services/user/slice.js';
-import { AppHeader } from '@components/app-header/app-header';
+import { AppHeader } from '@components/app-header/app-header.tsx';
 import { useFormWithValidation } from '@hooks/use-form-with-validation';
 
 import styles from './login.module.css';

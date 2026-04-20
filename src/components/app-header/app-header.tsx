@@ -5,9 +5,11 @@ import {
   Logo,
 } from '@krgaa/react-developer-burger-ui-components';
 
+import type { ReactElement } from 'react';
+
 import styles from './app-header.module.css';
 
-export const AppHeader = () => {
+export const AppHeader = (): ReactElement => {
   return (
     <header className={styles.header}>
       <nav className={`${styles.menu} p-4`}>

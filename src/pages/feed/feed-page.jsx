@@ -1,4 +1,4 @@
-import { AppHeader } from '@components/app-header/app-header';
+import { AppHeader } from '@components/app-header/app-header.tsx';
 
 import styles from './feed.module.css';
 

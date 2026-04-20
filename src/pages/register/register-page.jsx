@@ -2,7 +2,7 @@ import { Input, Button } from '@krgaa/react-developer-burger-ui-components';
 import { useLayoutEffect, useRef, useState } from 'react';
 
 import { api } from '@/utils/api-user';
-import { AppHeader } from '@components/app-header/app-header';
+import { AppHeader } from '@components/app-header/app-header.tsx';
 import { useFormWithValidation } from '@hooks/use-form-with-validation';
 
 import styles from './register.module.css';
