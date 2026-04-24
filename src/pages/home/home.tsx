@@ -1,27 +1,22 @@
 import { Preloader, CloseIcon } from '@krgaa/react-developer-burger-ui-components';
-import { useEffect, type ReactElement } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 
-import { loadIngredients } from '@/services/ingredients/actions';
 import { AppHeader } from '@components/app-header/app-header.tsx';
 import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
 
-import type { RootState, AppDispatch } from '@/services/store';
+import type { ReactElement } from 'react';
+
+import type { RootState } from '@/services/store';
 
 import styles from './home.module.css';
 
 export const HomePage = (): ReactElement => {
   const isLoading = useSelector((store: RootState) => store.ingredients.isLoading);
   const error = useSelector((store: RootState) => store.ingredients.error);
-
-  const dispatch = useDispatch<AppDispatch>();
-  useEffect(() => {
-    dispatch(loadIngredients());
-  }, []);
 
   if (isLoading) {
     return (

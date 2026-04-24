@@ -1,23 +1,21 @@
 import { Preloader, CloseIcon } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 
-import { loadIngredients } from '@/services/ingredients/actions';
 import { IngredientsDetails as IngredientsDetailsComponent } from '@components/burger-ingredients/burger-ingredients-details';
 
 import { ModalOverlay } from './modal-overlay.tsx';
 
 import type { ReactElement } from 'react';
 
-import type { RootState, AppDispatch } from '@/services/store';
+import type { RootState } from '@/services/store';
 import type { Ingredient } from '@/types/ingredients';
 
 import styles from './modal.module.css';
 
 export const IngredientsDetails = (): ReactElement => {
   const navigate = useNavigate();
-  const dispatch: AppDispatch = useDispatch();
   const location = useLocation();
 
   // Селекторы для данных и состояния загрузки
@@ -36,15 +34,9 @@ export const IngredientsDetails = (): ReactElement => {
     return pathParts[pathParts.length - 1];
   };
 
-  // Эффект для загрузки данных и поиска ингредиента
+  // Эффект для поиска ингредиента
   useEffect(() => {
     const ingredientId = getIngredientIdFromPath();
-
-    // Если данных нет и загрузка не идёт — запускаем загрузку
-    if (ingredientModal.length === 0 && !isLoading) {
-      dispatch(loadIngredients());
-      return;
-    }
 
     // Когда данные загружены, ищем нужный ингредиент
     if (ingredientModal.length > 0) {
@@ -55,7 +47,7 @@ export const IngredientsDetails = (): ReactElement => {
         setCurrentIngredient(null);
       }
     }
-  }, [ingredientModal, isLoading, location.pathname, dispatch]);
+  }, [ingredientModal, location.pathname]);
 
   const onClose = (): void => {
     navigate('/');

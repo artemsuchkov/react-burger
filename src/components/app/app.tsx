@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
+import { loadIngredients } from '@/services/ingredients/actions';
 import { checkUserAuth } from '@/services/user/actions';
 import { ProtectedRoute } from '@components/routing/protected-route.tsx';
 import {
@@ -73,6 +74,7 @@ export const App = (): ReactElement => {
 
   useEffect(() => {
     dispatch(checkUserAuth());
+    dispatch(loadIngredients());
   }, [dispatch]);
 
   return <RouterProvider router={router} />;
