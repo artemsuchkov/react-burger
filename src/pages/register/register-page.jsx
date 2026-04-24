@@ -3,7 +3,7 @@ import { useLayoutEffect, useRef, useState } from 'react';
 
 import { api } from '@/utils/api-user';
 import { AppHeader } from '@components/app-header/app-header.tsx';
-import { useFormWithValidation } from '@hooks/use-form-with-validation';
+import { useFormWithValidation } from '@hooks/use-form-with-validation.ts';
 
 import styles from './register.module.css';
 
