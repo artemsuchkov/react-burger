@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { checkUserAuth } from '@/services/user/actions';
-import { ProtectedRoute } from '@components/routing/protected-route.jsx';
+import { ProtectedRoute } from '@components/routing/protected-route.tsx';
 import {
   HomePage,
   NotFoundPage,
