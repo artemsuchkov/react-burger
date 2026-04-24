@@ -1,5 +1,6 @@
 import { Input, Button } from '@krgaa/react-developer-burger-ui-components';
 import { useLayoutEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { api, type AuthResponse, type RegisterFormData } from '@/utils/api-user.ts';
 import { AppHeader } from '@components/app-header/app-header.tsx';
@@ -97,7 +98,7 @@ export const RegisterPage = (): ReactElement => {
           {response && <span className="success">Вы успешно зарегистрировались!</span>}
         </form>
         <div className="mt-10 text text_type_main-default text_color_inactive">
-          Вы уже зарегистрированы? <a href="/login">Войти</a>
+          Вы уже зарегистрированы? <Link to="/login">Войти</Link>
         </div>
       </div>
     </>

@@ -7,7 +7,7 @@ import {
   type ReactElement,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { forgotPassword, type ForgotPasswordFormData } from '@/services/user/actions.ts';
 import { AppHeader } from '@components/app-header/app-header.tsx';
@@ -67,7 +67,7 @@ export const ForgotPasswordPage = (): ReactElement => {
           <div className="error text text_type_main-default">Ошибка: {error}</div>
         )}
         <div className="mt-10 text text_type_main-default text_color_inactive">
-          Вспомнили пароль? <a href="/login">Войти</a>
+          Вспомнили пароль? <Link to="/login">Войти</Link>
         </div>
       </div>
     </>

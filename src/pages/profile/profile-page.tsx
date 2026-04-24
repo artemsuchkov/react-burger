@@ -1,7 +1,7 @@
 import { Input, Button } from '@krgaa/react-developer-burger-ui-components';
 import { useRef, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 
 import {
   logout,
@@ -89,14 +89,14 @@ export const ProfilePage = (): ReactElement => {
         <div className={styles.menu}>
           <div className="text text_type_main-default">Профиль</div>
           <div className="text text_type_main-default">
-            <a className={styles.link} href="/feed">
+            <Link className={styles.link} to="/feed">
               История заказов
-            </a>
+            </Link>
           </div>
           <div className="text text_type_main-default">
-            <a className={styles.link} href="#" onClick={handleLogout}>
+            <button type="button" className={styles.link} onClick={handleLogout}>
               {isLoading ? 'Выход...' : 'Выйти'}
-            </a>
+            </button>
           </div>
         </div>
         <div>

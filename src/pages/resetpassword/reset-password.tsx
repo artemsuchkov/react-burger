@@ -1,7 +1,7 @@
 import { Input, Button } from '@krgaa/react-developer-burger-ui-components';
 import { useRef, useEffect, type FormEvent, type ReactElement } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { resetPassword, type ResetPasswordFormData } from '@/services/user/actions.ts';
 import {
@@ -80,7 +80,7 @@ export const ResetPasswordPage = (): ReactElement => {
           </div>
         </form>
         <div className="mt-10 text text_type_main-default text_color_inactive">
-          Вспомнили пароль? <a href="/login">Войти</a>
+          Вспомнили пароль? <Link to="/login">Войти</Link>
         </div>
       </div>
     </>
