@@ -6,7 +6,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { loadIngredients } from '@/services/ingredients/actions';
 import { IngredientsDetails as IngredientsDetailsComponent } from '@components/burger-ingredients/burger-ingredients-details';
 
-import { ModalOverlay } from './modal-overlay';
+import { ModalOverlay } from './modal-overlay.tsx';
 
 import styles from './modal.module.css';
 

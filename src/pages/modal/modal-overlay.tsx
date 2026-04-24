@@ -1,16 +1,20 @@
-import { useEffect } from 'react';
+import { useEffect, type ReactElement } from 'react';
 
 import styles from './modal.module.css';
 
-export const ModalOverlay = ({ onClose }) => {
+type ModalOverlayProps = {
+  onClose: () => void;
+};
+
+export const ModalOverlay = ({ onClose }: ModalOverlayProps): ReactElement => {
   useEffect(() => {
-    const handleEscape = (event) => {
+    const handleEscape = (event: KeyboardEvent): void => {
       if (event.key === 'Escape') {
         onClose();
       }
     };
     document.addEventListener('keydown', handleEscape);
-    return () => {
+    return (): void => {
       document.removeEventListener('keydown', handleEscape);
     };
   }, []);
