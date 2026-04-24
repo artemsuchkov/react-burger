@@ -4,7 +4,7 @@ import { HomePage } from './home/home.tsx';
 import { LoginPage } from './login/login-page.tsx';
 import { IngredientsDetails } from './modal/ingredients-details.tsx';
 import { NotFoundPage } from './not-found/not-found.tsx';
-import { ProfileOrderPage } from './profile/order/ProfileOrderPage.jsx';
+import { ProfileOrderPage } from './profile/order/ProfileOrderPage.tsx';
 import { ProfilePage } from './profile/profile-page.jsx';
 import { RegisterPage } from './register/register-page.jsx';
 import { ResetPasswordPage } from './resetpassword/reset-password.jsx';
