@@ -3,30 +3,35 @@ import { useLayoutEffect, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { login } from '@/services/user/actions.js';
-import { selectError, selectIsLoading, selectUser } from '@/services/user/slice.js';
+import { login, type LoginFormData } from '@/services/user/actions.ts';
+//import { selectError, selectIsLoading, selectUser } from '@/services/user/slice.ts';
 import { AppHeader } from '@components/app-header/app-header.tsx';
 import { useFormWithValidation } from '@hooks/use-form-with-validation.ts';
 
+import type { FormEvent, ReactElement } from 'react';
+
+import type { AppDispatch, RootState } from '@/services/store.ts';
+
 import styles from './login.module.css';
 
-export const LoginPage = () => {
-  const dispatch = useDispatch();
+export const LoginPage = (): ReactElement => {
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate(); // Инициализация навигации
-  const isLoading = useSelector(selectIsLoading);
-  const error = useSelector(selectError);
-  const isSuccess = useSelector(selectUser); // Статус успеха
 
-  const inputRef = useRef(null);
+  const isLoading = useSelector((state: RootState) => state.user.isLoading);
+  const error = useSelector((state: RootState) => state.user.error);
+  const isSuccess = useSelector((state: RootState) => state.user.forgotPasswordCode);
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const { values, handleChange, errors } = useFormWithValidation({
     email: '',
     password: '',
   });
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    dispatch(login(values));
+    dispatch(login(values as LoginFormData));
   };
 
   // Фокус на поле ввода при монтировании
@@ -71,7 +76,7 @@ export const LoginPage = () => {
             aria-invalid={!!errors.password}
           />
 
-          <Button size="medium" type="primary">
+          <Button size="medium" type="primary" htmlType="submit">
             {isLoading ? 'Вход...' : 'Войти'}
           </Button>
           {error && <span className="error">{`Ошибка: ${error}`}</span>}
@@ -86,35 +91,3 @@ export const LoginPage = () => {
     </>
   );
 };
-
-/* import { Input, Button } from '@krgaa/react-developer-burger-ui-components';
-
-import { AppHeader } from '@components/app-header/app-header';
-
-import styles from './login.module.css';
-
-export const LoginPage = () => {
-  return (
-    <>
-      <AppHeader />
-      <div className={styles.container}>
-        <h1 className="text text_type_main-medium">Вход</h1>
-        <form className={styles.form}>
-          <Input placeholder="Эл. адрес" size="default" type="email" />
-          <Input icon="ShowIcon" placeholder="Пароль" size="default" type="password" />
-          <div>
-            <Button size="medium" type="primary">
-              Войти
-            </Button>
-          </div>
-        </form>
-        <div className="mt-10 text text_type_main-default text_color_inactive">
-          Вы новый пользователь? <a href="/register">Зарегистрироваться</a>
-        </div>
-        <div className="text text_type_main-default text_color_inactive">
-          Забыли пароль? <a href="/forgot-password">Восстановить пароль</a>
-        </div>
-      </div>
-    </>
-  );
-}; */
