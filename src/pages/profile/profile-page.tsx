@@ -9,7 +9,6 @@ import {
   type UpdateUserFormData,
 } from '@/services/user/actions';
 //import { selectIsLoading, selectUser } from '@/services/user/slice';
-import { AppHeader } from '@components/app-header/app-header.tsx';
 
 import type { FormEvent, ReactElement } from 'react';
 
@@ -84,7 +83,6 @@ export const ProfilePage = (): ReactElement => {
 
   return (
     <>
-      <AppHeader />
       <div className={styles.container}>
         <div className={styles.menu}>
           <div className="text text_type_main-default">Профиль</div>

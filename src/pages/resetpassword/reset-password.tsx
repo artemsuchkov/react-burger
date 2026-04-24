@@ -8,7 +8,6 @@ import {
   resetForgotPasswordState,
   resetResetPasswordState,
 } from '@/services/user/slice.ts';
-import { AppHeader } from '@components/app-header/app-header.tsx';
 
 import type { AppDispatch, RootState } from '@/services/store.ts';
 
@@ -50,7 +49,6 @@ export const ResetPasswordPage = (): ReactElement => {
 
   return (
     <>
-      <AppHeader />
       <div className={styles.container}>
         <h1 className="text text_type_main-medium">Восстановление пароля</h1>
         <form onSubmit={handleSubmit} className={styles.form}>

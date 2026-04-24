@@ -3,7 +3,6 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { api, type AuthResponse, type RegisterFormData } from '@/utils/api-user.ts';
-import { AppHeader } from '@components/app-header/app-header.tsx';
 import { useFormWithValidation } from '@hooks/use-form-with-validation.ts';
 
 import type { ReactElement } from 'react';
@@ -49,7 +48,6 @@ export const RegisterPage = (): ReactElement => {
 
   return (
     <>
-      <AppHeader />
       <div className={styles.container}>
         <h1 className="text text_type_main-medium">Регистрация</h1>
         <form noValidate onSubmit={handleSubmit} className={styles.form}>

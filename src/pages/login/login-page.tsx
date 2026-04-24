@@ -5,7 +5,6 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { login, type LoginFormData } from '@/services/user/actions.ts';
 //import { selectError, selectIsLoading, selectUser } from '@/services/user/slice.ts';
-import { AppHeader } from '@components/app-header/app-header.tsx';
 import { useFormWithValidation } from '@hooks/use-form-with-validation.ts';
 
 import type { FormEvent, ReactElement } from 'react';
@@ -50,7 +49,6 @@ export const LoginPage = (): ReactElement => {
 
   return (
     <>
-      <AppHeader />
       <div className={styles.container}>
         <h1 className="text text_type_main-medium">Вход</h1>
         <form noValidate onSubmit={handleSubmit} className={styles.form}>

@@ -4,7 +4,6 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 
-import { AppHeader } from '@components/app-header/app-header.tsx';
 import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
 
@@ -21,7 +20,6 @@ export const HomePage = (): ReactElement => {
   if (isLoading) {
     return (
       <div className={styles.app}>
-        <AppHeader />
         <Preloader />
       </div>
     );
@@ -30,7 +28,6 @@ export const HomePage = (): ReactElement => {
   if (error) {
     return (
       <div className={styles.app}>
-        <AppHeader />
         <CloseIcon type="error" />
       </div>
     );
@@ -38,7 +35,6 @@ export const HomePage = (): ReactElement => {
 
   return (
     <div className={styles.app}>
-      <AppHeader />
       <h1 className={`${styles.title} text text_type_main-large mt-10 mb-5 pl-5`}>
         Соберите бургер
       </h1>

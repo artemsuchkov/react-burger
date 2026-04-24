@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { forgotPassword, type ForgotPasswordFormData } from '@/services/user/actions.ts';
-import { AppHeader } from '@components/app-header/app-header.tsx';
 
 import type { AppDispatch, RootState } from '@/services/store.ts';
 
@@ -46,7 +45,6 @@ export const ForgotPasswordPage = (): ReactElement => {
 
   return (
     <>
-      <AppHeader />
       <div className={styles.container}>
         <h1 className="text text_type_main-medium">Восстановление пароля</h1>
         <form onSubmit={handleSubmit} className={styles.form}>
