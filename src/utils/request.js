@@ -1,4 +1,4 @@
-import { defaultOptions, host } from '@utils/constants.js';
+import { defaultOptions, host } from '@utils/constants.ts';
 
 // Кастомный класс для обработки ошибок ответа сервера
 class ServerError extends Error {

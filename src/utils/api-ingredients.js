@@ -1,4 +1,4 @@
-import { host } from '@utils/constants';
+import { host } from '@utils/constants.ts';
 
 const getResponse = (res) => {
   if (res.ok) {

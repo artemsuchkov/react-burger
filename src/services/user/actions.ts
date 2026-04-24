@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { api } from '@/utils/api-user.js';
 import { isTokenExists } from '@utils/tokens.ts';
 
-import { setUser, setIsAuthChecked } from './slice.js';
+import { setUser, setIsAuthChecked } from './slice.ts';
 
 // Типы данных
 export type User = {
