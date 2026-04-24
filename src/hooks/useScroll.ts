@@ -1,14 +1,26 @@
 import { useEffect, useRef, useState } from 'react';
 
-export const useScroll = () => {
-  const bunField = useRef(null);
-  const sauceField = useRef(null);
-  const mainField = useRef(null);
-  const parentRef = useRef(null);
+export type UseScrollReturn = {
+  isTabActive: (tabName: 'bun' | 'sauce' | 'main') => boolean;
+  handleScroll: () => void;
+  parentRef: React.RefObject<HTMLElement | null>;
+  bunField: React.RefObject<HTMLHeadingElement | null>;
+  sauceField: React.RefObject<HTMLHeadingElement | null>;
+  mainField: React.RefObject<HTMLHeadingElement | null>;
+};
 
-  const [activeElement, setActiveElement] = useState(null);
+export const useScroll = (): UseScrollReturn => {
+  const bunField = useRef<HTMLHeadingElement>(null);
+  const sauceField = useRef<HTMLHeadingElement>(null);
+  const mainField = useRef<HTMLHeadingElement>(null);
+  const parentRef = useRef<HTMLElement>(null);
 
-  const checkScrollDistance = (elementRef, elementName) => {
+  const [activeElement, setActiveElement] = useState<string | null>(null);
+
+  const checkScrollDistance = (
+    elementRef: React.RefObject<HTMLElement | null>,
+    elementName: string
+  ): void => {
     if (!elementRef.current || !parentRef.current) return;
 
     const parentRect = parentRef.current.getBoundingClientRect();
@@ -21,7 +33,7 @@ export const useScroll = () => {
     }
   };
 
-  const handleScroll = (activeElement) => {
+  const handleScroll = (): void => {
     // Проверяем элементы в порядке приоритета: bun → sauce → main
     checkScrollDistance(bunField, 'bunField');
     if (activeElement !== 'bunField') {
@@ -41,7 +53,7 @@ export const useScroll = () => {
       container.addEventListener('scroll', handleScroll);
     }
 
-    return () => {
+    return (): void => {
       if (container) {
         container.removeEventListener('scroll', handleScroll);
       }
@@ -49,8 +61,8 @@ export const useScroll = () => {
   }, []);
 
   // Вспомогательная функция для проверки активности табов
-  const isTabActive = (tabName) => {
-    const fieldMap = {
+  const isTabActive = (tabName: 'bun' | 'sauce' | 'main'): boolean => {
+    const fieldMap: Record<'bun' | 'sauce' | 'main', string> = {
       bun: 'bunField',
       sauce: 'sauceField',
       main: 'mainField',

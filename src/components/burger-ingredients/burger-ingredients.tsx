@@ -1,7 +1,7 @@
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
 
-import { useScroll } from '@hooks/useScroll';
+import { useScroll } from '@hooks/useScroll.ts';
 
 import BurgerCard from '../burger-ingredients-card/burger-cards.tsx';
 
