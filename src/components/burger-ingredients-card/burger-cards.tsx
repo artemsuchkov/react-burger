@@ -8,6 +8,7 @@ import type { Ingredient } from '../../types/ingredients';
 type ConstructorData = {
   isConstructor: true;
   item: Ingredient;
+  id: string;
   bunPart?: 'top' | 'bottom';
 };
 

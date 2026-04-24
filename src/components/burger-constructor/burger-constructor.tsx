@@ -72,7 +72,9 @@ const DraggableIngredient = ({
       style={{ opacity: isDragging ? 0.5 : 1 }}
     >
       <DragIcon type="primary" />
-      <BurgerCard data={{ item: ingredient.item, isConstructor: true }} />
+      <BurgerCard
+        data={{ item: ingredient.item, id: ingredient.id, isConstructor: true }}
+      />
     </div>
   );
 };
@@ -102,7 +104,7 @@ export const BurgerConstructor = (): ReactElement => {
     if (ingredient.item.type === 'bun') {
       const existingBun = ingredientBurgers.find(({ item }) => item.type === 'bun');
       if (existingBun) {
-        dispatch(removeIngredientFromBurger(existingBun.item._id));
+        dispatch(removeIngredientFromBurger(existingBun.id));
       }
     }
 
@@ -202,7 +204,12 @@ export const BurgerConstructor = (): ReactElement => {
                 <div className={styles.type_item} key={`${ingredient.id}`}>
                   <div className={styles.empty_place}></div>
                   <BurgerCard
-                    data={{ item: ingredient.item, isConstructor: true, bunPart: 'top' }}
+                    data={{
+                      item: ingredient.item,
+                      id: ingredient.id,
+                      isConstructor: true,
+                      bunPart: 'top',
+                    }}
                   />
                 </div>
               ))
@@ -238,6 +245,7 @@ export const BurgerConstructor = (): ReactElement => {
                   <BurgerCard
                     data={{
                       item: ingredient.item,
+                      id: ingredient.id,
                       isConstructor: true,
                       bunPart: 'bottom',
                     }}

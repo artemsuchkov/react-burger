@@ -41,9 +41,9 @@ const ingredientsSlice = createSlice({
       state.ingredientBurgers.push(action.payload);
     },
     removeIngredientFromBurger: (state, action: PayloadAction<string>) => {
-      const itemIdToRemove = action.payload;
+      const idToRemove = action.payload;
       state.ingredientBurgers = state.ingredientBurgers.filter(
-        (ingredient) => ingredient.item._id !== itemIdToRemove
+        (ingredient) => ingredient.id !== idToRemove
       );
     },
     getBurgeringredientModal: (state, action: PayloadAction<Ingredient[]>) => {

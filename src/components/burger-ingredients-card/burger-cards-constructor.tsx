@@ -11,6 +11,7 @@ import type { Ingredient, BurgerIngredient } from '@/types/ingredients.ts';
 type BurgerCardConstructorProps = {
   data: {
     item: Ingredient;
+    id: string;
     bunPart?: 'top' | 'bottom';
   };
 };
@@ -35,7 +36,7 @@ function BurgerCardConstructor({ data }: BurgerCardConstructorProps): ReactEleme
   if (data.item.type === 'bun' && data.bunPart === 'top') {
     return (
       <ConstructorElement
-        handleClose={() => handleRemoveIngredient(data.item._id)}
+        handleClose={() => handleRemoveIngredient(data.id)}
         isLocked={isBunLocked}
         price={data.item.price}
         text={data.item.name + ' (верх)'}
@@ -48,7 +49,7 @@ function BurgerCardConstructor({ data }: BurgerCardConstructorProps): ReactEleme
   if (data.item.type === 'bun' && data.bunPart === 'bottom') {
     return (
       <ConstructorElement
-        handleClose={() => handleRemoveIngredient(data.item._id)}
+        handleClose={() => handleRemoveIngredient(data.id)}
         isLocked={isBunLocked}
         price={data.item.price}
         text={data.item.name + ' (низ)'}
@@ -60,7 +61,7 @@ function BurgerCardConstructor({ data }: BurgerCardConstructorProps): ReactEleme
 
   return (
     <ConstructorElement
-      handleClose={() => handleRemoveIngredient(data.item._id)}
+      handleClose={() => handleRemoveIngredient(data.id)}
       isLocked={isBunLocked}
       price={data.item.price}
       text={data.item.name}
