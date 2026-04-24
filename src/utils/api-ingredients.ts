@@ -1,23 +1,29 @@
 import { host } from '@utils/constants.ts';
 
-const getResponse = (res) => {
+import type {
+  BurgerIngredient,
+  IngredientsResponse,
+  OrderResponse,
+} from '@/types/ingredients';
+
+const getResponse = <T>(res: Response): Promise<T> => {
   if (res.ok) {
-    return res.json();
+    return res.json() as Promise<T>;
   }
   return Promise.reject(`Ошибка ${res.status}`);
 };
 
-const request = (url, options = {}) => {
-  return fetch(url, options).then(getResponse);
+const request = <T>(url: string, options: RequestInit = {}): Promise<T> => {
+  return fetch(url, options).then(getResponse<T>);
 };
 
-export const getIngredientsTasks = () => {
-  return request(host + '/api/ingredients');
+export const getIngredientsTasks = (): Promise<IngredientsResponse> => {
+  return request<IngredientsResponse>(host + '/api/ingredients');
 };
 
-export const getOrderIdTasks = (ingredients) => {
-  //console.log(ingredients);
-
+export const getOrderIdTasks = (
+  ingredients: BurgerIngredient[]
+): Promise<OrderResponse> => {
   // Находим булку (type: "bun")
   const bun = ingredients.find((ingredient) => ingredient.item.type === 'bun');
   if (!bun) {
@@ -34,7 +40,7 @@ export const getOrderIdTasks = (ingredients) => {
   // Формируем итоговый массив: булка + остальные ингредиенты + булка
   const finalIngredients = [bunId, ...otherIds, bunId];
 
-  return request(host + '/api/orders', {
+  return request<OrderResponse>(host + '/api/orders', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

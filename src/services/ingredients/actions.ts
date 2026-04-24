@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-import { getIngredientsTasks, getOrderIdTasks } from '@/utils/api-ingredients.js';
+import { getIngredientsTasks, getOrderIdTasks } from '@/utils/api-ingredients.ts';
 
 import type { RootState } from '@/services/store';
 
