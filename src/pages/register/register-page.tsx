@@ -1,27 +1,20 @@
 import { Input, Button } from '@krgaa/react-developer-burger-ui-components';
 import { useLayoutEffect, useRef, useState } from 'react';
 
-import { api } from '@/utils/api-user.ts';
+import { api, type AuthResponse, type RegisterFormData } from '@/utils/api-user.ts';
 import { AppHeader } from '@components/app-header/app-header.tsx';
 import { useFormWithValidation } from '@hooks/use-form-with-validation.ts';
 
+import type { ReactElement } from 'react';
+
 import styles from './register.module.css';
 
-/* export function Input({ inputRef, error = '', value = '', ...props }) {
-  return (
-    <label>
-      <input ref={inputRef} {...props} value={value} />
-      <span className="error">{error || ''}</span>
-    </label>
-  );
-} */
-
-export const RegisterPage = () => {
-  const inputRef = useRef(null);
+export const RegisterPage = (): ReactElement => {
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [response, setResponse] = useState(null);
+  const [error, setError] = useState<string | null>(null);
+  const [response, setResponse] = useState<AuthResponse | null>(null);
 
   useLayoutEffect(() => {
     if (inputRef.current) {
@@ -35,17 +28,16 @@ export const RegisterPage = () => {
     password: '',
   });
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
 
-    async function register() {
+    async function register(): Promise<void> {
       try {
         setIsLoading(true);
-        const response = await api.register(values);
+        const response = await api.register(values as RegisterFormData);
         setResponse(response);
-        console.log(response);
       } catch (error) {
-        setError(error.message);
+        setError((error as Error).message);
       } finally {
         setIsLoading(false);
       }
@@ -91,7 +83,12 @@ export const RegisterPage = () => {
             onChange={handleChange}
             aria-invalid={!!errors.password}
           />
-          <Button type="primary" disabled={isLoading || !isValid}>
+          <Button
+            size="medium"
+            type="primary"
+            htmlType="submit"
+            disabled={isLoading || !isValid}
+          >
             {isLoading ? 'Регистрация...' : 'Зарегистрироваться'}
           </Button>
           {error && (
@@ -106,33 +103,3 @@ export const RegisterPage = () => {
     </>
   );
 };
-
-/* import { Input, Button } from '@krgaa/react-developer-burger-ui-components';
-
-import { AppHeader } from '@components/app-header/app-header';
-
-import styles from './register.module.css';
-
-export const RegisterPage = () => {
-  return (
-    <>
-      <AppHeader />
-      <div className={styles.container}>
-        <h1 className="text text_type_main-medium">Регистрация</h1>
-        <form className={styles.form}>
-          <Input placeholder="Имя" size="default" type="text" />
-          <Input placeholder="Эл. адрес" size="default" type="email" />
-          <Input icon="ShowIcon" placeholder="Пароль" size="default" type="password" />
-          <div>
-            <Button size="medium" type="primary">
-              Зарегистрироваться
-            </Button>
-          </div>
-        </form>
-        <div className="mt-10 text text_type_main-default text_color_inactive">
-          Вы уже зарегистрированы? <a href="/login">Войти</a>
-        </div>
-      </div>
-    </>
-  );
-}; */
