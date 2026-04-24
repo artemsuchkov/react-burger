@@ -4,7 +4,7 @@ import {
   CurrencyIcon,
 } from '@krgaa/react-developer-burger-ui-components';
 import { nanoid } from 'nanoid';
-import { useState } from 'react';
+import { useState, useRef, type ReactElement } from 'react';
 import { useDrop, useDrag } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -18,22 +18,56 @@ import { OrderDetails } from '@components/order/order-details';
 import { useMemoizedIngredientCount } from '@hooks/useMemoizedIngredientCount.ts';
 import { useModal } from '@hooks/useModal.ts';
 
-import BurgerCard from '../burger-ingredients-card/burger-cards.jsx';
+import BurgerCard from '../burger-ingredients-card/burger-cards.tsx';
+
+import type { DragSourceMonitor, DropTargetMonitor } from 'react-dnd';
+
+import type { RootState, AppDispatch } from '@/services/store';
+import type { Ingredient, BurgerIngredient } from '@/types/ingredients';
 
 import styles from './burger-constructor.module.css';
 
-const DraggableIngredient = ({ ingredient, index }) => {
-  const [{ isDragging }, drag] = useDrag({
+type DraggableIngredientProps = {
+  ingredient: BurgerIngredient;
+  index: number;
+};
+
+type DragItem = {
+  item: Ingredient;
+};
+
+type InternalDragItem = {
+  ingredient: BurgerIngredient;
+  index: number;
+};
+
+type DropCollectedProps = {
+  isOver: boolean;
+  canDrop: boolean;
+};
+
+type DragCollectedProps = {
+  isDragging: boolean;
+};
+
+const DraggableIngredient = ({
+  ingredient,
+  index,
+}: DraggableIngredientProps): ReactElement => {
+  const [{ isDragging }, drag] = useDrag<InternalDragItem, unknown, DragCollectedProps>({
     type: 'BURGER_INGREDIENT',
     item: { ingredient, index },
-    collect: (monitor) => ({
+    collect: (monitor: DragSourceMonitor): DragCollectedProps => ({
       isDragging: monitor.isDragging(),
     }),
   });
 
+  const dragRef = useRef<HTMLDivElement>(null);
+  drag(dragRef);
+
   return (
     <div
-      ref={drag}
+      ref={dragRef}
       className={`${styles.type_item} ${isDragging ? styles.dragging : ''}`}
       style={{ opacity: isDragging ? 0.5 : 1 }}
     >
@@ -43,70 +77,70 @@ const DraggableIngredient = ({ ingredient, index }) => {
   );
 };
 
-export const BurgerConstructor = () => {
+export const BurgerConstructor = (): ReactElement => {
   const { isModalOpen, openModal, closeModal } = useModal();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [hoverIndex, setHoverIndex] = useState(-1);
 
   const { orderSumm } = useMemoizedIngredientCount();
 
-  const ingredientBurgers = useSelector((store) => store.ingredients.ingredientBurgers);
+  const ingredientBurgers = useSelector(
+    (store: RootState) => store.ingredients.ingredientBurgers
+  );
 
-  const handleDrop = (draggedItem) => {
+  const handleDrop = (draggedItem: DragItem): void => {
     if (!draggedItem || !draggedItem.item) {
       console.error('Ошибка структуры:', draggedItem);
       return;
     }
 
-    const ingredient = {
-      ...draggedItem,
-      item: {
-        ...draggedItem.item, // копируем все существующие поля item
-        id: nanoid(), // добавляем новый id
-      },
+    const ingredient: BurgerIngredient = {
+      id: nanoid(),
+      item: draggedItem.item,
     };
 
     if (ingredient.item.type === 'bun') {
       const existingBun = ingredientBurgers.find(({ item }) => item.type === 'bun');
       if (existingBun) {
-        dispatch(removeIngredientFromBurger(existingBun.item.id));
+        dispatch(removeIngredientFromBurger(existingBun.item._id));
       }
     }
 
     dispatch(addIngredientToBurger(ingredient));
   };
 
-  // Настраиваем useDrop с корректным типом
-  const [, dropTarget] = useDrop({
+  const dropTargetRef = useRef<HTMLDivElement>(null);
+  const [, dropTarget] = useDrop<DragItem, unknown, DropCollectedProps>({
     accept: 'BURGER_INGREDIENTS',
     drop: handleDrop,
-    collect: (monitor) => ({
+    collect: (monitor: DropTargetMonitor): DropCollectedProps => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
     }),
   });
+  dropTarget(dropTargetRef);
 
-  const [, dropTargetIngredient] = useDrop({
-    accept: 'BURGER_INGREDIENT', // тип для перемещения внутри
-    hover: (draggedItem, monitor) => {
+  const dropTargetIngredientRef = useRef<HTMLDivElement>(null);
+  const [, dropTargetIngredient] = useDrop<
+    InternalDragItem,
+    unknown,
+    DropCollectedProps
+  >({
+    accept: 'BURGER_INGREDIENT',
+    hover: (draggedItem: InternalDragItem, monitor: DropTargetMonitor) => {
       const { index: draggedIndex } = draggedItem;
       const clientOffset = monitor.getClientOffset();
       if (!clientOffset) return;
 
-      // Получаем DOM-элемент контейнера
       const hoverBoundingRect = document
         .querySelector(`.${styles.type_list}`)
         ?.getBoundingClientRect();
       if (!hoverBoundingRect) return;
 
-      // Вычисляем вертикальную позицию курсора относительно контейнера
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-
-      // Определяем высоту элемента (приблизительно)
-      const itemHeight = 80; // примерная высота элемента
+      const itemHeight = 80;
       const hoverIndex = Math.floor(hoverClientY / itemHeight);
 
-      // Фильтруем ингредиенты без булок
       const nonBunIngredients = ingredientBurgers.filter(
         (ingredient) => ingredient.item.type !== 'bun'
       );
@@ -117,32 +151,27 @@ export const BurgerConstructor = () => {
         setHoverIndex(clampedHoverIndex);
       }
     },
-    drop: (draggedItem, monitor) => {
+    drop: (draggedItem: InternalDragItem, monitor: DropTargetMonitor) => {
       const didDrop = monitor.didDrop();
       if (didDrop) return;
 
       const { ingredient: draggedIngredient, index: draggedIndex } = draggedItem;
-
-      // Используем hoverIndex как целевой индекс
       const targetIndex = hoverIndex !== -1 ? hoverIndex : draggedIndex;
 
-      // Фильтруем ингредиенты без булок для корректного индекса
       const nonBunIngredients = ingredientBurgers.filter(
         (ingredient) => ingredient.item.type !== 'bun'
       );
 
-      // Проверяем, что targetIndex в пределах
       if (targetIndex < 0 || targetIndex >= nonBunIngredients.length) {
         setHoverIndex(-1);
         return;
       }
 
-      // Находим реальный индекс в общем массиве
       const realTargetIndex = ingredientBurgers.findIndex(
-        (ingredient) => ingredient.item.id === nonBunIngredients[targetIndex]?.item.id
+        (ingredient) => ingredient.id === nonBunIngredients[targetIndex]?.id
       );
       const realDraggedIndex = ingredientBurgers.findIndex(
-        (item) => item.item.id === draggedIngredient.item.id
+        (item) => item.id === draggedIngredient.id
       );
 
       if (
@@ -155,21 +184,22 @@ export const BurgerConstructor = () => {
 
       setHoverIndex(-1);
     },
-    collect: (monitor) => ({
+    collect: (monitor: DropTargetMonitor): DropCollectedProps => ({
       isOver: monitor.isOver(),
       canDrop: monitor.canDrop(),
     }),
   });
+  dropTargetIngredient(dropTargetIngredientRef);
 
   return (
     <section>
-      <div className={`${styles.burger_constructor} custom-scroll`} ref={dropTarget}>
+      <div className={`${styles.burger_constructor} custom-scroll`} ref={dropTargetRef}>
         <div className={styles.type_item}>
           {ingredientBurgers.some((ingredient) => ingredient.item.type === 'bun') ? (
             ingredientBurgers
               .filter((ingredient) => ingredient.item.type === 'bun')
               .map((ingredient) => (
-                <div className={styles.type_item} key={`${ingredient.item.id}`}>
+                <div className={styles.type_item} key={`${ingredient.id}`}>
                   <div className={styles.empty_place}></div>
                   <BurgerCard
                     data={{ item: ingredient.item, isConstructor: true, bunPart: 'top' }}
@@ -180,13 +210,16 @@ export const BurgerConstructor = () => {
             <div className={styles.empty_bun_top}>Выберите булочку</div>
           )}
         </div>
-        <div className={`${styles.type_list} custom-scroll`} ref={dropTargetIngredient}>
+        <div
+          className={`${styles.type_list} custom-scroll`}
+          ref={dropTargetIngredientRef}
+        >
           {ingredientBurgers.some((ingredient) => ingredient.item.type !== 'bun') ? (
             ingredientBurgers
               .filter((ingredient) => ingredient.item.type !== 'bun')
               .map((ingredient, index) => (
                 <DraggableIngredient
-                  key={`${ingredient.item.id}`}
+                  key={`${ingredient.id}`}
                   ingredient={ingredient}
                   index={index}
                 />
@@ -200,7 +233,7 @@ export const BurgerConstructor = () => {
             ingredientBurgers
               .filter((ingredient) => ingredient.item.type === 'bun')
               .map((ingredient) => (
-                <div className={styles.type_item} key={`${ingredient.item.id}`}>
+                <div className={styles.type_item} key={`${ingredient.id}`}>
                   <div className={styles.empty_place}></div>
                   <BurgerCard
                     data={{
@@ -221,14 +254,14 @@ export const BurgerConstructor = () => {
           <div className={styles.totall_price}>{orderSumm}</div>
           <CurrencyIcon type="primary" />
 
-          <Button onClick={openModal} size="large" type="primary">
+          <Button onClick={openModal} size="large" type="primary" htmlType="button">
             Оформить заказ
           </Button>
         </div>
       )}
 
       {isModalOpen && (
-        <Modal onClose={closeModal}>
+        <Modal onClose={closeModal} title="Детали заказа">
           <OrderDetails />
         </Modal>
       )}

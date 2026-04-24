@@ -3,29 +3,31 @@ import { useSelector } from 'react-redux';
 
 import { useScroll } from '@hooks/useScroll';
 
-import BurgerCard from '../burger-ingredients-card/burger-cards.jsx';
+import BurgerCard from '../burger-ingredients-card/burger-cards.tsx';
+
+import type { ReactElement } from 'react';
+
+import type { RootState } from '@/services/store';
+import type { Ingredient } from '@/types/ingredients';
 
 import styles from './burger-ingredients.module.css';
 
-export const BurgerIngredients = () => {
+type UseScrollReturn = {
+  isTabActive: (tabName: 'bun' | 'sauce' | 'main') => boolean;
+  handleScroll: () => void;
+  parentRef: React.RefObject<HTMLElement>;
+  bunField: React.RefObject<HTMLHeadingElement>;
+  sauceField: React.RefObject<HTMLHeadingElement>;
+  mainField: React.RefObject<HTMLHeadingElement>;
+};
+
+export const BurgerIngredients = (): ReactElement => {
   const { isTabActive, handleScroll, parentRef, bunField, sauceField, mainField } =
-    useScroll();
+    useScroll() as unknown as UseScrollReturn;
 
-  const burgerIngredients = useSelector((store) => store.ingredients.ingredients);
-
-  //const ingredientBurgers = useSelector((store) => store.ingredients.ingredientBurgers);
-
-  //const dispatch = useDispatch();
-
-  /* const handleAddIngredient = (ingredient) => {
-    if (ingredient.item.type === 'bun') {
-      const hasBun = ingredientBurgers.some(({ item }) => item.type === 'bun');
-      if (hasBun) {
-        return;
-      }
-    }
-    dispatch(addIngredientToBurger(ingredient));
-  }; */
+  const burgerIngredients = useSelector(
+    (store: RootState) => store.ingredients.ingredients
+  );
 
   return (
     <section className={styles.burger_ingredients}>
@@ -72,7 +74,7 @@ export const BurgerIngredients = () => {
           </h2>
           <ul className={styles.type_list}>
             {burgerIngredients.map(
-              (item) =>
+              (item: Ingredient) =>
                 item.type === 'bun' && (
                   <li className={styles.type_item} key={item._id}>
                     <BurgerCard data={item} />
@@ -87,7 +89,7 @@ export const BurgerIngredients = () => {
           </h2>
           <ul className={styles.type_list}>
             {burgerIngredients.map(
-              (item) =>
+              (item: Ingredient) =>
                 item.type === 'sauce' && (
                   <li className={styles.type_item} key={item._id}>
                     <BurgerCard data={item} />
@@ -102,7 +104,7 @@ export const BurgerIngredients = () => {
           </h2>
           <ul className={styles.type_list}>
             {burgerIngredients.map(
-              (item) =>
+              (item: Ingredient) =>
                 item.type === 'main' && (
                   <li className={styles.type_item} key={item._id}>
                     <BurgerCard data={item} />
