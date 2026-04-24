@@ -1,6 +1,14 @@
+import type { ReactElement } from 'react';
+
+import type { Ingredient } from '@/types/ingredients';
+
 import styles from './burger-ingredients-details.module.css';
 
-export const IngredientsDetails = ({ data }) => {
+type IngredientsDetailsProps = {
+  data: Ingredient;
+};
+
+export const IngredientsDetails = ({ data }: IngredientsDetailsProps): ReactElement => {
   return (
     <>
       <img src={data.image} alt={data.name} />
