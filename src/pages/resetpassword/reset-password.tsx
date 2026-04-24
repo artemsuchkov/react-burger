@@ -1,6 +1,5 @@
 import { Input, Button } from '@krgaa/react-developer-burger-ui-components';
 import { useRef, useEffect, type FormEvent, type ReactElement } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { resetPassword, type ResetPasswordFormData } from '@/services/user/actions.ts';
@@ -8,22 +7,19 @@ import {
   resetForgotPasswordState,
   resetResetPasswordState,
 } from '@/services/user/slice.ts';
-
-import type { AppDispatch, RootState } from '@/services/store.ts';
+import { useAppDispatch, useAppSelector } from '@hooks/hook.ts';
 
 import styles from './resetpassword.module.css';
 
 export const ResetPasswordPage = (): ReactElement => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const newPassRef = useRef<HTMLInputElement>(null);
   const tokenRef = useRef<HTMLInputElement>(null);
 
-  const isSuccess = useSelector((state: RootState) => state.user.resetPasswordCode);
-  const isForgotPassword = useSelector(
-    (state: RootState) => state.user.forgotPasswordCode
-  );
+  const isSuccess = useAppSelector((state) => state.user.resetPasswordCode);
+  const isForgotPassword = useAppSelector((state) => state.user.forgotPasswordCode);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();

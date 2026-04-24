@@ -1,11 +1,10 @@
 import { ConstructorElement } from '@krgaa/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { removeIngredientFromBurger } from '@/services/ingredients/slice.ts';
+import { useAppDispatch, useAppSelector } from '@hooks/hook.ts';
 
 import type { ReactElement } from 'react';
 
-import type { RootState, AppDispatch } from '@/services/store';
 import type { Ingredient, BurgerIngredient } from '@/types/ingredients.ts';
 
 type BurgerCardConstructorProps = {
@@ -17,14 +16,14 @@ type BurgerCardConstructorProps = {
 };
 
 function BurgerCardConstructor({ data }: BurgerCardConstructorProps): ReactElement {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   const handleRemoveIngredient = (id: string): void => {
     dispatch(removeIngredientFromBurger(id));
   };
 
-  const ingredientBurgers = useSelector(
-    (store: RootState) => store.ingredients.ingredientBurgers
+  const ingredientBurgers = useAppSelector(
+    (store) => store.ingredients.ingredientBurgers
   );
 
   const hasNonBunIngredients = ingredientBurgers.some(

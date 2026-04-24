@@ -6,23 +6,21 @@ import {
   type ChangeEvent,
   type ReactElement,
 } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { forgotPassword, type ForgotPasswordFormData } from '@/services/user/actions.ts';
-
-import type { AppDispatch, RootState } from '@/services/store.ts';
+import { useAppDispatch, useAppSelector } from '@hooks/hook.ts';
 
 import styles from './forgotpassword.module.css';
 
 export const ForgotPasswordPage = (): ReactElement => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
 
-  const isLoading = useSelector((state: RootState) => state.user.isLoading);
-  const error = useSelector((state: RootState) => state.user.error);
-  const isSuccess = useSelector((state: RootState) => state.user.forgotPasswordCode);
+  const isLoading = useAppSelector((state) => state.user.isLoading);
+  const error = useAppSelector((state) => state.user.error);
+  const isSuccess = useAppSelector((state) => state.user.forgotPasswordCode);
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>): void => {
     setEmail(event.target.value);

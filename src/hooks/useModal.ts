@@ -1,12 +1,11 @@
 import { useState, useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { getOrderId } from '@/services/ingredients/actions';
 import { getBurgeringredientModal } from '@/services/ingredients/slice.ts';
 import { selectUser } from '@/services/user/slice.ts';
+import { useAppDispatch, useAppSelector } from '@hooks/hook.ts';
 
-import type { AppDispatch } from '@/services/store';
 import type { Ingredient } from '@/types/ingredients';
 
 type UseModalReturn = {
@@ -18,10 +17,10 @@ type UseModalReturn = {
 
 // кастомные хуки всегда должны начинаться с глагола `use`, чтобы реакт понял, что это хук. Он следит за их вызовами
 export const useModal = (data: Ingredient | Ingredient[] = []): UseModalReturn => {
-  const user = useSelector(selectUser);
+  const user = useAppSelector(selectUser);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   // `useCallback` нужен для того, чтобы зафиксировать ссылку на функцию. Таким образом уменьшится кол-во перерисовок компонента, куда будет передана эта функция

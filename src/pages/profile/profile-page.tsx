@@ -1,6 +1,5 @@
 import { Input, Button } from '@krgaa/react-developer-burger-ui-components';
 import { useRef, useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, Outlet } from 'react-router-dom';
 
 import {
@@ -8,19 +7,17 @@ import {
   updateUserData,
   type UpdateUserFormData,
 } from '@/services/user/actions';
-//import { selectIsLoading, selectUser } from '@/services/user/slice';
+import { useAppDispatch, useAppSelector } from '@hooks/hook.ts';
 
 import type { FormEvent, ReactElement } from 'react';
-
-import type { AppDispatch, RootState } from '@/services/store.ts';
 
 import styles from './profilepage.module.css';
 
 export const ProfilePage = (): ReactElement => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
-  const isLoading = useSelector((state: RootState) => state.user.isLoading);
-  const userData = useSelector((state: RootState) => state.user.user);
+  const isLoading = useAppSelector((state) => state.user.isLoading);
+  const userData = useAppSelector((state) => state.user.user);
 
   // Рефы для доступа к значениям полей
   const nameRef = useRef<HTMLInputElement>(null);

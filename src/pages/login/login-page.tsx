@@ -1,25 +1,22 @@
 import { Input as InputF, Button } from '@krgaa/react-developer-burger-ui-components';
 import { useLayoutEffect, useRef, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { login, type LoginFormData } from '@/services/user/actions.ts';
-//import { selectError, selectIsLoading, selectUser } from '@/services/user/slice.ts';
+import { useAppDispatch, useAppSelector } from '@hooks/hook.ts';
 import { useFormWithValidation } from '@hooks/use-form-with-validation.ts';
 
 import type { FormEvent, ReactElement } from 'react';
 
-import type { AppDispatch, RootState } from '@/services/store.ts';
-
 import styles from './login.module.css';
 
 export const LoginPage = (): ReactElement => {
-  const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate(); // Инициализация навигации
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const isLoading = useSelector((state: RootState) => state.user.isLoading);
-  const error = useSelector((state: RootState) => state.user.error);
-  const isSuccess = useSelector((state: RootState) => state.user.forgotPasswordCode);
+  const isLoading = useAppSelector((state) => state.user.isLoading);
+  const error = useAppSelector((state) => state.user.error);
+  const isSuccess = useAppSelector((state) => state.user.forgotPasswordCode);
 
   const inputRef = useRef<HTMLInputElement>(null);
 

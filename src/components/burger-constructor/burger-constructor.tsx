@@ -6,7 +6,6 @@ import {
 import { nanoid } from 'nanoid';
 import { useState, useRef, type ReactElement } from 'react';
 import { useDrop, useDrag } from 'react-dnd';
-import { useDispatch, useSelector } from 'react-redux';
 
 import {
   addIngredientToBurger,
@@ -15,6 +14,7 @@ import {
 } from '@/services/ingredients/slice.ts';
 import { Modal } from '@components/modal-window/modal.tsx';
 import { OrderDetails } from '@components/order/order-details.tsx';
+import { useAppDispatch, useAppSelector } from '@hooks/hook.ts';
 import { useMemoizedIngredientCount } from '@hooks/useMemoizedIngredientCount.ts';
 import { useModal } from '@hooks/useModal.ts';
 
@@ -22,7 +22,6 @@ import BurgerCard from '../burger-ingredients-card/burger-cards.tsx';
 
 import type { DragSourceMonitor, DropTargetMonitor } from 'react-dnd';
 
-import type { RootState, AppDispatch } from '@/services/store';
 import type { Ingredient, BurgerIngredient } from '@/types/ingredients';
 
 import styles from './burger-constructor.module.css';
@@ -81,13 +80,13 @@ const DraggableIngredient = ({
 
 export const BurgerConstructor = (): ReactElement => {
   const { isModalOpen, openModal, closeModal } = useModal();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const [hoverIndex, setHoverIndex] = useState(-1);
 
   const { orderSumm } = useMemoizedIngredientCount();
 
-  const ingredientBurgers = useSelector(
-    (store: RootState) => store.ingredients.ingredientBurgers
+  const ingredientBurgers = useAppSelector(
+    (store) => store.ingredients.ingredientBurgers
   );
 
   const handleDrop = (draggedItem: DragItem): void => {
