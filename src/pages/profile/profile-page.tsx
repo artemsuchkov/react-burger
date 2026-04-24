@@ -45,6 +45,15 @@ export const ProfilePage = (): ReactElement => {
     }
   }, [userData]);
 
+  // Синхронизируем значения полей с userData, если нет изменений
+  useEffect(() => {
+    if (userData && !hasChanges) {
+      if (nameRef.current) nameRef.current.value = userData.name || '';
+      if (emailRef.current) emailRef.current.value = userData.email || '';
+      // Пароль не синхронизируем, т.к. он не хранится на сервере
+    }
+  }, [userData, hasChanges]);
+
   const handleLogout = (): void => {
     dispatch(logout());
   };
@@ -92,9 +101,9 @@ export const ProfilePage = (): ReactElement => {
             </Link>
           </div>
           <div className="text text_type_main-default">
-            <button type="button" className={styles.link} onClick={handleLogout}>
+            <Link className={styles.link} to="#" onClick={handleLogout}>
               {isLoading ? 'Выход...' : 'Выйти'}
-            </button>
+            </Link>
           </div>
         </div>
         <div>

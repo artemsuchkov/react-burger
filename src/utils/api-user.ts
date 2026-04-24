@@ -78,10 +78,12 @@ export async function login(formData: LoginFormData): Promise<AuthResponse> {
 }
 
 export async function updateUserData(formData: UserFormData): Promise<UserResponse> {
+  console.log(Cookies.get('accessToken'));
   return await request('auth/user', {
     method: 'PATCH',
     headers: {
       authorization: Cookies.get('accessToken') || '',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(formData),
   });

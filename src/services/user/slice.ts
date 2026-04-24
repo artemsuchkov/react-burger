@@ -57,8 +57,9 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(updateUserData.fulfilled, (state) => {
+      .addCase(updateUserData.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.user = action.payload.user;
         state.error = null;
       })
       .addCase(updateUserData.rejected, (state, action) => {
