@@ -35,7 +35,9 @@ export const AppHeader = (): ReactElement => {
           </NavLink>
         </div>
         <div className={styles.logo}>
-          <Logo />
+          <NavLink to="/">
+            <Logo />
+          </NavLink>
         </div>
         <NavLink
           to="/profile"
