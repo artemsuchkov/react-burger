@@ -3,21 +3,30 @@ import { useRef, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 
-import { logout, updateUserData } from '@/services/user/actions.js';
-import { selectIsLoading, selectUser } from '@/services/user/slice.js';
+import {
+  logout,
+  updateUserData,
+  type UpdateUserFormData,
+} from '@/services/user/actions';
+//import { selectIsLoading, selectUser } from '@/services/user/slice';
 import { AppHeader } from '@components/app-header/app-header.tsx';
+
+import type { FormEvent, ReactElement } from 'react';
+
+import type { AppDispatch, RootState } from '@/services/store.ts';
 
 import styles from './profilepage.module.css';
 
-export const ProfilePage = () => {
-  const dispatch = useDispatch();
-  const isLoading = useSelector(selectIsLoading);
-  const userData = useSelector(selectUser);
+export const ProfilePage = (): ReactElement => {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const isLoading = useSelector((state: RootState) => state.user.isLoading);
+  const userData = useSelector((state: RootState) => state.user.user);
 
   // Рефы для доступа к значениям полей
-  const nameRef = useRef(null);
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   // Состояние для отслеживания изменений
   const [hasChanges, setHasChanges] = useState(false);
@@ -37,12 +46,12 @@ export const ProfilePage = () => {
     }
   }, [userData]);
 
-  const handleLogout = () => {
+  const handleLogout = (): void => {
     dispatch(logout());
   };
 
   // Проверяем, изменились ли данные
-  const checkForChanges = () => {
+  const checkForChanges = (): void => {
     const currentName = nameRef.current?.value || '';
     const currentEmail = emailRef.current?.value || '';
 
@@ -54,9 +63,9 @@ export const ProfilePage = () => {
     setHasChanges(isNameChanged || isEmailChanged || isPasswordChanged);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    const data = {
+    const data: UpdateUserFormData = {
       name: nameRef.current?.value || '',
       email: emailRef.current?.value || '',
       password: passwordRef.current?.value || '',
@@ -66,7 +75,7 @@ export const ProfilePage = () => {
   };
 
   // Обработчик отмены — восстанавливаем исходные значения
-  const handleCancel = () => {
+  const handleCancel = (): void => {
     if (nameRef.current) nameRef.current.value = originalData.name;
     if (emailRef.current) emailRef.current.value = originalData.email;
     if (passwordRef.current) passwordRef.current.value = '';
@@ -92,6 +101,7 @@ export const ProfilePage = () => {
         </div>
         <div>
           <form onSubmit={handleSubmit} className={styles.form}>
+            {/* @ts-expect-error - defaultValue используется вместо value */}
             <Input
               ref={nameRef}
               placeholder="Имя"
@@ -100,6 +110,7 @@ export const ProfilePage = () => {
               defaultValue={userData?.name}
               onChange={checkForChanges}
             />
+            {/* @ts-expect-error - defaultValue используется вместо value */}
             <Input
               ref={emailRef}
               placeholder="Эл. адрес"
@@ -108,6 +119,7 @@ export const ProfilePage = () => {
               defaultValue={userData?.email}
               onChange={checkForChanges}
             />
+            {/* @ts-expect-error - defaultValue используется вместо value */}
             <Input
               ref={passwordRef}
               icon="ShowIcon"
@@ -123,7 +135,12 @@ export const ProfilePage = () => {
                 <Button size="medium" type="primary" htmlType="submit">
                   {isLoading ? 'Сохраняем...' : 'Сохранить'}
                 </Button>
-                <Button size="medium" type="secondary" onClick={handleCancel}>
+                <Button
+                  size="medium"
+                  type="secondary"
+                  htmlType="button"
+                  onClick={handleCancel}
+                >
                   Отмена
                 </Button>
               </div>
