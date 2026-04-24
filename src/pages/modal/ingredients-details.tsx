@@ -8,23 +8,30 @@ import { IngredientsDetails as IngredientsDetailsComponent } from '@components/b
 
 import { ModalOverlay } from './modal-overlay.tsx';
 
+import type { ReactElement } from 'react';
+
+import type { RootState, AppDispatch } from '@/services/store';
+import type { Ingredient } from '@/types/ingredients';
+
 import styles from './modal.module.css';
 
-export const IngredientsDetails = () => {
+export const IngredientsDetails = (): ReactElement => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const location = useLocation();
 
   // Селекторы для данных и состояния загрузки
-  const ingredientModal = useSelector((store) => store.ingredients.ingredients);
-  const isLoading = useSelector((store) => store.ingredients.loading); // флаг загрузки
-  const error = useSelector((store) => store.ingredients.error); // ошибка загрузки
+  const ingredientModal = useSelector(
+    (store: RootState) => store.ingredients.ingredients
+  );
+  const isLoading = useSelector((store: RootState) => store.ingredients.isLoading); // флаг загрузки
+  const error = useSelector((store: RootState) => store.ingredients.error); // ошибка загрузки
 
   // Состояние для текущего ингредиента
-  const [currentIngredient, setCurrentIngredient] = useState(null);
+  const [currentIngredient, setCurrentIngredient] = useState<Ingredient | null>(null);
 
   // Извлекаем ID из пути
-  const getIngredientIdFromPath = () => {
+  const getIngredientIdFromPath = (): string => {
     const pathParts = location.pathname.split('/');
     return pathParts[pathParts.length - 1];
   };
@@ -50,7 +57,7 @@ export const IngredientsDetails = () => {
     }
   }, [ingredientModal, isLoading, location.pathname, dispatch]);
 
-  const onClose = () => {
+  const onClose = (): void => {
     navigate('/');
   };
 
