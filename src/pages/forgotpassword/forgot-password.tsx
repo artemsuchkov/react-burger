@@ -1,30 +1,39 @@
 import { Input, Button } from '@krgaa/react-developer-burger-ui-components';
-import { useRef, useEffect } from 'react';
+import {
+  useState,
+  useEffect,
+  type FormEvent,
+  type ChangeEvent,
+  type ReactElement,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { forgotPassword } from '@/services/user/actions.js';
-import {
-  selectError,
-  selectIsLoading,
-  selectForgotPassword,
-} from '@/services/user/slice.js';
+import { forgotPassword, type ForgotPasswordFormData } from '@/services/user/actions.ts';
 import { AppHeader } from '@components/app-header/app-header.tsx';
+
+import type { AppDispatch, RootState } from '@/services/store.ts';
 
 import styles from './forgotpassword.module.css';
 
-export const ForgotPasswordPage = () => {
-  const dispatch = useDispatch();
+export const ForgotPasswordPage = (): ReactElement => {
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const emailRef = useRef(null);
+  const [email, setEmail] = useState('');
 
-  const isLoading = useSelector(selectIsLoading);
-  const error = useSelector(selectError);
-  const isSuccess = useSelector(selectForgotPassword);
+  const isLoading = useSelector((state: RootState) => state.user.isLoading);
+  const error = useSelector((state: RootState) => state.user.error);
+  const isSuccess = useSelector((state: RootState) => state.user.forgotPasswordCode);
 
-  const handleSubmit = (event) => {
+  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    setEmail(event.target.value);
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    const data = { email: emailRef.current?.value || '' };
+    const data: ForgotPasswordFormData = {
+      email,
+    };
     dispatch(forgotPassword(data));
   };
 
@@ -41,9 +50,15 @@ export const ForgotPasswordPage = () => {
       <div className={styles.container}>
         <h1 className="text text_type_main-medium">Восстановление пароля</h1>
         <form onSubmit={handleSubmit} className={styles.form}>
-          <Input ref={emailRef} placeholder="Эл. адрес" size="default" type="email" />
+          <Input
+            placeholder="Эл. адрес"
+            size="default"
+            type="email"
+            value={email}
+            onChange={handleEmailChange}
+          />
           <div>
-            <Button size="medium" type="primary" disabled={isLoading}>
+            <Button size="medium" type="primary" htmlType="submit" disabled={isLoading}>
               {isLoading ? 'Отправка...' : 'Отправить'}
             </Button>
           </div>

@@ -1,5 +1,5 @@
 import { FeedPage } from './feed/feed-page.tsx';
-import { ForgotPasswordPage } from './forgotpassword/forgot-password.jsx';
+import { ForgotPasswordPage } from './forgotpassword/forgot-password.tsx';
 import { HomePage } from './home/home.tsx';
 import { LoginPage } from './login/login-page.jsx';
 import { IngredientsDetails } from './modal/ingredients-details.jsx';
