@@ -15,7 +15,7 @@ import {
   ProfilePage,
   ProfileOrderPage,
   FeedPage,
-} from '@pages/index.js';
+} from '@pages/index.ts';
 
 import type { ReactElement } from 'react';
 

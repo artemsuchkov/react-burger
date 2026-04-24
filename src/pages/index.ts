@@ -1,6 +1,6 @@
-import { FeedPage } from './feed/feed-page.jsx';
+import { FeedPage } from './feed/feed-page.tsx';
 import { ForgotPasswordPage } from './forgotpassword/forgot-password.jsx';
-import { HomePage } from './home/home.jsx';
+import { HomePage } from './home/home.tsx';
 import { LoginPage } from './login/login-page.jsx';
 import { IngredientsDetails } from './modal/ingredients-details.jsx';
 import { NotFoundPage } from './not-found/not-found.jsx';

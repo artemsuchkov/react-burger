@@ -1,5 +1,5 @@
 import { Preloader, CloseIcon } from '@krgaa/react-developer-burger-ui-components';
-import { useEffect } from 'react';
+import { useEffect, type ReactElement } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,13 +10,15 @@ import { AppHeader } from '@components/app-header/app-header.tsx';
 import { BurgerConstructor } from '@components/burger-constructor/burger-constructor';
 import { BurgerIngredients } from '@components/burger-ingredients/burger-ingredients';
 
+import type { RootState, AppDispatch } from '@/services/store';
+
 import styles from './home.module.css';
 
-export const HomePage = () => {
-  const isLoading = useSelector((store) => store.ingredients.isLoading);
-  const error = useSelector((store) => store.ingredients.error);
+export const HomePage = (): ReactElement => {
+  const isLoading = useSelector((store: RootState) => store.ingredients.isLoading);
+  const error = useSelector((store: RootState) => store.ingredients.error);
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
     dispatch(loadIngredients());
   }, []);
