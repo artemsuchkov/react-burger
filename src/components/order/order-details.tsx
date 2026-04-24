@@ -5,12 +5,19 @@ import {
 } from '@krgaa/react-developer-burger-ui-components';
 import { useSelector } from 'react-redux';
 
+import type { ReactElement } from 'react';
+
+import type { RootState } from '@/services/store';
+//import type { OrderResponse } from '@/services/ingredients/actions';
+
 import styles from './order.module.css';
 
-export const OrderDetails = () => {
-  const isOrderLoading = useSelector((store) => store.ingredients.isOrderLoading);
-  const errorOrder = useSelector((store) => store.ingredients.errorOrder);
-  const orderAnswer = useSelector((store) => store.ingredients.orderAnswer);
+export const OrderDetails = (): ReactElement => {
+  const isOrderLoading = useSelector(
+    (store: RootState) => store.ingredients.isOrderLoading
+  );
+  const errorOrder = useSelector((store: RootState) => store.ingredients.errorOrder);
+  const orderAnswer = useSelector((store: RootState) => store.ingredients.orderAnswer);
 
   if (isOrderLoading) {
     return <Preloader />;
@@ -18,6 +25,10 @@ export const OrderDetails = () => {
 
   if (errorOrder) {
     return <CloseIcon type="error" />;
+  }
+
+  if (!orderAnswer) {
+    return <Preloader />;
   }
 
   return (

@@ -14,7 +14,7 @@ import {
   reorderIngredients,
 } from '@/services/ingredients/slice.ts';
 import { Modal } from '@components/modal-window/modal.tsx';
-import { OrderDetails } from '@components/order/order-details';
+import { OrderDetails } from '@components/order/order-details.tsx';
 import { useMemoizedIngredientCount } from '@hooks/useMemoizedIngredientCount.ts';
 import { useModal } from '@hooks/useModal.ts';
 
