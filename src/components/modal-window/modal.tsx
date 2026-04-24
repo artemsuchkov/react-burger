@@ -1,19 +1,27 @@
 import { CloseIcon } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect } from 'react';
 
-import { ModalOverlay } from '@components/modal-window/modal-overlay';
+import { ModalOverlay } from '@components/modal-window/modal-overlay.tsx';
+
+import type { ReactElement, ReactNode } from 'react';
 
 import styles from './modal.module.css';
 
-export const Modal = ({ title, children, onClose }) => {
-  useEffect(() => {
-    const handleEscape = (event) => {
+type ModalProps = {
+  title?: string;
+  children: ReactNode;
+  onClose: () => void;
+};
+
+export const Modal = ({ title, children, onClose }: ModalProps): ReactElement => {
+  useEffect((): (() => void) => {
+    const handleEscape = (event: KeyboardEvent): void => {
       if (event.key === 'Escape') {
         onClose();
       }
     };
     document.addEventListener('keydown', handleEscape);
-    return () => {
+    return (): void => {
       document.removeEventListener('keydown', handleEscape);
     };
   }, []);

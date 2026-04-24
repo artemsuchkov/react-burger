@@ -13,7 +13,7 @@ import {
   removeIngredientFromBurger,
   reorderIngredients,
 } from '@/services/ingredients/slice.ts';
-import { Modal } from '@components/modal-window/modal';
+import { Modal } from '@components/modal-window/modal.tsx';
 import { OrderDetails } from '@components/order/order-details';
 import { useMemoizedIngredientCount } from '@hooks/useMemoizedIngredientCount.ts';
 import { useModal } from '@hooks/useModal.ts';

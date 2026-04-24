@@ -2,7 +2,7 @@ import { CurrencyIcon, Counter } from '@krgaa/react-developer-burger-ui-componen
 import { useDrag } from 'react-dnd';
 
 import { IngredientsDetails } from '@components/burger-ingredients/burger-ingredients-details.tsx';
-import { Modal } from '@components/modal-window/modal';
+import { Modal } from '@components/modal-window/modal.tsx';
 import { useMemoizedIngredientCount } from '@hooks/useMemoizedIngredientCount.ts';
 
 import { useModal } from '../../hooks/useModal';
