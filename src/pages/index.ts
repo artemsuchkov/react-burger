@@ -7,7 +7,7 @@ import { NotFoundPage } from './not-found/not-found.tsx';
 import { ProfileOrderPage } from './profile/order/ProfileOrderPage.tsx';
 import { ProfilePage } from './profile/profile-page.tsx';
 import { RegisterPage } from './register/register-page.tsx';
-import { ResetPasswordPage } from './resetpassword/reset-password.jsx';
+import { ResetPasswordPage } from './resetpassword/reset-password.tsx';
 
 export {
   HomePage,

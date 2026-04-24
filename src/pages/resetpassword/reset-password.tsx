@@ -1,37 +1,41 @@
 import { Input, Button } from '@krgaa/react-developer-burger-ui-components';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, type FormEvent, type ReactElement } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { resetPassword } from '@/services/user/actions.js';
+import { resetPassword, type ResetPasswordFormData } from '@/services/user/actions.ts';
 import {
-  selectResetPassword,
-  selectForgotPassword,
   resetForgotPasswordState,
   resetResetPasswordState,
-} from '@/services/user/slice.js';
+} from '@/services/user/slice.ts';
 import { AppHeader } from '@components/app-header/app-header.tsx';
+
+import type { AppDispatch, RootState } from '@/services/store.ts';
 
 import styles from './resetpassword.module.css';
 
-export const ResetPasswordPage = () => {
-  const dispatch = useDispatch();
+export const ResetPasswordPage = (): ReactElement => {
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const newPassRef = useRef(null);
-  const tokenRef = useRef(null);
+  const newPassRef = useRef<HTMLInputElement>(null);
+  const tokenRef = useRef<HTMLInputElement>(null);
 
-  const isSuccess = useSelector(selectResetPassword);
-  const isForgotPassword = useSelector(selectForgotPassword);
+  const isSuccess = useSelector((state: RootState) => state.user.resetPasswordCode);
+  const isForgotPassword = useSelector(
+    (state: RootState) => state.user.forgotPasswordCode
+  );
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    const data = {
+    const data: ResetPasswordFormData = {
       password: newPassRef.current?.value || '',
       token: tokenRef.current?.value || '',
     };
     dispatch(resetPassword(data));
   };
+
+  // Пустая функция для onChange
 
   useEffect(() => {
     if (isSuccess) {
@@ -42,7 +46,7 @@ export const ResetPasswordPage = () => {
     if (!isForgotPassword) {
       navigate('/forgot-password');
     }
-  }, [isSuccess, isForgotPassword]);
+  }, [isSuccess, isForgotPassword, dispatch, navigate]);
 
   return (
     <>
@@ -50,21 +54,27 @@ export const ResetPasswordPage = () => {
       <div className={styles.container}>
         <h1 className="text text_type_main-medium">Восстановление пароля</h1>
         <form onSubmit={handleSubmit} className={styles.form}>
+          {/* @ts-expect-error - defaultValue используется вместо value */}
           <Input
             ref={newPassRef}
             icon="ShowIcon"
             placeholder="Введите новый пароль"
             size="default"
             type="password"
+            defaultValue=""
+            name="password"
           />
+          {/* @ts-expect-error - defaultValue используется вместо value */}
           <Input
             ref={tokenRef}
             placeholder="Введите код из письма"
             size="default"
             type="text"
+            defaultValue=""
+            name="token"
           />
           <div>
-            <Button size="medium" type="primary">
+            <Button size="medium" type="primary" htmlType="submit">
               Сохранить
             </Button>
           </div>
