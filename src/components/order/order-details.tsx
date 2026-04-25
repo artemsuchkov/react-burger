@@ -3,21 +3,17 @@ import {
   CloseIcon,
   CheckMarkIcon,
 } from '@krgaa/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
+
+import { useAppSelector } from '@hooks/hook.ts';
 
 import type { ReactElement } from 'react';
-
-import type { RootState } from '@/services/store';
-//import type { OrderResponse } from '@/services/ingredients/actions';
 
 import styles from './order.module.css';
 
 export const OrderDetails = (): ReactElement => {
-  const isOrderLoading = useSelector(
-    (store: RootState) => store.ingredients.isOrderLoading
-  );
-  const errorOrder = useSelector((store: RootState) => store.ingredients.errorOrder);
-  const orderAnswer = useSelector((store: RootState) => store.ingredients.orderAnswer);
+  const isOrderLoading = useAppSelector((store) => store.ingredients.isOrderLoading);
+  const errorOrder = useAppSelector((store) => store.ingredients.errorOrder);
+  const orderAnswer = useAppSelector((store) => store.ingredients.orderAnswer);
 
   if (isOrderLoading) {
     return <Preloader />;

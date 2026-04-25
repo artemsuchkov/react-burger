@@ -1,15 +1,14 @@
 import { Preloader, CloseIcon } from '@krgaa/react-developer-burger-ui-components';
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 import { IngredientsDetails as IngredientsDetailsComponent } from '@components/burger-ingredients/burger-ingredients-details';
+import { useAppSelector } from '@hooks/hook.ts';
 
 import { ModalOverlay } from './modal-overlay.tsx';
 
 import type { ReactElement } from 'react';
 
-import type { RootState } from '@/services/store';
 import type { Ingredient } from '@/types/ingredients';
 
 import styles from './modal.module.css';
@@ -19,11 +18,9 @@ export const IngredientsDetails = (): ReactElement => {
   const location = useLocation();
 
   // Селекторы для данных и состояния загрузки
-  const ingredientModal = useSelector(
-    (store: RootState) => store.ingredients.ingredients
-  );
-  const isLoading = useSelector((store: RootState) => store.ingredients.isLoading); // флаг загрузки
-  const error = useSelector((store: RootState) => store.ingredients.error); // ошибка загрузки
+  const ingredientModal = useAppSelector((store) => store.ingredients.ingredients);
+  const isLoading = useAppSelector((store) => store.ingredients.isLoading); // флаг загрузки
+  const error = useAppSelector((store) => store.ingredients.error); // ошибка загрузки
 
   // Состояние для текущего ингредиента
   const [currentIngredient, setCurrentIngredient] = useState<Ingredient | null>(null);

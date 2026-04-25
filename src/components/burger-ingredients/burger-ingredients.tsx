@@ -1,13 +1,12 @@
 import { Tab } from '@krgaa/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
 
+import { useAppSelector } from '@hooks/hook.ts';
 import { useScroll } from '@hooks/useScroll.ts';
 
 import BurgerCard from '../burger-ingredients-card/burger-cards.tsx';
 
 import type { ReactElement } from 'react';
 
-import type { RootState } from '@/services/store';
 import type { Ingredient } from '@/types/ingredients';
 
 import styles from './burger-ingredients.module.css';
@@ -25,9 +24,7 @@ export const BurgerIngredients = (): ReactElement => {
   const { isTabActive, handleScroll, parentRef, bunField, sauceField, mainField } =
     useScroll() as unknown as UseScrollReturn;
 
-  const burgerIngredients = useSelector(
-    (store: RootState) => store.ingredients.ingredients
-  );
+  const burgerIngredients = useAppSelector((store) => store.ingredients.ingredients);
 
   return (
     <section className={styles.burger_ingredients}>

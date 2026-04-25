@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { loadIngredients } from '@/services/ingredients/actions';
 import { checkUserAuth } from '@/services/user/actions';
 import { Layout } from '@components/layout/layout.tsx';
 import { ProtectedRoute } from '@components/routing/protected-route.tsx';
+import { useAppDispatch } from '@hooks/hook.ts';
 import {
   HomePage,
   NotFoundPage,
@@ -20,8 +20,6 @@ import {
 } from '@pages/index.ts';
 
 import type { ReactElement } from 'react';
-
-import type { AppDispatch } from '@/services/store';
 
 const router = createBrowserRouter([
   {
@@ -77,7 +75,7 @@ const router = createBrowserRouter([
 ]);
 
 export const App = (): ReactElement => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(checkUserAuth());

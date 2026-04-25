@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
-import { useSelector } from 'react-redux';
 
-import type { RootState } from '@/services/store';
+import { useAppSelector } from '@hooks/hook.ts';
+
 import type { Ingredient, BurgerIngredient } from '@/types/ingredients';
 
 type UseMemoizedIngredientCountResult = {
@@ -12,8 +12,8 @@ type UseMemoizedIngredientCountResult = {
 export const useMemoizedIngredientCount = (
   ingredient?: Ingredient
 ): UseMemoizedIngredientCountResult => {
-  const ingredientBurgers = useSelector(
-    (state: RootState) => state.ingredients.ingredientBurgers
+  const ingredientBurgers = useAppSelector(
+    (state) => state.ingredients.ingredientBurgers
   );
 
   const ingredientCount = useMemo(() => {
