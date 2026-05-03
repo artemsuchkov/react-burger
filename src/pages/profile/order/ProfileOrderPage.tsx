@@ -2,7 +2,8 @@ import Cookies from 'js-cookie';
 import { useEffect } from 'react';
 
 import { useAppSelector, useAppDispatch } from '@hooks/hook.ts';
-import { selectIsConnected, selectAllOrders, connect } from '@services/orders/slice.ts';
+import { connect } from '@services/orders/actions.ts';
+import { selectIsConnected, selectAllOrders } from '@services/orders/slice.ts';
 
 import type { ReactElement } from 'react';
 
