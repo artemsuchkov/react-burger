@@ -32,9 +32,6 @@ export const FeedPage = (): ReactElement => {
   const allOrders = useAppSelector(selectAllOrders);
   const burgerIngredients = useAppSelector((store) => store.ingredients.ingredients);
 
-  console.log(burgerIngredients);
-  console.log(allOrders);
-
   const rawOrders = Array.isArray(allOrders?.[0]?.orders) ? allOrders?.[0].orders : [];
 
   // Функция для преобразования ID ингредиентов в объекты с image_mobile и price
@@ -48,7 +45,9 @@ export const FeedPage = (): ReactElement => {
     }
 
     let totalPrice = 0;
-    const ingredientDetails = order.ingredients
+    // Пропускаем последний элемент, так как он дублируется
+    const ingredientsToProcess = order.ingredients.slice(0, -1);
+    const ingredientDetails = ingredientsToProcess
       .map((id: string) => {
         const ingredient = burgerIngredients.find((ing: Ingredient) => ing._id === id);
         if (ingredient) {
@@ -69,7 +68,7 @@ export const FeedPage = (): ReactElement => {
 
     return {
       ...order,
-      ingredients: ingredientDetails, // заменяем массив ID на массив объектов
+      ingredients: ingredientDetails, // заменяем массив ID на массив объектов (без последнего дубликата)
       order_price: totalPrice,
     };
   };
@@ -84,17 +83,19 @@ export const FeedPage = (): ReactElement => {
   return (
     <>
       <div className={styles.container}>
-        <div className={styles.orders_list}>
+        <div className={`${styles.orders_list} custom-scroll`}>
           <h1>Лента заказов</h1>
-          {isConnected &&
-            orders.length > 0 &&
-            orders.map((order: TransformedOrder) => (
-              <div className={styles.orderData} key={order._id}>
-                <Link to={`${order._id}`}>
-                  <OrderIngredients orderData={order} />
-                </Link>
-              </div>
-            ))}
+          <div className={`${styles.orders_list_wrap} `}>
+            {isConnected &&
+              orders.length > 0 &&
+              orders.map((order: TransformedOrder) => (
+                <div className={styles.orderData} key={order._id}>
+                  <Link to={`${order._id}`}>
+                    <OrderIngredients orderData={order} />
+                  </Link>
+                </div>
+              ))}
+          </div>
         </div>
         <div className={styles.orders_info}></div>
       </div>

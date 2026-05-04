@@ -1,3 +1,5 @@
+import { CurrencyIcon } from '@krgaa/react-developer-burger-ui-components';
+
 import type { ReactElement } from 'react';
 
 import styles from './order-details.module.css';
@@ -77,7 +79,9 @@ export const OrderIngredients = ({ orderData }: OrderIngredientsProps): ReactEle
           />
         ))}
       </div>
-      <div className={styles.price}>Общая стоимость: {totalPrice} руб.</div>
+      <div className={styles.price}>
+        <div>{totalPrice} ₽</div> <CurrencyIcon type="primary" />
+      </div>
     </div>
   );
 };

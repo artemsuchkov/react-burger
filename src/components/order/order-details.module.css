@@ -30,22 +30,69 @@
 
 .ingredients {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: left;
-  gap: 8px;
+  flex-direction: row;
+  justify-content: flex-start;
   width: 70%;
+  overflow: visible;
 }
 
 .ingredientImage {
+  position: relative;
   width: 64px;
   height: 64px;
+  margin-left: -16px; /* Смещение наполовину ширины */
   background-color: #1c1c21;
   border: 2px solid #801ab2;
   border-radius: 50%;
   object-fit: cover;
 }
 
+/* Устанавливаем z-index по убыванию, чтобы первый элемент был сверху */
+.ingredientImage:nth-child(1) {
+  z-index: 10;
+}
+.ingredientImage:nth-child(2) {
+  z-index: 9;
+}
+.ingredientImage:nth-child(3) {
+  z-index: 8;
+}
+.ingredientImage:nth-child(4) {
+  z-index: 7;
+}
+.ingredientImage:nth-child(5) {
+  z-index: 6;
+}
+.ingredientImage:nth-child(6) {
+  z-index: 5;
+}
+.ingredientImage:nth-child(7) {
+  z-index: 4;
+}
+.ingredientImage:nth-child(8) {
+  z-index: 3;
+}
+.ingredientImage:nth-child(9) {
+  z-index: 2;
+}
+.ingredientImage:nth-child(10) {
+  z-index: 1;
+}
+
+.ingredientImage:first-child {
+  margin-left: 0;
+}
+
+.ingredientImage:hover {
+  z-index: 11; /* При наведении поднимаем выше всех */
+}
+
 .price {
+  display: flex;
+  flex-direction: row;
   justify-content: right;
-  width: 30%;
+  align-items: center;
+  gap: 1em;
+  width: calc(30% - 2em);
+  text-align: right;
 }

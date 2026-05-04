@@ -8,6 +8,32 @@
   overflow: hidden;
 }
 
+.orders_list_wrap {
+  max-height: calc(100vh - 300px); /* Ограничение высоты с учётом заголовка и отступов */
+  padding-right: 8px; /* Отступ для скролла */
+  overflow-y: auto;
+}
+
+/* Стилизация скроллбара для WebKit браузеров */
+
+.orders_list_wrap::-webkit-scrollbar {
+  width: 8px;
+}
+
+.orders_list_wrap::-webkit-scrollbar-track {
+  background: var(--background-element);
+  border-radius: 4px;
+}
+
+.orders_list_wrap::-webkit-scrollbar-thumb {
+  background: var(--text-inactive-color);
+  border-radius: 4px;
+}
+
+.orders_list_wrap::-webkit-scrollbar-thumb:hover {
+  background: var(--colors-interface-accent);
+}
+
 .orders_list {
   display: flex;
   flex-direction: column;
