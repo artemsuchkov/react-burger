@@ -1,0 +1,30 @@
+.number {
+  display: flex;
+  justify-content: center;
+}
+
+.date {
+  display: flex;
+  justify-content: center;
+}
+
+.name {
+  display: flex;
+  justify-content: center;
+}
+
+.ingredients {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.ingredientImage {
+  width: 64px;
+  height: 64px;
+  background-color: #1c1c21;
+  border: 2px solid #801ab2;
+  border-radius: 50%;
+  object-fit: cover;
+}

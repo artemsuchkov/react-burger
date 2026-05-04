@@ -1,4 +1,37 @@
 .container {
   display: flex;
+  justify-content: space-between;
+  width: 1240px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 2em 0;
+  overflow: hidden;
+}
+
+.orders_list {
+  display: flex;
   flex-direction: column;
+  max-width: 600px;
+  color: var(--text-primary-color);
+  font-family: 'Jet Brains Mono', serif;
+}
+
+.orders_info {
+  display: flex;
+  flex-direction: column;
+}
+
+.orderData {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  margin-bottom: 1em;
+  padding: 2em;
+  background: var(--background-element);
+  border-radius: 2em;
+}
+
+.orderData a {
+  color: var(--text-primary-color);
+  text-decoration: none;
 }
