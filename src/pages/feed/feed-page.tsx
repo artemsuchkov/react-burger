@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Link, Outlet } from 'react-router-dom';
 
 import { useAppSelector, useAppDispatch } from '@hooks/hook.ts';
 import { connect } from '@services/orders/actions.ts';
@@ -22,9 +23,16 @@ export const FeedPage = (): ReactElement => {
 
   return (
     <>
-      {isConnected &&
-        orders.length > 0 &&
-        orders.map((order: Order) => <div key={order._id}>{order.name}</div>)}
+      <div>
+        {isConnected &&
+          orders.length > 0 &&
+          orders.map((order: Order) => (
+            <div key={order._id}>
+              <Link to={`${order._id}`}>{order.name}</Link>
+            </div>
+          ))}
+      </div>
+      <Outlet />
     </>
   );
 };

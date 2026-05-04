@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import { useEffect } from 'react';
+import { Link, Outlet } from 'react-router-dom';
 
 import { useAppSelector, useAppDispatch } from '@hooks/hook.ts';
 import { connect } from '@services/orders/actions.ts';
@@ -25,9 +26,16 @@ export const ProfileOrderPage = (): ReactElement => {
 
   return (
     <>
-      {isConnected &&
-        userOrders.length > 0 &&
-        userOrders.map((order: Order) => <div key={order._id}>{order.name}</div>)}
+      <div>
+        {isConnected &&
+          userOrders.length > 0 &&
+          userOrders.map((order: Order) => (
+            <div key={order._id}>
+              <Link to={`/profile/orders/${order._id}`}>{order.name}</Link>
+            </div>
+          ))}
+      </div>
+      <Outlet />
     </>
   );
 };
