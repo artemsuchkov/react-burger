@@ -13,6 +13,15 @@ import type { Order } from '@services/middleware/middleware.ts';
 
 import styles from './feed.module.css';
 
+type TransformedOrder = Omit<Order, 'ingredients'> & {
+  ingredients: {
+    image_mobile: string;
+    price: number;
+    name: string;
+  }[];
+  order_price: number;
+};
+
 export const FeedPage = (): ReactElement => {
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -28,25 +37,45 @@ export const FeedPage = (): ReactElement => {
 
   const rawOrders = Array.isArray(allOrders?.[0]?.orders) ? allOrders?.[0].orders : [];
 
-  // Функция для преобразования ID ингредиентов в image_mobile
-  const mapIngredientsToImages = (order: Order): Order => {
-    if (!burgerIngredients || burgerIngredients.length === 0) return order;
+  // Функция для преобразования ID ингредиентов в объекты с image_mobile и price
+  const mapIngredientsToImages = (order: Order): TransformedOrder => {
+    if (!burgerIngredients || burgerIngredients.length === 0) {
+      return {
+        ...order,
+        ingredients: [],
+        order_price: 0,
+      };
+    }
 
-    const ingredientImages = order.ingredients
+    let totalPrice = 0;
+    const ingredientDetails = order.ingredients
       .map((id: string) => {
         const ingredient = burgerIngredients.find((ing: Ingredient) => ing._id === id);
-        return ingredient ? ingredient.image_mobile : '';
+        if (ingredient) {
+          totalPrice += ingredient.price;
+          return {
+            image_mobile: ingredient.image_mobile,
+            price: ingredient.price,
+            name: ingredient.name,
+          };
+        }
+        return null;
       })
-      .filter((url) => url !== ''); // убираем пустые, если ингредиент не найден
+      .filter((item) => item !== null) as {
+      image_mobile: string;
+      price: number;
+      name: string;
+    }[];
 
     return {
       ...order,
-      ingredients: ingredientImages, // заменяем массив ID на массив URL
+      ingredients: ingredientDetails, // заменяем массив ID на массив объектов
+      order_price: totalPrice,
     };
   };
 
   // Преобразуем заказы
-  const orders = useMemo(() => {
+  const orders: TransformedOrder[] = useMemo(() => {
     const mapped = rawOrders.map(mapIngredientsToImages);
     console.log('Преобразованные заказы:', mapped);
     return mapped;
@@ -59,7 +88,7 @@ export const FeedPage = (): ReactElement => {
           <h1>Лента заказов</h1>
           {isConnected &&
             orders.length > 0 &&
-            orders.map((order: Order) => (
+            orders.map((order: TransformedOrder) => (
               <div className={styles.orderData} key={order._id}>
                 <Link to={`${order._id}`}>
                   <OrderIngredients orderData={order} />

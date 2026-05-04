@@ -1,23 +1,37 @@
+.order {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  gap: 1em;
+}
+
 .number {
   display: flex;
-  justify-content: center;
+  justify-content: left;
+  width: 50%;
 }
 
 .date {
   display: flex;
-  justify-content: center;
+  justify-content: right;
+  width: 40%;
 }
 
 .name {
   display: flex;
-  justify-content: center;
+  justify-content: left;
+  width: 100%;
+  color: var(--text-primary-color);
+  font-size: 1.25em;
+  font-family: 'Jet Brains Mono', serif;
 }
 
 .ingredients {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: left;
   gap: 8px;
+  width: 70%;
 }
 
 .ingredientImage {
@@ -27,4 +41,9 @@
   border: 2px solid #801ab2;
   border-radius: 50%;
   object-fit: cover;
+}
+
+.price {
+  justify-content: right;
+  width: 30%;
 }
