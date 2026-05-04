@@ -3,9 +3,11 @@ import { useEffect } from 'react';
 
 import { useAppSelector, useAppDispatch } from '@hooks/hook.ts';
 import { connect } from '@services/orders/actions.ts';
-import { selectIsConnected, selectAllOrders } from '@services/orders/slice.ts';
+import { selectIsConnected, selectUserOrders } from '@services/orders/slice.ts';
 
 import type { ReactElement } from 'react';
+
+import type { Order } from '@services/middleware/middleware.ts';
 
 //import styles from './profileorder.module.css';
 
@@ -19,25 +21,13 @@ export const ProfileOrderPage = (): ReactElement => {
   }, [dispatch]);
 
   const isConnected = useAppSelector(selectIsConnected);
-  const messages = useAppSelector(selectAllOrders);
+  const userOrders = useAppSelector(selectUserOrders);
 
-  const firstMessage = messages?.[0];
-  const orders = Array.isArray(firstMessage?.orders) ? firstMessage.orders : [];
-
-  type Order = {
-    _id?: string;
-    ingredients?: string[];
-    status?: string;
-    name?: string;
-    createdAt?: string;
-    updatedAt?: string;
-    number?: number;
-  };
   return (
     <>
       {isConnected &&
-        orders.length > 0 &&
-        orders.map((order: Order) => <div key={order._id}>{order.name}</div>)}
+        userOrders.length > 0 &&
+        userOrders.map((order: Order) => <div key={order._id}>{order.name}</div>)}
     </>
   );
 };

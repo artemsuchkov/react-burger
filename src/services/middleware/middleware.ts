@@ -1,4 +1,10 @@
-import { onOpen, onMessage, onError, onClose } from '../orders/actions.ts';
+import {
+  onOpen,
+  onAllOrders,
+  onUserOrders,
+  onError,
+  onClose,
+} from '../orders/actions.ts';
 
 import type { Middleware, PayloadAction } from '@reduxjs/toolkit';
 
@@ -19,6 +25,8 @@ export type DataResponse = {
   totalToday: number;
 };
 
+export type UserOrdersResponse = Order[];
+
 const SOCKET_URL = 'wss://new-stellarburgers.education-services.ru/orders';
 
 let ws: WebSocket | null = null;
@@ -28,8 +36,12 @@ const socketMiddleware: Middleware = (store) => (next) => (action) => {
   const { payload: token } = action as PayloadAction<string>;
 
   if (type === 'socket/connect') {
-    if (token !== undefined) ws = new WebSocket(`${SOCKET_URL}?token=${token}`);
-    else ws = new WebSocket(`${SOCKET_URL}/all`);
+    const hasValidToken = token && token.trim() !== '';
+    if (hasValidToken) {
+      ws = new WebSocket(`${SOCKET_URL}?token=${token}`);
+    } else {
+      ws = new WebSocket(`${SOCKET_URL}/all`);
+    }
 
     // Закрываем старое соединение, если есть
     /* if (ws) {
@@ -44,8 +56,20 @@ const socketMiddleware: Middleware = (store) => (next) => (action) => {
     // Обработчик входящих сообщений
     ws.onmessage = (event: MessageEvent<string>): void => {
       try {
-        const data: DataResponse = JSON.parse(event.data);
-        store.dispatch(onMessage(data));
+        const data = JSON.parse(event.data);
+
+        // Оба эндпоинта возвращают DataResponse
+        if (data.success !== undefined && Array.isArray(data.orders)) {
+          if (hasValidToken) {
+            // Личные заказы: сохраняем только массив orders
+            store.dispatch(onUserOrders(data.orders));
+          } else {
+            // Публичные заказы: сохраняем весь DataResponse
+            store.dispatch(onAllOrders(data));
+          }
+        } else {
+          store.dispatch(onError('Неизвестный формат ответа'));
+        }
       } catch (_error) {
         const errorMessage =
           _error instanceof Error ? _error.message : 'Ошибка парсинга сообщения';

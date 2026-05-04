@@ -1,11 +1,13 @@
 import { useEffect } from 'react';
 
 import { useAppSelector, useAppDispatch } from '@hooks/hook.ts';
+import { connect } from '@services/orders/actions.ts';
 //import styles from './feed.module.css';
 import { selectIsConnected, selectAllOrders } from '@services/orders/slice.ts';
-import { connect } from '@services/orders/slice.ts';
 
 import type { ReactElement } from 'react';
+
+import type { Order } from '@services/middleware/middleware.ts';
 
 export const FeedPage = (): ReactElement => {
   const dispatch = useAppDispatch();
@@ -17,16 +19,6 @@ export const FeedPage = (): ReactElement => {
   const allOrders = useAppSelector(selectAllOrders);
 
   const orders = Array.isArray(allOrders?.[0]?.orders) ? allOrders?.[0].orders : [];
-
-  type Order = {
-    _id?: string;
-    ingredients?: string[];
-    status?: string;
-    name?: string;
-    createdAt?: string;
-    updatedAt?: string;
-    number?: number;
-  };
 
   return (
     <>

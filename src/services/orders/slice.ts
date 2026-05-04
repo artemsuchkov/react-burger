@@ -1,12 +1,13 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-import type { DataResponse } from '../middleware/middleware.ts';
+import type { DataResponse, Order } from '../middleware/middleware.ts';
 import type { RootState } from '../store.ts';
 
 // Интерфейсы для данных
 type SocketState = {
   isConnected: boolean;
   allOrders: DataResponse[];
+  userOrders: Order[];
   error: string | null;
   isLoading: boolean;
 };
@@ -15,6 +16,7 @@ type SocketState = {
 const initialState: SocketState = {
   isConnected: false,
   allOrders: [],
+  userOrders: [],
   error: null,
   isLoading: false,
 };
@@ -26,6 +28,7 @@ const socketSlice = createSlice({
   selectors: {
     isConnected: (state) => state.isConnected,
     allOrders: (state) => state.allOrders,
+    userOrders: (state) => state.userOrders,
   },
   reducers: {
     // Управляющие редьюсеры
@@ -36,6 +39,7 @@ const socketSlice = createSlice({
     disconnect: (state) => {
       state.isConnected = false;
       state.allOrders = [];
+      state.userOrders = [];
       state.isLoading = false;
     },
     // Событийные редьюсеры
@@ -44,8 +48,11 @@ const socketSlice = createSlice({
       state.isConnected = true;
       state.error = null;
     },
-    onMessage: (state, action: PayloadAction<DataResponse>) => {
+    onAllOrders: (state, action: PayloadAction<DataResponse>) => {
       state.allOrders.push(action.payload);
+    },
+    onUserOrders: (state, action: PayloadAction<Order[]>) => {
+      state.userOrders = action.payload;
     },
     onError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
@@ -59,12 +66,20 @@ const socketSlice = createSlice({
 });
 
 // Экспортируем экшены
-export const { connect, disconnect, onOpen, onMessage, onError, onClose } =
-  socketSlice.actions;
+export const {
+  connect,
+  disconnect,
+  onOpen,
+  onAllOrders,
+  onUserOrders,
+  onError,
+  onClose,
+} = socketSlice.actions;
 
 export const selectIsConnected = (state: RootState): boolean => state.socket.isConnected;
 export const selectAllOrders = (state: RootState): DataResponse[] =>
   state.socket.allOrders;
+export const selectUserOrders = (state: RootState): Order[] => state.socket.userOrders;
 
 // Экспортируем редьюсер (его мы позже подключим к store)
 export default socketSlice.reducer;
