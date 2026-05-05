@@ -32,7 +32,11 @@ export const FeedPage = (): ReactElement => {
   const allOrders = useAppSelector(selectAllOrders);
   const burgerIngredients = useAppSelector((store) => store.ingredients.ingredients);
 
+  console.log(allOrders);
+
   const rawOrders = Array.isArray(allOrders?.[0]?.orders) ? allOrders?.[0].orders : [];
+  const total = allOrders?.[0]?.total ?? 0;
+  const totalToday = allOrders?.[0]?.totalToday ?? 0;
 
   // Функция для преобразования ID ингредиентов в объекты с image_mobile и price
   const mapIngredientsToImages = (order: Order): TransformedOrder => {
@@ -80,6 +84,25 @@ export const FeedPage = (): ReactElement => {
     return mapped;
   }, [rawOrders, burgerIngredients]);
 
+  // Данные для блоков "Готовы" и "В работе"
+  const readyOrders = useMemo(() => {
+    const doneOrders = rawOrders.filter((order) => order.status === 'done');
+    // Сортируем по номеру по возрастанию
+    const sorted = doneOrders.sort((a, b) => a.number - b.number);
+    // Берем с 6 по 10 (индексы 5-9)
+    return sorted.slice(5, 10).map((order) => order.number);
+  }, [rawOrders]);
+
+  const pendingOrders = useMemo(() => {
+    const pending = rawOrders.filter(
+      (order) => order.status === 'pending' || order.status === 'created'
+    );
+    // Сортируем по номеру по возрастанию
+    const sorted = pending.sort((a, b) => a.number - b.number);
+    // Берем первые 5
+    return sorted.slice(0, 5).map((order) => order.number);
+  }, [rawOrders]);
+
   return (
     <>
       <div className={styles.container}>
@@ -97,7 +120,38 @@ export const FeedPage = (): ReactElement => {
               ))}
           </div>
         </div>
-        <div className={styles.orders_info}></div>
+        <div className={styles.orders_info}>
+          <div className={styles.orders_status}>
+            <div className={styles.ready}>
+              <h3 className={styles.status_title}>Готовы:</h3>
+              <div className={styles.numbers_list}>
+                {readyOrders.map((number) => (
+                  <span key={number} className={styles.number_ready}>
+                    {number}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className={styles.in_progress}>
+              <h3 className={styles.status_title}>В работе:</h3>
+              <div className={styles.numbers_list}>
+                {pendingOrders.map((number) => (
+                  <span key={number} className={styles.number_pending}>
+                    {number}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className={styles.total_all}>
+            <h3 className={styles.total_title}>Выполнено за все время:</h3>
+            <p className={styles.total_number}>{total}</p>
+          </div>
+          <div className={styles.total_today}>
+            <h3 className={styles.total_title}>Выполнено за сегодня:</h3>
+            <p className={styles.total_number}>{totalToday}</p>
+          </div>
+        </div>
       </div>
       <Outlet />
     </>

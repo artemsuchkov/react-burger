@@ -42,11 +42,6 @@
   font-family: 'Jet Brains Mono', serif;
 }
 
-.orders_info {
-  display: flex;
-  flex-direction: column;
-}
-
 .orderData {
   display: flex;
   flex-direction: column;
@@ -60,4 +55,82 @@
 .orderData a {
   color: var(--text-primary-color);
   text-decoration: none;
+}
+
+/* Блок информации */
+
+.orders_info {
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  width: 600px;
+  max-width: 580px;
+  margin-top: 5em;
+}
+
+.orders_status {
+  display: flex;
+  gap: 36px;
+}
+
+.ready,
+.in_progress {
+  flex: 1;
+}
+
+.status_title {
+  margin: 0 0 24px;
+  color: var(--text-primary-color);
+  font-weight: 700;
+  font-size: 1.25em;
+  font-family: 'Jet Brains Mono', monospace;
+  line-height: 1.2;
+}
+
+.numbers_list {
+  display: flex;
+  flex-flow: column wrap;
+  gap: 8px;
+  max-height: 320px;
+}
+
+.number_ready,
+.number_pending {
+  font-size: 1.5em;
+  font-family: 'Iceland', monospace;
+  line-height: 1.2;
+}
+
+.number_ready {
+  color: var(--colors-interface-success);
+}
+
+.number_pending {
+  color: var(--text-primary-color);
+}
+
+.total_all,
+.total_today {
+  margin-top: 12px;
+  font-family: 'Iceland', monospace;
+}
+
+.total_title {
+  margin: 0 0 8px;
+  color: var(--text-primary-color);
+  font-weight: 700;
+  font-size: 1.25em;
+  font-family: 'Jet Brains Mono', monospace;
+  line-height: 1.2;
+}
+
+.total_number {
+  margin: 0;
+  font-size: 6em;
+  font-family: 'Iceland', monospace;
+  line-height: 1.2;
+  text-shadow:
+    0 0 16px rgb(51 51 255 / 25%),
+    0 0 8px rgb(51 51 255 / 25%),
+    0 4px 32px rgb(51 51 255 / 50%);
 }

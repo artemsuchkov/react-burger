@@ -48,33 +48,43 @@
 }
 
 /* Устанавливаем z-index по убыванию, чтобы первый элемент был сверху */
+
 .ingredientImage:nth-child(1) {
   z-index: 10;
 }
+
 .ingredientImage:nth-child(2) {
   z-index: 9;
 }
+
 .ingredientImage:nth-child(3) {
   z-index: 8;
 }
+
 .ingredientImage:nth-child(4) {
   z-index: 7;
 }
+
 .ingredientImage:nth-child(5) {
   z-index: 6;
 }
+
 .ingredientImage:nth-child(6) {
   z-index: 5;
 }
+
 .ingredientImage:nth-child(7) {
   z-index: 4;
 }
+
 .ingredientImage:nth-child(8) {
   z-index: 3;
 }
+
 .ingredientImage:nth-child(9) {
   z-index: 2;
 }
+
 .ingredientImage:nth-child(10) {
   z-index: 1;
 }
@@ -94,5 +104,7 @@
   align-items: center;
   gap: 1em;
   width: calc(30% - 2em);
+  font-size: 1.25em;
+  font-family: 'Iceland', monospace;
   text-align: right;
 }
