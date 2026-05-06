@@ -66,14 +66,14 @@ export const OrderDetails = (): ReactElement => {
       <div className={styles.modal}>
         <div className={styles.content}>
           <div className={styles.header}>
-            <h2 className={`text text_type_main-medium`}>Детали ингредиента</h2>
+            <h2 className={`text text_type_main-medium`}>Детали заказа</h2>
             <CloseIcon type="primary" onClick={onClose} />
           </div>
           <div className={styles.body}>
             {currentIngredient ? (
               <IngredientsDetailsComponent data={currentIngredient} />
             ) : (
-              <p>Ингредиент не найден</p>
+              <p>Заказ не найден</p>
             )}
           </div>
         </div>
