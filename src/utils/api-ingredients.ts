@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie';
+
 import { host } from '@utils/constants.ts';
 
 import type {
@@ -43,6 +45,7 @@ export const getOrderIdTasks = (
   return request<OrderResponse>(host + '/api/orders', {
     method: 'POST',
     headers: {
+      authorization: Cookies.get('accessToken') || '',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
