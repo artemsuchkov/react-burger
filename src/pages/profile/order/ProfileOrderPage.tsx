@@ -82,9 +82,13 @@ export const ProfileOrderPage = (): ReactElement => {
     };
   };
 
-  // Преобразуем заказы
+  // Преобразуем заказы и сортируем от самых новых к самым старым
   const orders: TransformedOrder[] = useMemo(() => {
-    return userOrders.map(mapIngredientsToImages);
+    const transformed = userOrders.map(mapIngredientsToImages);
+    // Сортировка по createdAt в обратном порядке (самые новые первыми)
+    return transformed.sort(
+      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
   }, [userOrders, burgerIngredients]);
 
   return (
