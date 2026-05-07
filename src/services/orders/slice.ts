@@ -49,7 +49,7 @@ const socketSlice = createSlice({
       state.error = null;
     },
     onAllOrders: (state, action: PayloadAction<DataResponse>) => {
-      state.allOrders.push(action.payload);
+      state.allOrders = [action.payload];
     },
     onUserOrders: (state, action: PayloadAction<Order[]>) => {
       state.userOrders = action.payload;
