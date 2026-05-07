@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-import type { DataResponse, Order } from '../middleware/middleware.ts';
+import type { DataResponse, Order } from '../middleware/socketMiddleware';
 import type { RootState } from '../store.ts';
 
 // Интерфейсы для данных
@@ -49,9 +49,11 @@ const socketSlice = createSlice({
       state.error = null;
     },
     onAllOrders: (state, action: PayloadAction<DataResponse>) => {
+      console.log('[SocketSlice] onAllOrders:', action.payload);
       state.allOrders = [action.payload];
     },
     onUserOrders: (state, action: PayloadAction<Order[]>) => {
+      console.log('[SocketSlice] onUserOrders:', action.payload);
       state.userOrders = action.payload;
     },
     onError: (state, action: PayloadAction<string>) => {

@@ -3,13 +3,13 @@ import { Link, Outlet } from 'react-router-dom';
 
 import { OrderIngredients } from '@components/order/order-ingredients.tsx';
 import { useAppSelector, useAppDispatch } from '@hooks/hook.ts';
-import { connect } from '@services/orders/actions.ts';
+import { connect, disconnect } from '@services/orders/actions.ts';
 import { selectIsConnected, selectAllOrders } from '@services/orders/slice.ts';
 
 import type { ReactElement } from 'react';
 
 import type { Ingredient } from '@/types/ingredients';
-import type { Order } from '@services/middleware/middleware.ts';
+import type { Order } from '@services/middleware/socketMiddleware.ts';
 
 import styles from './feed.module.css';
 
@@ -25,7 +25,11 @@ type TransformedOrder = Omit<Order, 'ingredients'> & {
 export const FeedPage = (): ReactElement => {
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(connect());
+    dispatch(connect()); // Без токена для публичных заказов
+
+    return (): void => {
+      dispatch(disconnect());
+    };
   }, [dispatch]);
 
   const isConnected = useAppSelector(selectIsConnected);

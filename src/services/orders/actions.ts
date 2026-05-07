@@ -1,13 +1,20 @@
 import { createAction } from '@reduxjs/toolkit';
 
-import type { DataResponse, Order } from '../middleware/middleware.ts';
+import type { DataResponse, Order } from '../middleware/socketMiddleware';
 
 // Управляющие экшены
-export const connect = createAction('socket/connect', (token?: string) => ({
-  payload: token,
-}));
+export const connect = createAction(
+  'socket/connect',
+  (payload?: { token?: string }) => ({
+    payload,
+  })
+);
+
 export const disconnect = createAction('socket/disconnect');
-export const sendMessage = createAction('socket/sendMessage');
+
+export const sendMessage = createAction('socket/sendMessage', (message: unknown) => ({
+  payload: message,
+}));
 
 // Событийные экшены
 export const onOpen = createAction('socket/onOpen');

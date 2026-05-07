@@ -14,7 +14,7 @@ import { ModalOverlay } from './modal-overlay.tsx';
 import type { ReactElement } from 'react';
 
 import type { Ingredient } from '@/types/ingredients';
-import type { Order } from '@services/middleware/middleware.ts';
+import type { Order } from '@services/middleware/socketMiddleware.ts';
 
 import styles from './modal.module.css';
 

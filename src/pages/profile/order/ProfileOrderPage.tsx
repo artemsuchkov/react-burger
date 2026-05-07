@@ -6,13 +6,13 @@ import { logout } from '@/services/user/actions';
 import { fetchWithRefresh } from '@/utils/api-user.ts';
 import { OrderIngredients } from '@components/order/order-ingredients.tsx';
 import { useAppSelector, useAppDispatch } from '@hooks/hook.ts';
-import { connect } from '@services/orders/actions.ts';
+import { connect, disconnect } from '@services/orders/actions.ts';
 import { selectIsConnected, selectUserOrders } from '@services/orders/slice.ts';
 
 import type { ReactElement } from 'react';
 
 import type { Ingredient } from '@/types/ingredients';
-import type { Order } from '@services/middleware/middleware.ts';
+import type { Order } from '@services/middleware/socketMiddleware.ts';
 
 import styles from './profileorder.module.css';
 
@@ -47,13 +47,17 @@ export const ProfileOrderPage = (): ReactElement => {
         // После успешного запроса токен в cookies уже обновлен (если потребовалось)
         const updatedAccessToken = Cookies.get('accessToken') || '';
         const updatedToken = updatedAccessToken.replace('Bearer ', '');
-        dispatch(connect(updatedToken));
+        dispatch(connect({ token: updatedToken }));
       } catch (error) {
         console.error('Не удалось обновить токен:', error);
       }
     };
 
     ensureValidToken();
+
+    return (): void => {
+      dispatch(disconnect());
+    };
   }, [accessToken, dispatch]);
 
   const handleLogout = (): void => {
