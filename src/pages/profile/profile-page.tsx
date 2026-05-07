@@ -1,6 +1,6 @@
 import { Input, Button } from '@krgaa/react-developer-burger-ui-components';
 import { useRef, useState, useEffect } from 'react';
-import { Link, NavLink, Outlet } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 import {
   logout,
@@ -162,7 +162,7 @@ export const ProfilePage = (): ReactElement => {
         </div>
         <div></div>
       </div>
-      <Outlet />
+      {/* <Outlet /> */}
     </>
   );
 };

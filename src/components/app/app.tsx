@@ -56,16 +56,14 @@ const router = createBrowserRouter([
       {
         path: 'profile',
         element: <ProtectedRoute element={<ProfilePage />} />,
+      },
+      {
+        path: 'profile/orders',
+        element: <ProtectedRoute element={<ProfileOrderPage />} />,
         children: [
           {
-            path: 'orders',
-            element: <ProtectedRoute element={<ProfileOrderPage />} />,
-            children: [
-              {
-                path: ':id',
-                element: <OrderDetails />,
-              },
-            ],
+            path: ':id',
+            element: <OrderDetails />,
           },
         ],
       },

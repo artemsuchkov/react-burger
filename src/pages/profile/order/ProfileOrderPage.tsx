@@ -1,7 +1,8 @@
 import Cookies from 'js-cookie';
 import { useEffect, useMemo } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, NavLink, Outlet } from 'react-router-dom';
 
+import { logout } from '@/services/user/actions';
 import { OrderIngredients } from '@components/order/order-ingredients.tsx';
 import { useAppSelector, useAppDispatch } from '@hooks/hook.ts';
 import { connect } from '@services/orders/actions.ts';
@@ -31,6 +32,12 @@ export const ProfileOrderPage = (): ReactElement => {
   useEffect(() => {
     dispatch(connect(token));
   }, [dispatch]);
+
+  const handleLogout = (): void => {
+    dispatch(logout());
+  };
+
+  const isLoading = useAppSelector((state) => state.user.isLoading);
 
   const isConnected = useAppSelector(selectIsConnected);
   const userOrders = useAppSelector(selectUserOrders);
@@ -81,10 +88,26 @@ export const ProfileOrderPage = (): ReactElement => {
   }, [userOrders, burgerIngredients]);
 
   return (
-    <>
-      <div className={styles.container}>
+    <div className={styles.container}>
+      <div className={styles.menu}>
+        <div className="text text_type_main-default">
+          <NavLink className={styles.link} to="/profile">
+            Профиль
+          </NavLink>
+        </div>
+        <div className="text text_type_main-default">
+          <NavLink className={styles.link} to="orders">
+            История заказов
+          </NavLink>
+        </div>
+        <div className="text text_type_main-default">
+          <Link className={styles.link} to="#" onClick={handleLogout}>
+            {isLoading ? 'Выход...' : 'Выйти'}
+          </Link>
+        </div>
+      </div>
+      <div>
         <div className={styles.orders_list}>
-          <h1>История заказов</h1>
           <div className={styles.orders_list_wrap}>
             {isConnected &&
               orders.length > 0 &&
@@ -97,8 +120,14 @@ export const ProfileOrderPage = (): ReactElement => {
               ))}
           </div>
         </div>
+        <Outlet />
       </div>
-      <Outlet />
-    </>
+      <div>
+        <div className="text text_type_main-default text_color_inactive">
+          В этом разделе вы можете изменить свои персональные данные
+        </div>
+      </div>
+      <div></div>
+    </div>
   );
 };

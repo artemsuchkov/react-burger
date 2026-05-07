@@ -1,10 +1,20 @@
 .container {
+  display: grid;
+  grid-template-columns: 30% 70%;
+  gap: 2em;
+  width: 100%;
+  max-width: 960px;
+  margin: 4em auto;
+}
+
+.menu {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  max-width: 860px;
-  margin: 2em auto;
-  padding: 0 1em;
+  gap: 2em;
+}
+
+.link {
+  color: aliceblue;
 }
 
 .orders_list {
