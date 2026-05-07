@@ -109,6 +109,9 @@ export const ProfileOrderPage = (): ReactElement => {
             {isLoading ? 'Выход...' : 'Выйти'}
           </Link>
         </div>
+        <div className="text text_type_main-default text_color_inactive">
+          В этом разделе вы можете изменить свои персональные данные
+        </div>
       </div>
       <div>
         <div className={styles.orders_list}>
@@ -126,12 +129,6 @@ export const ProfileOrderPage = (): ReactElement => {
         </div>
         <Outlet />
       </div>
-      <div>
-        <div className="text text_type_main-default text_color_inactive">
-          В этом разделе вы можете изменить свои персональные данные
-        </div>
-      </div>
-      <div></div>
     </div>
   );
 };
