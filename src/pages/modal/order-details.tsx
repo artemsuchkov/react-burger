@@ -184,21 +184,18 @@ export const OrderDetails = (): ReactElement => {
             {currentOrder ? (
               <div className={styles.orderDetails}>
                 <div className={styles.orderNumber}>
-                  <span className="text text_type_digits-medium">
-                    #{currentOrder.number}
-                  </span>
+                  #{currentOrder.number}
                   <CloseIcon type="primary" onClick={onClose} />
                 </div>
                 <div className={styles.orderName}>
-                  <h3 className="text text_type_main-medium">{currentOrder.name}</h3>
-                </div>
-                <div
-                  className={`${styles.orderStatus} ${getStatusClass(currentOrder.status)}`}
-                >
-                  <span className="text text_type_main-default">
+                  <div className="text text_type_main-medium">{currentOrder.name}</div>
+                  <div
+                    className={`${styles.orderStatus} ${getStatusClass(currentOrder.status)}`}
+                  >
                     {getStatusText(currentOrder.status)}
-                  </span>
+                  </div>
                 </div>
+
                 <div className={styles.orderSection}>
                   <h4 className="text text_type_main-medium">Состав:</h4>
                   <div className={styles.ingredientsList}>

@@ -48,6 +48,8 @@
 .orderNumber {
   display: flex;
   justify-content: space-between;
+  font-size: 1.5em;
+  font-family: 'Iceland', sans-serif;
   text-align: center;
 }
 
@@ -56,19 +58,17 @@
 }
 
 .orderStatus {
-  padding: calc(var(--offset-base-size) * 2) calc(var(--offset-base-size) * 4);
-  text-align: center;
-  border-radius: calc(var(--offset-base-size) * 2);
+  margin-top: 0.5em;
+  font-family: 'Jet Brains Mono', sans-serif;
+  text-align: left;
 }
 
 .statusDone {
-  color: var(--colors-success);
-  background-color: var(--colors-success-bg);
+  color: var(--colors-interface-success);
 }
 
 .statusPending {
-  color: var(--colors-warning);
-  background-color: var(--colors-warning-bg);
+  color: var(--colors-interface-warning);
 }
 
 .orderSection {

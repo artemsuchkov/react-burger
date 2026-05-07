@@ -50,7 +50,6 @@ export const ProfileOrderPage = (): ReactElement => {
         dispatch(connect(updatedToken));
       } catch (error) {
         console.error('Не удалось обновить токен:', error);
-        // Можно показать уведомление или просто не подключаться
       }
     };
 
@@ -124,7 +123,7 @@ export const ProfileOrderPage = (): ReactElement => {
           </NavLink>
         </div>
         <div className="text text_type_main-default">
-          <NavLink className={styles.link} to="orders">
+          <NavLink className={styles.link} to="/profile/orders">
             История заказов
           </NavLink>
         </div>
