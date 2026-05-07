@@ -34,9 +34,10 @@ export const FeedPage = (): ReactElement => {
 
   console.log(allOrders);
 
-  const rawOrders = Array.isArray(allOrders?.[0]?.orders) ? allOrders?.[0].orders : [];
-  const total = allOrders?.[0]?.total ?? 0;
-  const totalToday = allOrders?.[0]?.totalToday ?? 0;
+  const latestOrders = allOrders?.length > 0 ? allOrders[allOrders.length - 1] : null;
+  const rawOrders = Array.isArray(latestOrders?.orders) ? latestOrders.orders : [];
+  const total = latestOrders?.total ?? 0;
+  const totalToday = latestOrders?.totalToday ?? 0;
 
   // Функция для преобразования ID ингредиентов в объекты с image_mobile и price
   const mapIngredientsToImages = (order: Order): TransformedOrder => {
@@ -87,20 +88,20 @@ export const FeedPage = (): ReactElement => {
   // Данные для блоков "Готовы" и "В работе"
   const readyOrders = useMemo(() => {
     const doneOrders = rawOrders.filter((order) => order.status === 'done');
-    // Сортируем по номеру по возрастанию
-    const sorted = doneOrders.sort((a, b) => a.number - b.number);
-    // Берем с 6 по 10 (индексы 5-9)
-    return sorted.slice(5, 10).map((order) => order.number);
+    // Сортируем по номеру по убыванию (последние первыми)
+    const sorted = doneOrders.sort((a, b) => b.number - a.number);
+    // Берем первые 10
+    return sorted.slice(0, 10).map((order) => order.number);
   }, [rawOrders]);
 
   const pendingOrders = useMemo(() => {
     const pending = rawOrders.filter(
       (order) => order.status === 'pending' || order.status === 'created'
     );
-    // Сортируем по номеру по возрастанию
-    const sorted = pending.sort((a, b) => a.number - b.number);
-    // Берем первые 5
-    return sorted.slice(0, 5).map((order) => order.number);
+    // Сортируем по номеру по убыванию (последние первыми)
+    const sorted = pending.sort((a, b) => b.number - a.number);
+    // Берем первые 10
+    return sorted.slice(0, 10).map((order) => order.number);
   }, [rawOrders]);
 
   return (
