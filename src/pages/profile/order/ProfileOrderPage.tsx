@@ -3,6 +3,7 @@ import { useEffect, useMemo } from 'react';
 import { Link, NavLink, Outlet } from 'react-router-dom';
 
 import { logout } from '@/services/user/actions';
+import { fetchWithRefresh } from '@/utils/api-user.ts';
 import { OrderIngredients } from '@components/order/order-ingredients.tsx';
 import { useAppSelector, useAppDispatch } from '@hooks/hook.ts';
 import { connect } from '@services/orders/actions.ts';
@@ -27,11 +28,34 @@ type TransformedOrder = Omit<Order, 'ingredients'> & {
 export const ProfileOrderPage = (): ReactElement => {
   const dispatch = useAppDispatch();
   const accessToken: string = Cookies.get('accessToken') || '';
-  const token: string = accessToken.replace('Bearer ', '');
 
   useEffect(() => {
-    dispatch(connect(token));
-  }, [dispatch]);
+    const ensureValidToken = async (): Promise<void> => {
+      // Если токена нет, не подключаемся
+      if (!accessToken) {
+        return;
+      }
+
+      try {
+        // Пробуем выполнить запрос, который автоматически обновит токен при необходимости
+        await fetchWithRefresh('auth/user', {
+          method: 'GET',
+          headers: {
+            authorization: accessToken,
+          },
+        });
+        // После успешного запроса токен в cookies уже обновлен (если потребовалось)
+        const updatedAccessToken = Cookies.get('accessToken') || '';
+        const updatedToken = updatedAccessToken.replace('Bearer ', '');
+        dispatch(connect(updatedToken));
+      } catch (error) {
+        console.error('Не удалось обновить токен:', error);
+        // Можно показать уведомление или просто не подключаться
+      }
+    };
+
+    ensureValidToken();
+  }, [accessToken, dispatch]);
 
   const handleLogout = (): void => {
     dispatch(logout());
