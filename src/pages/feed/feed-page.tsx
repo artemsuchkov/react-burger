@@ -32,8 +32,6 @@ export const FeedPage = (): ReactElement => {
   const allOrders = useAppSelector(selectAllOrders);
   const burgerIngredients = useAppSelector((store) => store.ingredients.ingredients);
 
-  console.log(allOrders);
-
   const latestOrders = allOrders?.length > 0 ? allOrders[allOrders.length - 1] : null;
   const rawOrders = Array.isArray(latestOrders?.orders) ? latestOrders.orders : [];
   const total = latestOrders?.total ?? 0;
@@ -80,16 +78,15 @@ export const FeedPage = (): ReactElement => {
 
   // Преобразуем заказы
   const orders: TransformedOrder[] = useMemo(() => {
-    const mapped = rawOrders.map(mapIngredientsToImages);
-    console.log('Преобразованные заказы:', mapped);
-    return mapped;
+    return rawOrders.map(mapIngredientsToImages);
   }, [rawOrders, burgerIngredients]);
 
   // Данные для блоков "Готовы" и "В работе"
+  // Автоматически обновляются при получении новых данных от WebSocket
   const readyOrders = useMemo(() => {
     const doneOrders = rawOrders.filter((order) => order.status === 'done');
-    // Сортируем по номеру по убыванию (последние первыми)
-    const sorted = doneOrders.sort((a, b) => b.number - a.number);
+    // Сортируем по номеру по убыванию (последние первыми) - создаем копию для иммутабельности
+    const sorted = [...doneOrders].sort((a, b) => b.number - a.number);
     // Берем первые 10
     return sorted.slice(0, 10).map((order) => order.number);
   }, [rawOrders]);
@@ -98,8 +95,8 @@ export const FeedPage = (): ReactElement => {
     const pending = rawOrders.filter(
       (order) => order.status === 'pending' || order.status === 'created'
     );
-    // Сортируем по номеру по убыванию (последние первыми)
-    const sorted = pending.sort((a, b) => b.number - a.number);
+    // Сортируем по номеру по убыванию (последние первыми) - создаем копию для иммутабельности
+    const sorted = [...pending].sort((a, b) => b.number - a.number);
     // Берем первые 10
     return sorted.slice(0, 10).map((order) => order.number);
   }, [rawOrders]);
