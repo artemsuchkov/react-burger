@@ -63,13 +63,17 @@ export const OrderIngredients = ({ orderData }: OrderIngredientsProps): ReactEle
   const totalPrice = orderData?.order_price || 0;
   const formattedDate = orderData?.createdAt ? formatDate(orderData.createdAt) : '';
 
+  const shouldShowMore = ingredients.length > 5;
+  const visibleIngredients = shouldShowMore ? ingredients.slice(0, 5) : ingredients;
+  const remainingCount = ingredients.length - 5;
+
   return (
     <div className={styles.order}>
       <div className={styles.number}>#{orderData?.number}</div>
       <div className={styles.date}>{formattedDate}</div>
       <div className={styles.name}>{orderData?.name}</div>
       <div className={styles.ingredients}>
-        {ingredients.map((ingredient: IngredientDetail, index: number) => (
+        {visibleIngredients.map((ingredient: IngredientDetail, index: number) => (
           <img
             key={index}
             src={ingredient.image_mobile}
@@ -78,6 +82,16 @@ export const OrderIngredients = ({ orderData }: OrderIngredientsProps): ReactEle
             title={`${ingredient.name} - ${ingredient.price} руб.`}
           />
         ))}
+        {shouldShowMore && (
+          <div className={`${styles.ingredientImage} ${styles.dimmed}`}>
+            <span className={styles.plusSign}>+{remainingCount}</span>
+            <img
+              src={ingredients[5].image_mobile}
+              alt={ingredients[5].name}
+              className={styles.dimmedImage}
+            />
+          </div>
+        )}
       </div>
       <div className={styles.price}>
         <div>{totalPrice} ₽</div> <CurrencyIcon type="primary" />
