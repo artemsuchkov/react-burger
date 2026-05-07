@@ -23,6 +23,7 @@ type TransformedOrder = Omit<Order, 'ingredients'> & {
     image_mobile: string;
     price: number;
     name: string;
+    count: number;
   }[];
   order_price: number;
 };
@@ -47,7 +48,7 @@ export const OrderDetails = (): ReactElement => {
     return [...ordersFromAll, ...userOrders];
   }, [allOrdersData, userOrders]);
 
-  // Функция для преобразования ID ингредиентов в объекты с image_mobile и price
+  // Функция для преобразования ID ингредиентов в объекты с image_mobile, price и количеством
   const mapIngredientsToImages = (order: Order): TransformedOrder => {
     if (!burgerIngredients || burgerIngredients.length === 0) {
       return {
@@ -60,15 +61,24 @@ export const OrderDetails = (): ReactElement => {
     let totalPrice = 0;
     // Пропускаем последний элемент, так как он дублируется (булка)
     const ingredientsToProcess = order.ingredients.slice(0, -1);
-    const ingredientDetails = ingredientsToProcess
-      .map((id: string) => {
+
+    // Считаем количество каждого ингредиента
+    const ingredientCountMap = new Map<string, number>();
+    ingredientsToProcess.forEach((id: string) => {
+      ingredientCountMap.set(id, (ingredientCountMap.get(id) || 0) + 1);
+    });
+
+    // Создаем массив уникальных ингредиентов с количеством
+    const ingredientDetails = Array.from(ingredientCountMap.entries())
+      .map(([id, count]) => {
         const ingredient = burgerIngredients.find((ing: Ingredient) => ing._id === id);
         if (ingredient) {
-          totalPrice += ingredient.price;
+          totalPrice += ingredient.price * count;
           return {
             image_mobile: ingredient.image_mobile,
             price: ingredient.price,
             name: ingredient.name,
+            count,
           };
         }
         return null;
@@ -77,6 +87,7 @@ export const OrderDetails = (): ReactElement => {
       image_mobile: string;
       price: number;
       name: string;
+      count: number;
     }[];
 
     return {
@@ -215,7 +226,7 @@ export const OrderDetails = (): ReactElement => {
                         </div>
                         <div className={styles.ingredientPrice}>
                           <span className="text text_type_digits-default">
-                            {ingredient.price} ₽
+                            {ingredient.count} x {ingredient.price} ₽
                           </span>
                         </div>
                       </div>
