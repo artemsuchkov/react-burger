@@ -34,7 +34,6 @@ export const FeedPage = (): ReactElement => {
 
   const isConnected = useAppSelector(selectIsConnected);
   const allOrders = useAppSelector(selectAllOrders);
-  console.log(allOrders);
   const burgerIngredients = useAppSelector((store) => store.ingredients.ingredients);
 
   const latestOrders = allOrders?.length > 0 ? allOrders[allOrders.length - 1] : null;

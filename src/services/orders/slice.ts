@@ -49,11 +49,9 @@ const socketSlice = createSlice({
       state.error = null;
     },
     onAllOrders: (state, action: PayloadAction<DataResponse>) => {
-      console.log('[SocketSlice] onAllOrders:', action.payload);
       state.allOrders = [action.payload];
     },
     onUserOrders: (state, action: PayloadAction<Order[]>) => {
-      console.log('[SocketSlice] onUserOrders:', action.payload);
       state.userOrders = action.payload;
     },
     onError: (state, action: PayloadAction<string>) => {

@@ -19,27 +19,18 @@ export const ordersSocketConfig = createSocketConfig({
   },
 
   onMessage: (data: string, store, originalPayload) => {
-    console.log('[SocketConfig] Получено сообщение:', data);
     try {
       const parsed = typeof data === 'string' ? JSON.parse(data) : data;
-      console.log('[SocketConfig] Парсинг успешен:', parsed);
 
       if (parsed.success !== undefined && Array.isArray(parsed.orders)) {
-        console.log(
-          '[SocketConfig] Валидный формат заказов, количество:',
-          parsed.orders.length
-        );
-
         if (originalPayload?.token) {
           // Личные заказы
-          console.log('[SocketConfig] Диспатчим личные заказы');
           store.dispatch({
             type: 'socket/onUserOrders',
             payload: parsed.orders,
           });
         } else {
           // Публичные заказы
-          console.log('[SocketConfig] Диспатчим публичные заказы');
           store.dispatch({
             type: 'socket/onAllOrders',
             payload: parsed,
@@ -60,18 +51,18 @@ export const ordersSocketConfig = createSocketConfig({
     }
   },
 
-  onOpenHandler: (event, store) => {
+  onOpenHandler: (_, store) => {
     store.dispatch({ type: 'socket/onOpen' });
   },
 
-  onErrorHandler: (event, store) => {
+  onErrorHandler: (_, store) => {
     store.dispatch({
       type: 'socket/onError',
       payload: 'WebSocket ошибка',
     });
   },
 
-  onCloseHandler: (event, store) => {
+  onCloseHandler: (_, store) => {
     store.dispatch({ type: 'socket/onClose' });
   },
 

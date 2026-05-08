@@ -97,9 +97,6 @@ export const createSocketMiddleware = (config: SocketMiddlewareConfig): Middlewa
         connection.isConnecting ||
         (connection.ws && connection.ws.readyState === WebSocket.OPEN)
       ) {
-        console.log(
-          `[SocketMiddleware] ${config.connectActionType}: уже подключается или соединено, пропускаем`
-        );
         return next(action);
       }
 
@@ -137,18 +134,12 @@ export const createSocketMiddleware = (config: SocketMiddlewareConfig): Middlewa
 
       // Создаем URL
       const url = config.createUrl(payload);
-      console.log(
-        `[SocketMiddleware] ${config.connectActionType}: создаем WebSocket с URL: ${url}`
-      );
 
       try {
         connection.ws = new WebSocket(url);
 
         // Обработчик открытия соединения
         connection.ws.onopen = (event: Event): void => {
-          console.log(
-            `[SocketMiddleware] ${config.connectActionType}: соединение открыто`
-          );
           connection!.isConnecting = false;
           connection!.reconnectAttempts = 0;
           connection!.wasManuallyClosed = false;
@@ -239,7 +230,10 @@ export const createSocketMiddleware = (config: SocketMiddlewareConfig): Middlewa
       connection.wasManuallyClosed = true;
 
       if (connection.ws) {
-        connection.ws.close();
+        // Закомметировал т.к. выдает предупреждение
+        /* console.log("Соединение");
+        console.log(connection.ws);
+        connection.ws.close(); */
         connection.ws = null;
       }
 
