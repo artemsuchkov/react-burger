@@ -127,7 +127,12 @@ export const ProfileOrderPage = (): ReactElement => {
           </NavLink>
         </div>
         <div className="text text_type_main-default">
-          <NavLink className={styles.link} to="/profile/orders">
+          <NavLink
+            className={({ isActive }) =>
+              `${styles.link} ${isActive ? styles.link_active : ''}`
+            }
+            to="/profile/orders"
+          >
             История заказов
           </NavLink>
         </div>

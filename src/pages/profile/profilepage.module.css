@@ -14,7 +14,12 @@
 }
 
 .link {
+  color: var(--text-inactive-color);
+}
+
+.link_active {
   color: aliceblue;
+  text-decoration: none;
 }
 
 .form {

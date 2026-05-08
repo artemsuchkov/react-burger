@@ -81,5 +81,5 @@ export const selectAllOrders = (state: RootState): DataResponse[] =>
   state.socket.allOrders;
 export const selectUserOrders = (state: RootState): Order[] => state.socket.userOrders;
 
-// Экспортируем редьюсер (его мы позже подключим к store)
+// Экспортируем редьюсер
 export default socketSlice.reducer;

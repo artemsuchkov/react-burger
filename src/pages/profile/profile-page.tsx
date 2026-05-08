@@ -92,7 +92,12 @@ export const ProfilePage = (): ReactElement => {
       <div className={styles.container}>
         <div className={styles.menu}>
           <div className="text text_type_main-default">
-            <NavLink className={styles.link} to="/profile">
+            <NavLink
+              className={({ isActive }) =>
+                `${styles.link} ${isActive ? styles.link_active : ''}`
+              }
+              to="/profile"
+            >
               Профиль
             </NavLink>
           </div>
