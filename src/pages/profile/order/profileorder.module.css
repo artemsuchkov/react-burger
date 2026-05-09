@@ -1,4 +1,81 @@
 .container {
+  display: grid;
+  grid-template-columns: 30% 70%;
+  gap: 2em;
+  width: 100%;
+  max-width: 960px;
+  margin: 4em auto;
+}
+
+.menu {
   display: flex;
   flex-direction: column;
+  gap: 2em;
+}
+
+.link {
+  color: var(--text-inactive-color);
+}
+
+.link_active {
+  color: aliceblue;
+  text-decoration: none;
+}
+
+.orders_list {
+  display: flex;
+  flex-direction: column;
+  max-width: 860px;
+  color: var(--text-primary-color);
+  font-family: 'Jet Brains Mono', serif;
+}
+
+.orders_list h1 {
+  margin-bottom: 1.5em;
+  color: var(--text-primary-color);
+  font-weight: 700;
+  font-size: 2em;
+  font-family: 'Jet Brains Mono', monospace;
+  line-height: 1.2;
+}
+
+.orders_list_wrap {
+  max-height: calc(100vh - 300px);
+  padding-right: 8px;
+  overflow-y: auto;
+}
+
+/* Стилизация скроллбара для WebKit браузеров */
+
+.orders_list_wrap::-webkit-scrollbar {
+  width: 8px;
+}
+
+.orders_list_wrap::-webkit-scrollbar-track {
+  background: var(--background-element);
+  border-radius: 4px;
+}
+
+.orders_list_wrap::-webkit-scrollbar-thumb {
+  background: var(--text-inactive-color);
+  border-radius: 4px;
+}
+
+.orders_list_wrap::-webkit-scrollbar-thumb:hover {
+  background: var(--colors-interface-accent);
+}
+
+.orderData {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  margin-bottom: 1em;
+  padding: 2em;
+  background: var(--background-element);
+  border-radius: 2em;
+}
+
+.orderData a {
+  color: var(--text-primary-color);
+  text-decoration: none;
 }

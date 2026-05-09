@@ -10,6 +10,7 @@ import {
   HomePage,
   NotFoundPage,
   IngredientsDetails,
+  OrderDetails,
   RegisterPage,
   LoginPage,
   ForgotPasswordPage,
@@ -55,16 +56,26 @@ const router = createBrowserRouter([
       {
         path: 'profile',
         element: <ProtectedRoute element={<ProfilePage />} />,
+      },
+      {
+        path: 'profile/orders',
+        element: <ProtectedRoute element={<ProfileOrderPage />} />,
         children: [
           {
-            path: 'orders',
-            element: <ProtectedRoute element={<ProfileOrderPage />} />,
+            path: ':id',
+            element: <OrderDetails />,
           },
         ],
       },
       {
         path: 'feed',
         element: <FeedPage />,
+        children: [
+          {
+            path: ':id',
+            element: <OrderDetails />,
+          },
+        ],
       },
       {
         path: '*',

@@ -36,3 +36,105 @@
   display: flex;
   flex-direction: column;
 }
+
+/* Стили для деталей заказа */
+
+.orderDetails {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--offset-base-size) * 6);
+}
+
+.orderNumber {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.5em;
+  font-family: 'Iceland', sans-serif;
+  text-align: center;
+}
+
+.orderName {
+  text-align: left;
+}
+
+.orderStatus {
+  margin-top: 0.5em;
+  font-family: 'Jet Brains Mono', sans-serif;
+  text-align: left;
+}
+
+.statusDone {
+  color: var(--colors-interface-success);
+}
+
+.statusPending {
+  color: var(--colors-interface-warning);
+}
+
+.orderSection {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--offset-base-size) * 4);
+}
+
+.ingredientsList {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--offset-base-size) * 2);
+  max-height: 300px;
+  padding-right: calc(var(--offset-base-size) * 2);
+  overflow-y: auto;
+}
+
+.ingredientItem {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--offset-base-size) * 4);
+  padding: calc(var(--offset-base-size) * 2) 0;
+  border-bottom: 1px solid var(--colors-border);
+}
+
+.ingredientItem:last-child {
+  border-bottom: none;
+}
+
+.ingredientImageWrapper {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+}
+
+.ingredientImage {
+  width: 100%;
+  height: 100%;
+  background-color: var(--background-alt);
+  border: 2px solid var(--colors-accent);
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.ingredientName {
+  flex-grow: 1;
+}
+
+.ingredientPrice {
+  flex-shrink: 0;
+}
+
+.orderFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: calc(var(--offset-base-size) * 4);
+  border-top: 1px solid var(--colors-border);
+}
+
+.orderDate {
+  color: var(--text-inactive-color);
+}
+
+.orderTotal {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--offset-base-size) * 2);
+}

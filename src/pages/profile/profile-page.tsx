@@ -1,6 +1,6 @@
 import { Input, Button } from '@krgaa/react-developer-burger-ui-components';
 import { useRef, useState, useEffect } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 import {
   logout,
@@ -91,11 +91,20 @@ export const ProfilePage = (): ReactElement => {
     <>
       <div className={styles.container}>
         <div className={styles.menu}>
-          <div className="text text_type_main-default">Профиль</div>
           <div className="text text_type_main-default">
-            <Link className={styles.link} to="/feed">
+            <NavLink
+              className={({ isActive }) =>
+                `${styles.link} ${isActive ? styles.link_active : ''}`
+              }
+              to="/profile"
+            >
+              Профиль
+            </NavLink>
+          </div>
+          <div className="text text_type_main-default">
+            <NavLink className={styles.link} to="orders">
               История заказов
-            </Link>
+            </NavLink>
           </div>
           <div className="text text_type_main-default">
             <Link className={styles.link} to="#" onClick={handleLogout}>
@@ -158,7 +167,7 @@ export const ProfilePage = (): ReactElement => {
         </div>
         <div></div>
       </div>
-      <Outlet />
+      {/* <Outlet /> */}
     </>
   );
 };
