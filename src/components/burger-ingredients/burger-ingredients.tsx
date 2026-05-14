@@ -73,7 +73,7 @@ export const BurgerIngredients = (): ReactElement => {
             {burgerIngredients.map(
               (item: Ingredient) =>
                 item.type === 'bun' && (
-                  <li className={styles.type_item} key={item._id}>
+                  <li className={`${styles.type_item} bun_type`} key={item._id}>
                     <BurgerCard data={item} />
                   </li>
                 )
@@ -88,7 +88,7 @@ export const BurgerIngredients = (): ReactElement => {
             {burgerIngredients.map(
               (item: Ingredient) =>
                 item.type === 'sauce' && (
-                  <li className={styles.type_item} key={item._id}>
+                  <li className={`${styles.type_item} sauce_type`} key={item._id}>
                     <BurgerCard data={item} />
                   </li>
                 )
@@ -103,7 +103,7 @@ export const BurgerIngredients = (): ReactElement => {
             {burgerIngredients.map(
               (item: Ingredient) =>
                 item.type === 'main' && (
-                  <li className={styles.type_item} key={item._id}>
+                  <li className={`${styles.type_item} main_type`} key={item._id}>
                     <BurgerCard data={item} />
                   </li>
                 )
