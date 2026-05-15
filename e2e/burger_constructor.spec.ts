@@ -1,7 +1,101 @@
 import { test, expect } from '@playwright/test';
 
+// Mock данные для ингредиентов
+const mockIngredients = {
+  success: true,
+  data: [
+    {
+      _id: '643d69a5c3f7b9001cfa093c',
+      name: 'Краторная булка N-200i',
+      type: 'bun' as const,
+      proteins: 80,
+      fat: 24,
+      carbohydrates: 53,
+      calories: 420,
+      price: 1255,
+      image: 'https://code.s3.yandex.net/react/code/bun-02.png',
+      image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
+      image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
+      __v: 0,
+    },
+    {
+      _id: '643d69a5c3f7b9001cfa0941',
+      name: 'Биокотлета из марсианской Магнолии',
+      type: 'main' as const,
+      proteins: 420,
+      fat: 142,
+      carbohydrates: 242,
+      calories: 4242,
+      price: 424,
+      image: 'https://code.s3.yandex.net/react/code/meat-01.png',
+      image_mobile: 'https://code.s3.yandex.net/react/code/meat-01-mobile.png',
+      image_large: 'https://code.s3.yandex.net/react/code/meat-01-large.png',
+      __v: 0,
+    },
+    {
+      _id: '643d69a5c3f7b9001cfa0942',
+      name: 'Соус Spicy-X',
+      type: 'sauce' as const,
+      proteins: 30,
+      fat: 20,
+      carbohydrates: 40,
+      calories: 30,
+      price: 90,
+      image: 'https://code.s3.yandex.net/react/code/sauce-02.png',
+      image_mobile: 'https://code.s3.yandex.net/react/code/sauce-02-mobile.png',
+      image_large: 'https://code.s3.yandex.net/react/code/sauce-02-large.png',
+      __v: 0,
+    },
+  ],
+};
+
+// Mock ответ для создания заказа
+const mockOrderResponse = {
+  success: true,
+  name: 'Астероидный бургер',
+  order: {
+    number: 12345,
+  },
+};
+
+// Mock ответ для авторизации
+const mockAuthResponse = {
+  success: true,
+  accessToken: 'mock-access-token',
+  refreshToken: 'mock-refresh-token',
+  user: {
+    email: 'artemsuchkov@yandex.ru',
+    name: 'Artem',
+  },
+};
+
 test.describe('Главная страница "Соберите бургер"', () => {
   test.beforeEach(async ({ page }) => {
+    // Мокируем запросы к API
+    await page.route('**/api/ingredients', (route) => {
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(mockIngredients),
+      });
+    });
+
+    await page.route('**/api/orders', (route) => {
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(mockOrderResponse),
+      });
+    });
+
+    await page.route('**/api/auth/login', (route) => {
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(mockAuthResponse),
+      });
+    });
+
     // Переходим на главную страницу
     await page.goto('/');
     // Ждем загрузки ингредиентов
