@@ -1,5 +1,12 @@
 import { describe, it, expect } from 'vitest';
 
+import {
+  mockIngredient,
+  mockBurgerIngredient,
+  mockIngredientsResponse,
+  mockOrderResponse,
+} from '@/utils/constants';
+
 import { loadIngredients, getOrderId } from './actions';
 import reducer, {
   addIngredientToBurger,
@@ -7,40 +14,6 @@ import reducer, {
   getBurgeringredientModal,
   reorderIngredients,
 } from './slice';
-
-// Моковые данные
-const mockIngredient = {
-  _id: '60d3b41abdacab0026a733c6',
-  name: 'Краторная булка N-200i',
-  type: 'bun',
-  proteins: 80,
-  fat: 24,
-  carbohydrates: 53,
-  calories: 420,
-  price: 1255,
-  image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-  image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-  image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
-  __v: 0,
-};
-
-const mockBurgerIngredient = {
-  item: mockIngredient,
-  id: 'unique-id-1',
-};
-
-const mockIngredientsResponse = {
-  success: true,
-  data: [mockIngredient],
-};
-
-const mockOrderResponse = {
-  success: true,
-  name: 'Space флюоресцентный бургер',
-  order: {
-    number: 12345,
-  },
-};
 
 describe('ingredients slice', () => {
   describe('initialState', () => {

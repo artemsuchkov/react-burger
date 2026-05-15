@@ -1,5 +1,7 @@
 import { describe, it, expect } from 'vitest';
 
+import { mockOrder, mockDataResponse } from '@/utils/constants';
+
 import reducer, {
   connect,
   disconnect,
@@ -12,24 +14,6 @@ import reducer, {
   selectAllOrders,
   selectUserOrders,
 } from './slice';
-
-// Моковые данные
-const mockOrder = {
-  _id: '60d3b41abdacab0026a733c6',
-  ingredients: ['60d3b41abdacab0026a733c6', '60d3b41abdacab0026a733c7'],
-  status: 'done',
-  name: 'Space флюоресцентный бургер',
-  createdAt: '2023-01-01T12:00:00.000Z',
-  updatedAt: '2023-01-01T12:00:00.000Z',
-  number: 12345,
-};
-
-const mockDataResponse = {
-  success: true,
-  orders: [mockOrder],
-  total: 100,
-  totalToday: 10,
-};
 
 describe('socket slice', () => {
   describe('initialState', () => {

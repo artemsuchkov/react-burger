@@ -2,41 +2,17 @@ import Cookies from 'js-cookie';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 import { getIngredientsTasks, getOrderIdTasks } from '@/utils/api-ingredients.ts';
+import {
+  mockBurgerIngredient,
+  mockIngredientsResponse,
+  mockOrderResponse,
+} from '@/utils/constants';
 
 import { loadIngredients, getOrderId } from './actions';
 
 // Мокаем модули
 vi.mock('@/utils/api-ingredients.ts');
 vi.mock('js-cookie');
-
-// Моковые данные
-const mockIngredient = {
-  _id: '60d3b41abdacab0026a733c6',
-  name: 'Краторная булка N-200i',
-  type: 'bun',
-  proteins: 80,
-  fat: 24,
-  carbohydrates: 53,
-  calories: 420,
-  price: 1255,
-  image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-  image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-  image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
-  __v: 0,
-};
-
-const mockIngredientsResponse = {
-  success: true,
-  data: [mockIngredient],
-};
-
-const mockOrderResponse = {
-  success: true,
-  name: 'Space флюоресцентный бургер',
-  order: {
-    number: 12345,
-  },
-};
 
 describe('async thunks', () => {
   beforeEach(() => {
@@ -97,10 +73,6 @@ describe('async thunks', () => {
       vi.mocked(getOrderIdTasks).mockResolvedValue(mockOrderResponse);
       vi.mocked(Cookies.get).mockReturnValue('test-token');
 
-      const mockBurgerIngredient = {
-        item: mockIngredient,
-        id: 'unique-id-1',
-      };
       const mockState = {
         ingredients: {
           ingredientBurgers: [mockBurgerIngredient],
@@ -130,10 +102,6 @@ describe('async thunks', () => {
       vi.mocked(getOrderIdTasks).mockRejectedValue(new Error(errorMessage));
       vi.mocked(Cookies.get).mockReturnValue('test-token');
 
-      const mockBurgerIngredient = {
-        item: mockIngredient,
-        id: 'unique-id-1',
-      };
       const mockState = {
         ingredients: {
           ingredientBurgers: [mockBurgerIngredient],
@@ -163,10 +131,6 @@ describe('async thunks', () => {
       vi.mocked(getOrderIdTasks).mockResolvedValue(mockOrderResponse);
       vi.mocked(Cookies.get).mockReturnValue(undefined);
 
-      const mockBurgerIngredient = {
-        item: mockIngredient,
-        id: 'unique-id-1',
-      };
       const mockState = {
         ingredients: {
           ingredientBurgers: [mockBurgerIngredient],
