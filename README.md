@@ -1,3 +1,5 @@
+Ссылка на приложение https://95-163-237-163.cloudvps.regruhosting.ru/
+
 # Стартер на JavaScript для проекта Stellar Burger
 
 ## Процедура создания коммита с проверками
