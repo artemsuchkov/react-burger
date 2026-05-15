@@ -63,3 +63,6 @@ export const mockDataResponse = {
   total: 100,
   totalToday: 10,
 };
+
+export const userLogin = 'artemsuchkov@yandex.ru';
+export const userPassword = 'hg6ydgxbrf';
