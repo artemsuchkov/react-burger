@@ -109,7 +109,7 @@ export const FeedPage = (): ReactElement => {
     <>
       <div className={styles.container}>
         <div className={`${styles.orders_list} custom-scroll`}>
-          <h1>Лента заказов</h1>
+          <h1 className={`text text_type_main-large mt-10 mb-5`}>Лента заказов</h1>
           <div className={`${styles.orders_list_wrap} `}>
             {isConnected &&
               orders.length > 0 &&
