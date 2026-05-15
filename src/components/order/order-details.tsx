@@ -31,7 +31,7 @@ export const OrderDetails = (): ReactElement => {
     <div className={styles.order_details}>
       <div className="text text_type_digits-medium">{orderAnswer.order.number}</div>
       <div className="text text_type_main-default text_color_inactive">
-        идентифкатор заказа
+        идентификатор заказа
       </div>
       <div>
         <CheckMarkIcon type="primary" />
