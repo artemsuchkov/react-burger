@@ -31,7 +31,7 @@ test.describe('Главная страница "Соберите бургер"',
   });
 
 
-
+  // Тест перетаскивание ингредиентов в конструктор
 
   test.describe('Перетаскивание ингредиентов', () => {
     test('перетаскивание булки в конструктор', async ({ page }) => {
@@ -87,7 +87,27 @@ test.describe('Главная страница "Соберите бургер"',
     });
   });
 
-  // Создание заказа
+  // Тест Детали ингредиента в модальном окне
+
+  test.describe('Детали ингредиента', () => {
+    test('клик на ингредиент открывает модальное окно с деталями и закрывается по Escape', async ({ page }) => {
+      // Находим первую карточку ингредиента (булку)
+      const ingredientCard = page.locator('.bun').first();
+      // Кликаем на карточку
+      await ingredientCard.click();
+      // Ждем появления модального окна с заголовком "Детали ингредиента"
+      await expect(page.getByRole('heading', { name: 'Детали ингредиента' })).toBeVisible();
+      // Находим модальное окно как контейнер с классом, содержащим "modal__modal"
+      const ingredientModal = page.locator('[class*="modal__modal"]').first();
+      // Проверяем, что отображается изображение ингредиента
+      await expect(ingredientModal.locator('img')).toBeVisible();
+      // Закрываем модальное окно нажатием Escape
+      await page.keyboard.press('Escape');
+      await expect(ingredientModal).not.toBeVisible();
+    });
+  });
+
+  // Тест Создание заказа
 
   test.describe('Создание заказа', () => {
     
