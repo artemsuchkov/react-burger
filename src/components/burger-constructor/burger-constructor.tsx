@@ -67,7 +67,7 @@ const DraggableIngredient = ({
   return (
     <div
       ref={dragRef}
-      className={`${styles.type_item} ${isDragging ? styles.dragging : ''}`}
+      className={`${styles.type_item} ${isDragging ? styles.dragging : ''} ${ingredient.item.type}`}
       style={{ opacity: isDragging ? 0.5 : 1 }}
     >
       <DragIcon type="primary" />
@@ -200,7 +200,7 @@ export const BurgerConstructor = (): ReactElement => {
             ingredientBurgers
               .filter((ingredient) => ingredient.item.type === 'bun')
               .map((ingredient) => (
-                <div className={styles.type_item} key={`${ingredient.id}`}>
+                <div className={`${styles.type_item} bun`} key={`${ingredient.id}`}>
                   <div className={styles.empty_place}></div>
                   <BurgerCard
                     data={{
@@ -239,7 +239,7 @@ export const BurgerConstructor = (): ReactElement => {
             ingredientBurgers
               .filter((ingredient) => ingredient.item.type === 'bun')
               .map((ingredient) => (
-                <div className={styles.type_item} key={`${ingredient.id}`}>
+                <div className={`${styles.type_item} bun`} key={`${ingredient.id}`}>
                   <div className={styles.empty_place}></div>
                   <BurgerCard
                     data={{
